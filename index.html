@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MÉSORA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Times New Roman', serif;
+      background-color: black;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      z-index: 10;
+      pointer-events: none;
+      transition: all 0.6s ease;
+    }
+
+    header.shrink {
+      height: 80px;
+      background: white;
+      color: black;
+      pointer-events: all;
+    }
+
+    .logo {
+      font-size: 100px;
+      letter-spacing: 10px;
+      transition: all 0.6s ease;
+    }
+
+    header.shrink .logo {
+      font-size: 28px;
+    }
+
+    .video-container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      position: relative;
+    }
+
+    .video-side {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .video-side video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: auto;
+    }
+
+    .video-overlay {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .video-label {
+      font-size: 48px;
+      font-weight: normal;
+      color: white;
+      margin-bottom: 10px;
+      font-family: 'Times New Roman', serif;
+      text-transform: capitalize;
+    }
+
+    .shop-now {
+      font-size: 16px;
+      color: white;
+      position: relative;
+      display: inline-block;
+      pointer-events: auto;
+      cursor: pointer;
+      text-transform: capitalize;
+    }
+
+    .shop-now::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 1px;
+      background: white;
+      transform: scaleX(1);
+      transition: transform 0.3s ease;
+      transform-origin: left;
+    }
+
+    .shop-now:hover::after {
+      transform: scaleX(0);
+    }
+
+    .spacer {
+      height: 40px;
+      background: white;
+    }
+
+    .services {
+      background: #f9f9f9;
+      color: black;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 40px 20px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    .services.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
+
+    .service-item:hover span {
+      opacity: 0.5;
+    }
+
+    .service-item:hover span::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .service-item img {
+      height: 40px;
+      margin-bottom: 10px;
+    }
+
+    .service-item span {
+      position: relative;
+      font-size: 14px;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .service-item span::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 1px;
+      background: black;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-spacer {
+      height: 40px;
+      background: white;
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Times New Roman', serif;
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-size: 120px; /* Reduced from 200px */
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      line-height: 1;
+      margin-top: 30px; /* Reduced from 60px */
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="logo">MÉSORA</div>
+  </header>
+
+  <div class="video-container">
+    <div class="video-side left">
+      <video id="leftVideo" muted loop src="left.mp4"></video>
+      <div class="video-overlay">
+        <div class="video-label">For Him</div>
+        <div class="shop-now">Shop now</div>
+      </div>
+    </div>
+    <div class="video-side right">
+      <video id="rightVideo" muted loop src="right.mp4"></video>
+      <div class="video-overlay">
+        <div class="video-label">For Her</div>
+        <div class="shop-now">Shop now</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <section class="services" id="services">
+    <div class="service-item">
+      <img src="delivery.png" alt="Delivery">
+      <span>COMPLIMENTARY DELIVERY</span>
+    </div>
+    <div class="service-item">
+      <img src="return.png" alt="Return">
+      <span>EASY RETURN OR EXCHANGE</span>
+    </div>
+    <div class="service-item">
+      <img src="giftwrap.png" alt="Gift Wrap">
+      <span>FREE GIFT WRAPPING</span>
+    </div>
+  </section>
+
+  <div class="footer-spacer"></div>
+
+  <footer>
+    <div class="footer-columns">
+      <div>
+        <a href="#">Contact Us</a>
+        <a href="#">My Order</a>
+        <a href="#">FAQs</a>
+        <a href="#">Email Unsubscribe</a>
+        <a href="#">Sitemap</a>
+      </div>
+      <div>
+        <a href="#">About MÉSORA</a>
+        <a href="#">Ethical Code</a>
+        <a href="#">Careers</a>
+        <a href="#">Legal</a>
+        <a href="#">Cookies Settings</a>
+      </div>
+      <div>
+        <a href="#">Store Locator</a>
+        <a href="#">Sign Up for Updates</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Country: United States</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+      <span>LICENSE #2294/17936 and 5647/17936</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+
+  <script>
+    const header = document.getElementById("header");
+    const services = document.getElementById("services");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        header.classList.add("shrink");
+      } else {
+        header.classList.remove("shrink");
+      }
+
+      const servicesTop = services.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > servicesTop + 100) {
+        services.classList.add("visible");
+      }
+    });
+
+    const leftVideo = document.getElementById("leftVideo");
+    const rightVideo = document.getElementById("rightVideo");
+
+    leftVideo.pause();
+    rightVideo.pause();
+
+    const videoContainer = document.querySelector(".video-container");
+
+    videoContainer.addEventListener("mousemove", (e) => {
+      const middle = window.innerWidth / 2;
+      if (e.clientX < middle) {
+        leftVideo.play();
+        rightVideo.pause();
+      } else {
+        leftVideo.pause();
+        rightVideo.play();
+      }
+    });
+
+    videoContainer.addEventListener("mouseleave", () => {
+      leftVideo.pause();
+      rightVideo.pause();
+    });
+  </script>
+</body>
+</html>
