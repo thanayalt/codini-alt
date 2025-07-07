@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MÉSORA | For Her</title>
+  <link href="https://fonts.googleapis.com/css2?family=Didot&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Futura PT', sans-serif;
+      background-color: white;
+    }
+
+    .header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .left-header {
+      position: absolute;
+      left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .right-placeholder {
+      position: absolute;
+      right: 40px;
+      width: 60px;
+    }
+
+    .menu-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-family: 'Futura PT', sans-serif;
+    }
+
+    .menu-icon {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 14px;
+    }
+
+    .menu-icon div {
+      width: 16px;
+      height: 1.5px;
+      background: black;
+    }
+
+    .logo {
+      font-family: 'Didot', serif;
+      font-size: 32px;
+      font-weight: normal;
+      letter-spacing: 6px;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: -420px;
+      width: 420px;
+      height: 100%;
+      background: white;
+      transition: left 0.4s ease;
+      z-index: 999;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .menu-overlay.open {
+      left: 0;
+    }
+
+    .menu-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Futura PT', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+
+    .menu-header span {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .close-icon {
+      font-size: 20px;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item {
+      font-size: 22px;
+      font-family: 'Futura PT', sans-serif;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: black;
+      transition: width 0.3s ease;
+    }
+
+    .menu-arrow {
+      opacity: 0;
+      transform: translateX(-10px);
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item:hover span:first-child::after {
+      width: 100%;
+    }
+
+    .menu-item:hover .menu-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .menu-item:hover {
+      opacity: 1 !important;
+    }
+
+    .menu-item:hover ~ .menu-item {
+      opacity: 0.3;
+    }
+
+    .menu-item:not(:hover):not(:focus):not(:active) {
+      transition: opacity 0.3s ease;
+    }
+
+    .menu-items:hover .menu-item {
+      opacity: 0.3;
+    }
+
+    .menu-items:hover .menu-item:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      .menu-overlay {
+        width: 100%;
+      }
+      .menu-item {
+        font-size: 18px;
+      }
+    }
+
+    /* Content styling */
+    main {
+      padding-top: 120px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 64px;
+      letter-spacing: 5px;
+      font-weight: normal;
+      font-family: 'Futura PT', sans-serif;
+    }
+
+    p {
+      font-size: 18px;
+      max-width: 600px;
+      line-height: 1.6;
+      font-family: 'Futura PT', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="left-header">
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <div class="menu-icon">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <span>Menu</span>
+      </div>
+    </div>
+    <div class="logo">MÉSORA</div>
+    <div class="right-placeholder"></div>
+  </div>
+
+  <div class="menu-overlay" id="menu">
+    <div class="menu-header">
+      <span onclick="toggleMenu()" class="close-icon">&#10005;</span>
+      <span>Close</span>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item"><span>New Arrivals</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>T-Shirts</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>Jerseys</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>Long Sleeves T-Shirts</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>Shirts</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>Vests</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>Pants</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>Jeans</span> <span class="menu-arrow">&#8250;</span></div>
+      <div class="menu-item"><span>Shorts</span> <span class="menu-arrow">&#8250;</span></div>
+    </div>
+  </div>
+
+  <main>
+    <h1>FOR HER</h1>
+    <p>Step into the world of grace and allure. MÉSORA's exclusive range for women embraces beauty, elegance, and luxury.</p>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
