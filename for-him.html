@@ -631,6 +631,53 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Footer styles */
+    .footer-spacer {
+      height: 40px;
+      background: white;
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
+    }
+
     @media (max-width: 768px) {
       .carousel-item .text {
         font-size: 1.6em;
@@ -839,131 +886,163 @@
       <a href="#" class="product-card">
         <img src="media/inter.jpg" alt="Inter Milan Home 25/26">
         <div class="product-info">
-        <h3>Inter Milan Home 25/26</h3>
-        <p>₹7000</p>
-      </div>
-    </a>
-    <a href="#" class="product-card">
-      <img src="media/man u.jpg" alt="Man UTD Home 25/26">
-      <div class="product-info">
-        <h3>Man UTD Home 25/26</h3>
-        <p>₹8000</p>
-      </div>
-    </a>
+          <h3>Inter Milan Home 25/26</h3>
+          <p>₹7000</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/man u.jpg" alt="Man UTD Home 25/26">
+        <div class="product-info">
+          <h3>Man UTD Home 25/26</h3>
+          <p>₹8000</p>
+        </div>
+      </a>
+    </div>
+    <div class="products-nav">
+      <button class="prev" onclick="prevProduct()">‹</button>
+      <button class="next" onclick="nextProduct()">›</button>
+    </div>
   </div>
-  <div class="products-nav">
-    <button class="prev" onclick="prevProduct()">‹</button>
-    <button class="next" onclick="nextProduct()">›</button>
-  </div>
-</div>
 
-<h2 class="section-title" id="exclusives-title">Mesora Exclusives</h2>
-<div class="products-container" id="exclusives-container">
-  <div class="products" id="products-exclusives">
-    <a href="#" class="product-card">
-      <img src="media/exclusive1.jpg" alt="Dawn Straight Fit Baggy Pants">
-      <div class="product-info">
-        <h3>Dawn Straight Fit Baggy Pants</h3>
+  <h2 class="section-title" id="exclusives-title">Mesora Exclusives</h2>
+  <div class="products-container" id="exclusives-container">
+    <div class="products" id="products-exclusives">
+      <a href="#" class="product-card">
+        <img src="media/exclusive1.jpg" alt="Dawn Straight Fit Baggy Pants">
+        <div class="product-info">
+          <h3>Dawn Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
+        <div class="product-info">
+          <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Skorpion Boxy Oversized Tshirt</h3>
+          <p>₹1300</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
+        <div class="product-info">
+          <h3>Apex Red Boxy Vest</h3>
+          <p>₹999</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive5.jpg" alt="Athletica Jersey T-Shirt">
+        <div class="product-info">
+          <h3>Athletica Jersey T-Shirt</h3>
+          <p>₹1200</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive6.jpg" alt="Glock Black Full Sleeve T-Shirt">
+        <div class="product-info">
+          <h3>Glock Black Full Sleeve T-Shirt</h3>
+          <p>₹1400</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive7.jpg" alt="Prism Black Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Prism Black Boxy Oversized Tshirt</h3>
+          <p>₹1400</p>
+        </div>
+      </a>
+    </div>
+    <div class="products-nav">
+      <button class="prev" onclick="prevProductExclusives()">‹</button>
+      <button class="next" onclick="nextProductExclusives()">›</button>
+    </div>
+  </div>
+
+  <div class="quote-section" id="quote-section">
+    “My aim is to focus on style, which is a way of being, of putting things together, of behaving and appearing.” – Jonathan Anderson
+  </div>
+
+  <h2 class="section-title" id="paired-title">Paired Perfection</h2>
+  <div class="container" id="paired-container">
+    <!-- Fixed Image with Hotspots -->
+    <div class="fixed-image">
+      <img src="media/couple.jpg" alt="Couple" />
+      <!-- Hotspots with better alignment -->
+      <div class="dot-sample man-chest" onclick="goToSlide(0)"></div>
+      <div class="dot-sample man-pant" onclick="goToSlide(1)"></div>
+      <div class="dot-sample woman-chest" onclick="goToSlide(2)"></div>
+      <div class="dot-sample woman-pant" onclick="goToSlide(3)"></div>
+    </div>
+
+    <!-- Carousel Section -->
+    <div class="carousel-sample" id="carousel-sample">
+      <div class="slide active">
+        <img src="media/mchest.jpg" alt="Lunar T-Shirt" />
+        <h2>Lunar Black Full Sleeve T Shirt</h2>
+        <p>₹1500</p>
+      </div>
+      <div class="slide">
+        <img src="media/mpant.jpg" alt="Raudra Pants" />
+        <h2>Raudra Straight Fit Baggy Pants</h2>
         <p>₹1700</p>
       </div>
-    </a>
-    <a href="#" class="product-card">
-      <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
-      <div class="product-info">
-        <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+      <div class="slide">
+        <img src="media/wchest.jpg" alt="Eclipse Tee" />
+        <h2>Eclipse Women's Baby Long Sleeve Tee</h2>
+        <p>₹800</p>
+      </div>
+      <div class="slide">
+        <img src="media/wpant.jpg" alt="Yagna Pants" />
+        <h2>Yagna Straight Fit Baggy Pants</h2>
         <p>₹1700</p>
       </div>
-    </a>
-    <a href="#" class="product-card">
-      <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
-      <div class="product-info">
-        <h3>Skorpion Boxy Oversized Tshirt</h3>
-        <p>₹1300</p>
-      </div>
-    </a>
-    <a href="#" class="product-card">
-      <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
-      <div class="product-info">
-        <h3>Apex Red Boxy Vest</h3>
-        <p>₹999</p>
-      </div>
-    </a>
-    <a href="#" class="product-card">
-      <img src="media/exclusive5.jpg" alt="Athletica Jersey T-Shirt">
-      <div class="product-info">
-        <h3>Athletica Jersey T-Shirt</h3>
-        <p>₹1200</p>
-      </div>
-    </a>
-    <a href="#" class="product-card">
-      <img src="media/exclusive6.jpg" alt="Glock Black Full Sleeve T-Shirt">
-      <div class="product-info">
-        <h3>Glock Black Full Sleeve T-Shirt</h3>
-        <p>₹1400</p>
-      </div>
-    </a>
-    <a href="#" class="product-card">
-      <img src="media/exclusive7.jpg" alt="Prism Black Boxy Oversized Tshirt">
-      <div class="product-info">
-        <h3>Prism Black Boxy Oversized Tshirt</h3>
-        <p>₹1400</p>
-      </div>
-    </a>
-  </div>
-  <div class="products-nav">
-    <button class="prev" onclick="prevProductExclusives()">‹</button>
-    <button class="next" onclick="nextProductExclusives()">›</button>
-  </div>
-</div>
 
-<div class="quote-section" id="quote-section">
-  “My aim is to focus on style, which is a way of being, of putting things together, of behaving and appearing.” – Jonathan Anderson
-</div>
-
-<h2 class="section-title" id="paired-title">Paired Perfection</h2>
-<div class="container" id="paired-container">
-  <!-- Fixed Image with Hotspots -->
-  <div class="fixed-image">
-    <img src="media/couple.jpg" alt="Couple" />
-    <!-- Hotspots with better alignment -->
-    <div class="dot-sample man-chest" onclick="goToSlide(0)"></div>
-    <div class="dot-sample man-pant" onclick="goToSlide(1)"></div>
-    <div class="dot-sample woman-chest" onclick="goToSlide(2)"></div>
-    <div class="dot-sample woman-pant" onclick="goToSlide(3)"></div>
+      <!-- Carousel Nav Dots -->
+      <div class="carousel-dots-sample">
+        <span class="active" onclick="goToSlide(0)"></span>
+        <span onclick="goToSlide(1)"></span>
+        <span onclick="goToSlide(2)"></span>
+        <span onclick="goToSlide(3)"></span>
+      </div>
+    </div>
   </div>
 
-  <!-- Carousel Section -->
-  <div class="carousel-sample" id="carousel-sample">
-    <div class="slide active">
-      <img src="media/mchest.jpg" alt="Lunar T-Shirt" />
-      <h2>Lunar Black Full Sleeve T Shirt</h2>
-      <p>₹1500</p>
-    </div>
-    <div class="slide">
-      <img src="media/mpant.jpg" alt="Raudra Pants" />
-      <h2>Raudra Straight Fit Baggy Pants</h2>
-      <p>₹1700</p>
-    </div>
-    <div class="slide">
-      <img src="media/wchest.jpg" alt="Eclipse Tee" />
-      <h2>Eclipse Women's Baby Long Sleeve Tee</h2>
-      <p>₹800</p>
-    </div>
-    <div class="slide">
-      <img src="media/wpant.jpg" alt="Yagna Pants" />
-      <h2>Yagna Straight Fit Baggy Pants</h2>
-      <p>₹1700</p>
-    </div>
+  <div class="footer-spacer"></div>
 
-    <!-- Carousel Nav Dots -->
-    <div class="carousel-dots-sample">
-      <span class="active" onclick="goToSlide(0)"></span>
-      <span onclick="goToSlide(1)"></span>
-      <span onclick="goToSlide(2)"></span>
-      <span onclick="goToSlide(3)"></span>
+  <footer>
+    <div class="footer-columns">
+      <div>
+        <a href="#">Contact Us</a>
+        <a href="#">My Order</a>
+        <a href="#">FAQs</a>
+        <a href="#">Email Unsubscribe</a>
+        <a href="#">Sitemap</a>
+      </div>
+      <div>
+        <a href="#">About MÉSORA</a>
+        <a href="#">Ethical Code</a>
+        <a href="#">Careers</a>
+        <a href="#">Legal</a>
+        <a href="#">Cookies Settings</a>
+      </div>
+      <div>
+        <a href="#">Store Locator</a>
+        <a href="#">Sign Up for Updates</a>
+        <a href="#">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+      <span>LICENSE #2294/17936 and 5647/17936</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
 
 <script>
   function toggleMenu() {
