@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MÉSORA | For Her</title>
-  <link href="https://fonts.googleapis.com/css2?family=Didot&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -13,8 +13,14 @@
     }
 
     body {
-      font-family: 'Futura PT', sans-serif;
+      font-family: 'Futura PT', 'Roboto', sans-serif;
       background-color: white;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
     .header {
@@ -24,6 +30,8 @@
       justify-content: center;
       padding: 20px 40px;
       border-bottom: 1px solid #eee;
+      z-index: 10;
+      background: white;
     }
 
     .left-header {
@@ -46,7 +54,6 @@
       align-items: center;
       gap: 10px;
       font-size: 14px;
-      font-family: 'Futura PT', sans-serif;
     }
 
     .menu-icon {
@@ -90,7 +97,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: 'Futura PT', sans-serif;
       font-size: 14px;
       font-weight: 400;
       margin-bottom: 40px;
@@ -113,13 +119,11 @@
 
     .menu-item {
       font-size: 22px;
-      font-family: 'Futura PT', sans-serif;
       color: black;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 14px 0;
-      position: relative;
       cursor: pointer;
       transition: all 0.3s ease;
     }
@@ -157,18 +161,6 @@
       transform: translateX(0);
     }
 
-    .menu-item:hover {
-      opacity: 1 !important;
-    }
-
-    .menu-item:hover ~ .menu-item {
-      opacity: 0.3;
-    }
-
-    .menu-item:not(:hover):not(:focus):not(:active) {
-      transition: opacity 0.3s ease;
-    }
-
     .menu-items:hover .menu-item {
       opacity: 0.3;
     }
@@ -177,26 +169,67 @@
       opacity: 1;
     }
 
-    /* Carousel Styles */
+    /* Carousel */
     .carousel-container {
       position: relative;
       width: 100vw;
-      height: 70vh;
+      height: 90dvh;
       overflow: hidden;
     }
 
     .carousel {
-      display: flex;
-      transition: transform 0.5s ease;
+      position: relative;
+      width: 100%;
       height: 100%;
     }
 
     .carousel-item {
-      flex: 0 0 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      background-size: cover;
-      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.1);
+      transition: transform 5s ease-in-out;
+    }
+
+    .carousel-item .text {
+      position: absolute;
+      bottom: 10%;
+      left: 5%;
+      color: #000;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5em;
+      font-weight: 700;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      transition-delay: 0.3s;
+      text-shadow: 0 2px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    .carousel-item.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .carousel-item.active img {
+      transform: scale(1);
+    }
+
+    .carousel-item.active .text {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .carousel-nav {
@@ -207,21 +240,22 @@
       justify-content: space-between;
       transform: translateY(-50%);
       padding: 0 20px;
+      z-index: 2;
     }
 
     .carousel-nav button {
       background: none;
       border: none;
-      color: white;
+      color: #000;
       font-size: 36px;
       font-weight: bold;
       cursor: pointer;
       transition: color 0.3s ease;
-      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
     }
 
     .carousel-nav button:hover {
-      color: #ccc;
+      color: #333;
     }
 
     .carousel-dots {
@@ -229,13 +263,14 @@
       bottom: 20px;
       width: 100%;
       text-align: center;
+      z-index: 2;
     }
 
     .carousel-dot {
       display: inline-block;
       width: 10px;
       height: 10px;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.5);
       border-radius: 50%;
       margin: 0 5px;
       cursor: pointer;
@@ -243,20 +278,188 @@
     }
 
     .carousel-dot.active {
-      background: black;
+      background: #000;
     }
 
-    @media (max-width: 600px) {
-      .menu-overlay {
-        width: 100%;
+    /* Featured Collections */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      text-align: left;
+      margin: 80px 0 40px 80px;
+      letter-spacing: 4px;
+      color: #1a1a1a;
+    }
+
+    .products-container {
+      position: relative;
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 60px 80px;
+      overflow: hidden;
+    }
+
+    .products {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .product-card {
+      flex: 0 0 25%;
+      padding: 0 15px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      height: 450px;
+    }
+
+    /* Specific adjustments for certain products */
+    .product-card:nth-child(3) img,
+    .product-card:nth-child(7) img,
+    .product-card:nth-child(8) img {
+      object-fit: contain;
+      background-color: #f5f5f5;
+      transform: scale(1.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .product-card:nth-child(3):hover img,
+    .product-card:nth-child(7):hover img,
+    .product-card:nth-child(8):hover img {
+      transform: scale(1.26);
+    }
+
+    .product-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: #fff;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+      font-weight: 500;
+    }
+
+    .product-card:nth-child(1) .product-info,
+    .product-card:nth-child(6) .product-info {
+      color: #000;
+      text-shadow: 0 2px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    .product-card:hover .product-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-info h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .product-info p {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .products-nav {
+      position: absolute;
+      top: 225px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      z-index: 2;
+      pointer-events: none;
+      padding: 0 5px;
+      box-sizing: border-box;
+    }
+
+    .products-nav button {
+      pointer-events: auto;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 36px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .products-nav button:hover {
+      color: #000;
+    }
+
+    @media (max-width: 768px) {
+      .carousel-item .text {
+        font-size: 1.6em;
+        left: 30px;
+        bottom: 60px;
       }
-      .menu-item {
-        font-size: 18px;
-      }
-      .carousel-container {
-        height: 50vh;
-      }
+
       .carousel-nav button {
+        font-size: 24px;
+      }
+
+      .section-title {
+        margin-left: 40px;
+        font-size: 32px;
+      }
+
+      .product-card {
+        flex: 0 0 50%;
+        height: 350px;
+      }
+
+      .products-container {
+        padding: 0 40px 80px;
+      }
+
+      .products-nav {
+        top: 175px;
+        padding: 0 2px;
+      }
+
+      .products-nav button {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-card {
+        flex: 0 0 100%;
+        height: 300px;
+      }
+
+      .products-nav {
+        top: 150px;
+        padding: 0 1px;
+      }
+
+      .products-nav button {
         font-size: 24px;
       }
     }
@@ -298,60 +501,163 @@
 
   <div class="carousel-container">
     <div class="carousel" id="carousel">
-      <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1920x1080?text=New+Arrivals')"></div>
-      <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1920x1080?text=T-Shirts')"></div>
-      <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1920x1080?text=Jeans')"></div>
+      <div class="carousel-item">
+        <img src="media/womens-new-arrivals.jpg" alt="Women's New Arrivals">
+        <div class="text">NEW ARRIVALS COLLECTION</div>
+      </div>
+      <div class="carousel-item">
+        <img src="media/womens-tshirts.jpg" alt="Women's T-Shirts">
+        <div class="text">T-SHIRTS COLLECTION</div>
+      </div>
+      <div class="carousel-item">
+        <img src="media/womens-jeans.jpg" alt="Women's Jeans">
+        <div class="text">JEANS COLLECTION</div>
+      </div>
     </div>
     <div class="carousel-nav">
       <button onclick="prevSlide()">‹</button>
       <button onclick="nextSlide()">›</button>
     </div>
     <div class="carousel-dots" id="carousel-dots">
-      <span class="carousel-dot active" onclick="goToSlide(0)"></span>
+      <span class="carousel-dot" onclick="goToSlide(0)"></span>
       <span class="carousel-dot" onclick="goToSlide(1)"></span>
       <span class="carousel-dot" onclick="goToSlide(2)"></span>
     </div>
   </div>
 
-  <main>
-    <h1>FOR HER</h1>
-    <p>Step into the world of grace and allure. MÉSORA's exclusive range for women embraces beauty, elegance, and luxury.</p>
-  </main>
+  <h2 class="section-title">Women's Collection</h2>
+  <div class="products-container">
+    <div class="products" id="products">
+      <a href="#" class="product-card">
+        <img src="media/womens-tshirt1.jpg" alt="Women's T-Shirt 1">
+        <div class="product-info">
+          <h3>Women's T-Shirt 1</h3>
+          <p>₹2500</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/womens-jeans1.jpg" alt="Women's Jeans 1">
+        <div class="product-info">
+          <h3>Women's Jeans 1</h3>
+          <p>₹3500</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/womens-shirt1.jpg" alt="Women's Shirt 1">
+        <div class="product-info">
+          <h3>Women's Shirt 1</h3>
+          <p>₹3000</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/womens-vest1.jpg" alt="Women's Vest 1">
+        <div class="product-info">
+          <h3>Women's Vest 1</h3>
+          <p>₹2000</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/womens-pants1.jpg" alt="Women's Pants 1">
+        <div class="product-info">
+          <h3>Women's Pants 1</h3>
+          <p>₹3200</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/womens-tshirt2.jpg" alt="Women's T-Shirt 2">
+        <div class="product-info">
+          <h3>Women's T-Shirt 2</h3>
+          <p>₹2600</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/womens-jeans2.jpg" alt="Women's Jeans 2">
+        <div class="product-info">
+          <h3>Women's Jeans 2</h3>
+          <p>₹3600</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/womens-shirt2.jpg" alt="Women's Shirt 2">
+        <div class="product-info">
+          <h3>Women's Shirt 2</h3>
+          <p>₹3100</p>
+        </div>
+      </a>
+    </div>
+    <div class="products-nav">
+      <button class="prev" onclick="prevProduct()">‹</button>
+      <button class="next" onclick="nextProduct()">›</button>
+    </div>
+  </div>
 
   <script>
     function toggleMenu() {
       document.getElementById('menu').classList.toggle('open');
     }
 
-    let currentSlide = 0;
-    const carousel = document.getElementById('carousel');
+    // Main carousel
+    const slides = document.querySelectorAll('.carousel-item');
     const dots = document.querySelectorAll('.carousel-dot');
-    const totalSlides = document.querySelectorAll('.carousel-item').length;
+    let currentSlide = 0;
+    let fadeInterval;
 
-    function updateCarousel() {
-      carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        dots[i].classList.remove('active');
       });
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
     }
 
     function nextSlide() {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateCarousel();
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
     }
 
     function prevSlide() {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      updateCarousel();
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
     }
 
     function goToSlide(index) {
       currentSlide = index;
-      updateCarousel();
+      showSlide(currentSlide);
     }
 
-    // Auto-slide every 2 seconds
-    setInterval(nextSlide, 2000);
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        showSlide(0);
+      }, 100);
+      fadeInterval = setInterval(nextSlide, 5000);
+    });
+
+    // Products carousel
+    const productsContainer = document.getElementById('products');
+    let currentProductIndex = 0;
+    const productCards = document.querySelectorAll('.product-card');
+    const totalProducts = productCards.length;
+    const productsPerPage = 4;
+
+    function updateProducts() {
+      const translateX = -(currentProductIndex * (100 / productsPerPage));
+      productsContainer.style.transform = `translateX(${translateX}%)`;
+    }
+
+    function nextProduct() {
+      if (currentProductIndex < totalProducts - productsPerPage) {
+        currentProductIndex++;
+        updateProducts();
+      }
+    }
+
+    function prevProduct() {
+      if (currentProductIndex > 0) {
+        currentProductIndex--;
+        updateProducts();
+      }
+    }
   </script>
 </body>
 </html>
