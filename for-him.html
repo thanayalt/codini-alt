@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MÉSORA | For Him</title>
+  <link href="https://fonts.googleapis.com/css2?family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Futura PT', 'Roboto', sans-serif;
+      background-color: white;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid #eee;
+      z-index: 10;
+      background: white;
+    }
+
+    .left-header {
+      position: absolute;
+      left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .right-placeholder {
+      position: absolute;
+      right: 40px;
+      width: 60px;
+    }
+
+    .menu-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .menu-icon {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 14px;
+    }
+
+    .menu-icon div {
+      width: 16px;
+      height: 1.5px;
+      background: black;
+    }
+
+    .logo {
+      font-family: 'Didot', serif;
+      font-size: 32px;
+      font-weight: normal;
+      letter-spacing: 6px;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: -420px;
+      width: 420px;
+      height: 100%;
+      background: white;
+      transition: left 0.4s ease;
+      z-index: 999;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .menu-overlay.open {
+      left: 0;
+    }
+
+    .menu-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+
+    .menu-header span {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .close-icon {
+      font-size: 20px;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item {
+      font-size: 22px;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: black;
+      transition: width 0.3s ease;
+    }
+
+    .menu-arrow {
+      opacity: 0;
+      transform: translateX(-10px);
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item:hover span:first-child::after {
+      width: 100%;
+    }
+
+    .menu-item:hover .menu-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .menu-items:hover .menu-item {
+      opacity: 0.3;
+    }
+
+    .menu-items:hover .menu-item:hover {
+      opacity: 1;
+    }
+
+    /* Carousel */
+    .carousel-container {
+      position: relative;
+      width: 100vw;
+      height: 90dvh;
+      overflow: hidden;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.1);
+      transition: transform 5s ease-in-out;
+    }
+
+    .carousel-item .text {
+      position: absolute;
+      bottom: 10%;
+      left: 5%;
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5em;
+      font-weight: 700;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      transition-delay: 0.3s;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    }
+
+    .carousel-item.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .carousel-item.active img {
+      transform: scale(1);
+    }
+
+    .carousel-item.active .text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 20px;
+      z-index: 2;
+    }
+
+    .carousel-nav button {
+      background: none;
+      border: none;
+      color: #000;
+      font-size: 36px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+
+    .carousel-nav button:hover {
+      color: #333;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .carousel-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: #000;
+    }
+
+    /* Featured Collections */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      text-align: left;
+      margin: 40px 0 20px 80px;
+      letter-spacing: 4px;
+      color: #1a1a1a;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .products-container {
+      position: relative;
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 60px 40px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .products-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .products {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    #kits-container .product-card {
+      flex: 0 0 25%;
+      padding: 0 15px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      height: 350px;
+    }
+
+    /* Specific adjustments for PSG, Inter, Man UTD images in kits section */
+    #kits-container .product-card:nth-child(3) img, /* PSG */
+    #kits-container .product-card:nth-child(7) img, /* Inter */
+    #kits-container .product-card:nth-child(8) img { /* Man UTD */
+      object-fit: contain;
+      background-color: #f5f5f5;
+      transform: scale(1.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    #kits-container .product-card:hover img {
+      transform: scale(1.05);
+    }
+
+    #kits-container .product-card:nth-child(3):hover img, /* PSG */
+    #kits-container .product-card:nth-child(7):hover img, /* Inter */
+    #kits-container .product-card:nth-child(8):hover img { /* Man UTD */
+      transform: scale(1.16);
+    }
+
+    #kits-container .product-info {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      color: #fff;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.5s ease;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+      font-weight: 500;
+    }
+
+    /* Specific styles for rma.jpg and bayern.jpg in kits section */
+    #kits-container .product-card:nth-child(1) .product-info,
+    #kits-container .product-card:nth-child(6) .product-info {
+      color: #000;
+      text-shadow: 0 2px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    #kits-container .product-card:hover .product-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #kits-container .product-info h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    #kits-container .product-info p {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Styles for Mesora Exclusives */
+    #exclusives-container .product-card {
+      flex: 0 0 25%;
+      padding: 0 15px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      height: 450px;
+    }
+
+    #exclusives-container .product-card img {
+      object-fit: contain;
+      background-color: #f5f5f5;
+      transform: scale(1.2);
+    }
+
+    #exclusives-container .product-card:hover img {
+      transform: scale(1.26);
+    }
+
+    #exclusives-container .product-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: #fff;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+      font-weight: 500;
+    }
+
+    #exclusives-container .product-card:hover .product-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #exclusives-container .product-info h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    #exclusives-container .product-info p {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .products-nav {
+      position: absolute;
+      top: 225px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      z-index: 2;
+      pointer-events: none;
+      padding: 0 5px;
+      box-sizing: border-box;
+    }
+
+    #kits-container .products-nav {
+      top: 175px;
+    }
+
+    .products-nav button {
+      pointer-events: auto;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 36px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+    }
+
+    #kits-container .products-nav button {
+      font-size: 28px;
+      width: 40px;
+      height: 40px;
+    }
+
+    .products-nav button:hover {
+      color: #000;
+    }
+
+    /* Footer styles */
+    .footer-spacer {
+      height: 40px;
+      background: white;
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .carousel-item .text {
+        font-size: 1.6em;
+        left: 30px;
+        bottom: 60px;
+      }
+
+      .carousel-nav button {
+        font-size: 24px;
+      }
+
+      .section-title {
+        margin-left: 40px;
+        font-size: 32px;
+        margin: 20px 0 10px 40px;
+      }
+
+      #kits-container .product-card {
+        flex: 0 0 50%;
+        height: 280px;
+      }
+
+      #exclusives-container .product-card {
+        flex: 0 0 50%;
+        height: 350px;
+      }
+
+      .products-container {
+        padding: 0 40px 20px;
+      }
+
+      .products-nav {
+        top: 175px;
+        padding: 0 2px;
+      }
+
+      #kits-container .products-nav {
+        top: 140px;
+      }
+
+      .products-nav button {
+        font-size: 28px;
+      }
+
+      #kits-container .products-nav button {
+        font-size: 24px;
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #kits-container .product-card {
+        flex: 0 0 100%;
+        height: 240px;
+      }
+
+      #exclusives-container .product-card {
+        flex: 0 0 100%;
+        height: 300px;
+      }
+
+      .products-nav {
+        top: 150px;
+        padding: 0 1px;
+      }
+
+      #kits-container .products-nav {
+        top: 120px;
+      }
+
+      .products-nav button {
+        font-size: 24px;
+      }
+
+      #kits-container .products-nav button {
+        font-size: 20px;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="left-header">
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <div class="menu-icon">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <span>Menu</span>
+      </div>
+    </div>
+    <div class="logo">MÉSORA</div>
+    <div class="right-placeholder"></div>
+  </div>
+
+  <div class="menu-overlay" id="menu">
+    <div class="menu-header">
+      <span onclick="toggleMenu()" class="close-icon">✕</span>
+      <span>Close</span>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item"><span>New Arrivals</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span>Mesora Originals</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span>T-shirts & Vests</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span>Shorts & Trouser</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span>Jerseys</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span>Footwear</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span>Perfumes</span> <span class="menu-arrow">›</span></div>
+    </div>
+  </div>
+
+  <div class="carousel-container">
+    <div class="carousel" id="carousel">
+      <div class="carousel-item">
+        <img src="media/barca.jpg" alt="FC Barcelona Home Kit 2025/26">
+        <div class="text">CHECK OUT 2025/26 KITS</div>
+      </div>
+      <div class="carousel-item">
+        <img src="media/new-arrival.jpg" alt="New Arrivals Collection">
+        <div class="text">NEW ARRIVALS COLLECTION</div>
+      </div>
+      <div class="carousel-item">
+        <img src="media/dior.jpg" alt="Dior Sauvage Perfume">
+        <div class="text">FLAT 35% OFF<br>OWN YOUR SIGNATURE SCENT</div>
+      </div>
+      <div class="carousel-item">
+        <img src="media/end-season.jpg" alt="End of Season Sale">
+        <div class="text">END OF SEASON SALE</div>
+      </div>
+    </div>
+    <div class="carousel-nav">
+      <button onclick="prevSlide()">‹</button>
+      <button onclick="nextSlide()">›</button>
+    </div>
+    <div class="carousel-dots" id="carousel-dots">
+      <span class="carousel-dot" onclick="goToSlide(0)"></span>
+      <span class="carousel-dot" onclick="goToSlide(1)"></span>
+      <span class="carousel-dot" onclick="goToSlide(2)"></span>
+      <span class="carousel-dot" onclick="goToSlide(3)"></span>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="kits-title">25/26 Season Kits</h2>
+  <div class="products-container" id="kits-container">
+    <div class="products" id="products">
+      <a href="real-madrid-home.html" class="product-card" onclick="smoothRedirect(event, 'real-madrid-home.html')">
+        <img src="media/rma.jpg" alt="Real Madrid CF Home 25/26">
+        <div class="product-info">
+          <h3>Real Madrid CF Home 25/26</h3>
+          <p>₹8000</p>
+        </div>
+      </a>
+      <a href="barcelona-home.html" class="product-card" onclick="smoothRedirect(event, 'barcelona-home.html')">
+        <img src="media/fcb.jpg" alt="FC Barcelona Home 25/26">
+        <div class="product-info">
+          <h3>FC Barcelona Home 25/26</h3>
+          <p>₹7500</p>
+        </div>
+      </a>
+      <a href="psg-home.html" class="product-card" onclick="smoothRedirect(event, 'psg-home.html')">
+        <img src="media/psg.jpg" alt="PSG FC Home 25/26">
+        <div class="product-info">
+          <h3>PSG FC Home 25/26</h3>
+          <p>₹8000</p>
+        </div>
+      </a>
+      <a href="spurs-away.html" class="product-card" onclick="smoothRedirect(event, 'spurs-away.html')">
+        <img src="media/tot.jpg" alt="Spurs FC Away 25/26">
+        <div class="product-info">
+          <h3>Spurs FC Away 25/26</h3>
+          <p>₹6800</p>
+        </div>
+      </a>
+      <a href="acmilan-home.html" class="product-card" onclick="smoothRedirect(event, 'acmilan-home.html')">
+        <img src="media/acm.jpg" alt="AC Milan FC Home 25/26">
+        <div class="product-info">
+          <h3>AC Milan FC Home 25/26</h3>
+          <p>₹7000</p>
+        </div>
+      </a>
+      <a href="bayern-away.html" class="product-card" onclick="smoothRedirect(event, 'bayern-away.html')">
+        <img src="media/bayern.jpg" alt="FC Bayern Munich Away 25/26">
+        <div class="product-info">
+          <h3>FC Bayern Munich Away 25/26</h3>
+          <p>₹6500</p>
+        </div>
+      </a>
+      <a href="intermilan-home.html" class="product-card" onclick="smoothRedirect(event, 'intermilan-home.html')">
+        <img src="media/inter.jpg" alt="Inter Milan Home 25/26">
+        <div class="product-info">
+          <h3>Inter Milan Home 25/26</h3>
+          <p>₹7000</p>
+        </div>
+      </a>
+      <a href="manu-home.html" class="product-card" onclick="smoothRedirect(event, 'manu-home.html')">
+        <img src="media/man u.jpg" alt="Man UTD Home 25/26">
+        <div class="product-info">
+          <h3>Man UTD Home 25/26</h3>
+          <p>₹8000</p>
+        </div>
+      </a>
+    </div>
+    <div class="products-nav">
+      <button class="prev" onclick="prevProduct()">‹</button>
+      <button class="next" onclick="nextProduct()">›</button>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="exclusives-title">Mesora Exclusives</h2>
+  <div class="products-container" id="exclusives-container">
+    <div class="products" id="products-exclusives">
+      <a href="#" class="product-card">
+        <img src="media/exclusive1.jpg" alt="Dawn Straight Fit Baggy Pants">
+        <div class="product-info">
+          <h3>Dawn Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
+        <div class="product-info">
+          <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Skorpion Boxy Oversized Tshirt</h3>
+          <p>₹1300</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
+        <div class="product-info">
+          <h3>Apex Red Boxy Vest</h3>
+          <p>₹999</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive5.jpg" alt="Athletica Jersey T-Shirt">
+        <div class="product-info">
+          <h3>Athletica Jersey T-Shirt</h3>
+          <p>₹1200</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive6.jpg" alt="Glock Black Full Sleeve T-Shirt">
+        <div class="product-info">
+          <h3>Glock Black Full Sleeve T-Shirt</h3>
+          <p>₹1400</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive7.jpg" alt="Prism Black Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Prism Black Boxy Oversized Tshirt</h3>
+          <p>₹1400</p>
+        </div>
+      </a>
+    </div>
+    <div class="products-nav">
+      <button class="prev" onclick="prevProductExclusives()">‹</button>
+      <button class="next" onclick="nextProductExclusives()">›</button>
+    </div>
+  </div>
+
+  <div class="footer-spacer"></div>
+
+  <footer>
+    <div class="footer-columns">
+      <div>
+        <a href="#">Contact Us</a>
+        <a href="#">My Order</a>
+        <a href="#">FAQs</a>
+        <a href="#">Email Unsubscribe</a>
+        <a href="#">Sitemap</a>
+      </div>
+      <div>
+        <a href="#">About MÉSORA</a>
+        <a href="#">Ethical Code</a>
+        <a href="#">Careers</a>
+        <a href="#">Legal</a>
+        <a href="#">Cookies Settings</a>
+      </div>
+      <div>
+        <a href="#">Store Locator</a>
+        <a href="#">Sign Up for Updates</a>
+        <a href="#">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+      <span>LICENSE #2294/17936 and 5647/17936</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('open');
+  }
+
+  // Main carousel
+  const slides = document.querySelectorAll('.carousel-item');
+  const dots = document.querySelectorAll('.carousel-dot');
+  let currentSlide = 0;
+  let fadeInterval;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active');
+      dots[i].classList.remove('active');
+    });
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    showSlide(currentSlide);
+  }
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      showSlide(0);
+    }, 100);
+    fadeInterval = setInterval(nextSlide, 5000);
+  });
+
+  // Products carousel - 25/26 Season Kits
+  const productsContainer = document.getElementById('products');
+  let currentProductIndex = 0;
+  const productCards = document.querySelectorAll('#products .product-card');
+  const totalProducts = productCards.length;
+  const productsPerPage = 4;
+
+  function updateProducts() {
+    const translateX = -(currentProductIndex * (100 / productsPerPage));
+    productsContainer.style.transform = `translateX(${translateX}%)`;
+  }
+
+  function nextProduct() {
+    if (currentProductIndex < totalProducts - productsPerPage) {
+      currentProductIndex++;
+      updateProducts();
+    }
+  }
+
+  function prevProduct() {
+    if (currentProductIndex > 0) {
+      currentProductIndex--;
+      updateProducts();
+    }
+  }
+
+  // Products carousel - Mesora Exclusives
+  const productsContainerExclusives = document.getElementById('products-exclusives');
+  let currentProductIndexExclusives = 0;
+  const productCardsExclusives = document.querySelectorAll('#products-exclusives .product-card');
+  const totalProductsExclusives = productCardsExclusives.length;
+  const productsPerPageExclusives = 4;
+
+  function updateProductsExclusives() {
+    const translateX = -(currentProductIndexExclusives * (100 / productsPerPageExclusives));
+    productsContainerExclusives.style.transform = `translateX(${translateX}%)`;
+  }
+
+  function nextProductExclusives() {
+    if (currentProductIndexExclusives < totalProductsExclusives - productsPerPageExclusives) {
+      currentProductIndexExclusives++;
+      updateProductsExclusives();
+    }
+  }
+
+  function prevProductExclusives() {
+    if (currentProductIndexExclusives > 0) {
+      currentProductIndexExclusives--;
+      updateProductsExclusives();
+    }
+  }
+
+  // Scroll animation for sections
+  function handleScroll() {
+    const sections = [
+      { title: document.getElementById('kits-title'), container: document.getElementById('kits-container') },
+      { title: document.getElementById('exclusives-title'), container: document.getElementById('exclusives-container') }
+    ];
+
+    sections.forEach(section => {
+      const rect = section.container.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
+        if (section.title) section.title.classList.add('visible');
+        section.container.classList.add('visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('load', handleScroll);
+
+  // Smooth redirect function with transition
+  function smoothRedirect(event, url) {
+    event.preventDefault();
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = url;
+    }, 500);
+  }
+</script>
+</body>
+</html>

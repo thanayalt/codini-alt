@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MÉSORA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Times New Roman', serif;
+      background: black;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      z-index: 10;
+      pointer-events: none;
+      transition: all 0.6s ease;
+    }
+
+    header.shrink {
+      height: 80px;
+      background: white;
+      color: black;
+      pointer-events: all;
+    }
+
+    header.transitioning {
+      background: white;
+      height: 80px;
+      align-items: flex-start;
+      padding-top: 10px;
+    }
+
+    .logo {
+      font-size: 100px;
+      letter-spacing: 10px;
+      transition: all 0.6s ease;
+    }
+
+    header.shrink .logo,
+    header.transitioning .logo {
+      font-size: 28px;
+      color: black;
+    }
+
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .transition-overlay .logo {
+      font-size: 100px;
+      color: black;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease;
+    }
+
+    .transition-overlay.move-logo .logo {
+      top: 20px;
+      transform: translateY(0);
+      font-size: 28px;
+    }
+
+    .video-container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      position: relative;
+    }
+
+    .video-side {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .video-side video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .video-overlay {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .video-label {
+      font-size: 48px;
+      color: white;
+      margin-bottom: 10px;
+      text-transform: capitalize;
+    }
+
+    .shop-now {
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+      position: relative;
+      pointer-events: auto;
+      text-transform: capitalize;
+      display: inline-block;
+    }
+
+    .shop-now::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      height: 1px;
+      width: 100%;
+      background: white;
+      transform: scaleX(1);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .shop-now:hover::after {
+      transform: scaleX(0);
+    }
+
+    .spacer {
+      height: 40px;
+      background: white;
+    }
+
+    .services {
+      background: #f9f9f9;
+      color: black;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 40px 20px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    .services.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .service-item img {
+      height: 40px;
+      width: 40px;
+      margin-bottom: 10px;
+      transition: opacity 0.3s ease;
+    }
+
+    .service-item span {
+      position: relative;
+      font-size: 14px;
+      transition: opacity 0.3s ease;
+    }
+
+    .service-item:hover img,
+    .service-item:hover span {
+      opacity: 0.6;
+    }
+
+    .service-item span::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 1px;
+      background: black;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .service-item:hover span::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .footer-spacer {
+      height: 40px;
+      background: white;
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      font-family: 'Didot', 'Times New Roman', serif;
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 40px 40px 30px;
+      width: 100%;
+      max-width: 700px;
+      color: black;
+      position: relative;
+      line-height: 1.5;
+      box-sizing: border-box;
+      font-family: 'Didot', 'Times New Roman', serif;
+    }
+
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 40px;
+      right: 40px;
+      height: 4px;
+      background: #af1e2d;
+    }
+
+    .modal-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 14px 0;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      position: relative;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    .modal-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 40px;
+      right: 40px;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.1);
+      width: calc(100% - 80px);
+      margin: 0 auto;
+    }
+
+    .modal-section {
+      margin-bottom: 25px;
+      font-family: 'Didot', 'Times New Roman', serif;
+    }
+
+    .modal-section h3 {
+      font-size: 18px;
+      font-weight: normal;
+      margin: 20px 0 15px 0;
+      text-transform: uppercase;
+    }
+
+    .modal-section h3 strong {
+      font-weight: bold;
+    }
+
+    .modal-section p {
+      font-size: 16px;
+      margin: 0 0 15px 0;
+    }
+
+    .modal-section p strong {
+      font-weight: bold;
+    }
+
+    .modal-section ul {
+      margin: 0 0 20px 20px;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    .modal-section ul li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .modal-section ul li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      font-size: 28px;
+      color: black;
+      cursor: pointer;
+      font-weight: normal;
+    }
+
+    .open-delivery-modal {
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .open-return-modal {
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .open-giftwrap-modal {
+      cursor: pointer;
+      color: inherit;
+    }
+
+    /* Today's Paired Perfection styles */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      text-align: left;
+      margin: 40px 0 20px 80px;
+      letter-spacing: 4px;
+      color: white;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px;
+      background-color: black;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fixed-image {
+      position: relative;
+      max-width: 500px;
+      flex-shrink: 0;
+    }
+
+    .fixed-image img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .dot-sample {
+      width: 18px;
+      height: 18px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 3px solid black;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      animation: glow 1.5s ease-in-out infinite;
+    }
+
+    .dot-sample:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+      }
+    }
+
+    .man-chest { top: 38%; left: 35%; }
+    .man-pant { top: 75%; left: 35%; }
+    .woman-chest { top: 30%; left: 62%; }
+    .woman-pant { top: 70%; left: 62%; }
+
+    .carousel-sample {
+      width: 400px;
+      height: auto;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .slide h2 {
+      font-size: 20px;
+      margin-top: 10px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      color: white;
+    }
+
+    .slide p {
+      font-size: 16px;
+      margin-top: 5px;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .carousel-dots-sample {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .carousel-dots-sample span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin: 0 6px;
+      background: #999;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .carousel-dots-sample span.active {
+      background: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Video and Quote section */
+    .video-quote-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 40px;
+      padding: 20px 40px;
+      background: linear-gradient(to right, #d3d3d3, #ffffff);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .video-quote-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .video-section {
+      max-width: 900px;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    .video-section video {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .quote-section {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: black;
+      line-height: 1.6;
+      max-width: 400px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .quote-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scrolling Testimonial Banner Styles */
+    .scrolling-banner-container {
+      background-color: #C2B68A;
+      width: 100%;
+      overflow: hidden;
+      padding: 10px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .scrolling-banner-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scrolling-banner {
+      display: flex;
+      animation: scroll 15s linear infinite;
+    }
+
+    .banner-item {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      margin: 0 40px;
+      color: #000;
+      font-size: 18px;
+      white-space: nowrap;
+      font-family: 'Cinzel', serif;
+    }
+
+    .banner-item .logo {
+      font-size: 24px;
+      margin-left: 1em;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .banner-item .logo img {
+      height: 24px;
+      width: auto;
+      vertical-align: middle;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* New wrapper for the brand section */
+    .brand-info-section {
+      background: linear-gradient(to right, #d3d3d3, #ffffff);
+      padding: 80px 30px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .brand-info-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modified brand description to match image style */
+    .brand-description {
+      font-family: 'EB Garamond', 'Times New Roman', serif;
+      font-size: 24px;
+      line-height: 1.6;
+      max-width: 840px;
+      margin: 0 auto;
+      color: #333333;
+    }
+
+    /* Modified brand location to match image style */
+    .brand-location {
+      font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 11px;
+      color: #333333;
+      margin-top: 50px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .section-title {
+        margin-left: 40px;
+        font-size: 32px;
+        margin: 20px 0 10px 40px;
+      }
+
+      .container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .fixed-image, .carousel-sample {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .video-quote-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .video-section {
+        width: 100%;
+        max-width: 400px;
+        margin-left: 0;
+      }
+
+      .quote-section {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .scrolling-banner-container {
+        padding: 5px 0;
+      }
+
+      .banner-item {
+        font-size: 16px;
+        margin: 0 20px;
+      }
+
+      .banner-item .logo {
+        font-size: 20px;
+      }
+
+      .banner-item .logo img {
+        height: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .fixed-image, .carousel-sample {
+        max-width: 300px;
+      }
+
+      .video-section {
+        max-width: 300px;
+      }
+
+      .quote-section {
+        max-width: 300px;
+      }
+
+      .banner-item {
+        font-size: 14px;
+        margin: 0 15px;
+      }
+
+      .banner-item .logo {
+        font-size: 18px;
+      }
+
+      .banner-item .logo img {
+        height: 18px;
+      }
+
+      .brand-description {
+          font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="transition-overlay" id="overlay">
+    <div class="logo">MÉSORA</div>
+  </div>
+
+  <header id="header">
+    <div class="logo" id="logo">MÉSORA</div>
+  </header>
+
+  <div class="video-container">
+    <div class="video-side" onclick="startTransition('for-him.html')">
+      <video id="leftVideo" muted loop src="media/left.mp4"></video>
+      <div class="video-overlay">
+        <div class="video-label">For Him</div>
+        <div class="shop-now">Shop now</div>
+      </div>
+    </div>
+    <div class="video-side" onclick="startTransition('for-her.html')">
+      <video id="rightVideo" muted loop src="media/right.mp4"></video>
+      <div class="video-overlay">
+        <div class="video-label">For Her</div>
+        <div class="shop-now">Shop now</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <h2 class="section-title" id="paired-title">Today's Paired Perfection</h2>
+  <div class="container" id="paired-container">
+    <div class="fixed-image">
+      <img src="media/couple.jpg" alt="Couple" />
+      <div class="dot-sample man-chest" onclick="goToSlide(0)"></div>
+      <div class="dot-sample man-pant" onclick="goToSlide(1)"></div>
+      <div class="dot-sample woman-chest" onclick="goToSlide(2)"></div>
+      <div class="dot-sample woman-pant" onclick="goToSlide(3)"></div>
+    </div>
+
+    <div class="carousel-sample" id="carousel-sample">
+      <div class="slide active">
+        <img src="media/mchest.jpg" alt="Lunar T-Shirt" />
+        <h2>Lunar Black Full Sleeve T Shirt</h2>
+        <p>₹1500</p>
+      </div>
+      <div class="slide">
+        <img src="media/mpant.jpg" alt="Raudra Pants" />
+        <h2>Raudra Straight Fit Baggy Pants</h2>
+        <p>₹1700</p>
+      </div>
+      <div class="slide">
+        <img src="media/wchest.jpg" alt="Eclipse Tee" />
+        <h2>Eclipse Women's Baby Long Sleeve Tee</h2>
+        <p>₹800</p>
+      </div>
+      <div class="slide">
+        <img src="media/wpant.jpg" alt="Yagna Pants" />
+        <h2>Yagna Straight Fit Baggy Pants</h2>
+        <p>₹1700</p>
+      </div>
+
+      <div class="carousel-dots-sample">
+        <span class="active" onclick="goToSlide(0)"></span>
+        <span onclick="goToSlide(1)"></span>
+        <span onclick="goToSlide(2)"></span>
+        <span onclick="goToSlide(3)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-quote-container" id="video-quote-container">
+    <div class="video-section">
+      <video autoplay muted loop src="media/mesora.mp4"></video>
+    </div>
+    <div class="quote-section" id="quote-section">
+      “My aim is to focus on style, which is a way of being, of putting things together, of behaving and appearing.” – Jonathan Anderson
+    </div>
+  </div>
+
+  <div class="scrolling-banner-container" id="testimonial-banner">
+    <div class="scrolling-banner">
+      <!-- ORIGINAL SET OF ITEMS -->
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+      <div class="banner-item">"What every closet secretly dreams of" — <span class="logo"><img src="media/gq.jpg" alt="GQ"></span></div>
+      <div class="banner-item">"Rewriting the rules of luxury streetwear" — <span class="logo"><img src="media/fastcompany.jpg" alt="FAST COMPANY"></span></div>
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+      <div class="banner-item">"What every closet secretly dreams of" — <span class="logo"><img src="media/gq.jpg" alt="GQ"></span></div>
+      <!-- DUPLICATED SET OF ITEMS (for seamless loop) -->
+      <div class="banner-item">"Rewriting the rules of luxury streetwear" — <span class="logo"><img src="media/fastcompany.jpg" alt="FAST COMPANY"></span></div>
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+      <div class="banner-item">"What every closet secretly dreams of" — <span class="logo"><img src="media/gq.jpg" alt="GQ"></span></div>
+      <div class="banner-item">"Rewriting the rules of luxury streetwear" — <span class="logo"><img src="media/fastcompany.jpg" alt="FAST COMPANY"></span></div>
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <section class="services" id="services">
+    <div class="service-item">
+      <img src="media/delivery.png" alt="Delivery">
+      <span class="open-delivery-modal">COMPLIMENTARY DELIVERY</span>
+    </div>
+    <div class="service-item">
+      <img src="media/return.png" alt="Return">
+      <span class="open-return-modal">EASY RETURN OR EXCHANGE</span>
+    </div>
+    <div class="service-item">
+      <img src="media/giftwrap.png" alt="Gift Wrap">
+      <span class="open-giftwrap-modal">FREE GIFT WRAPPING</span>
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+
+  <div class="brand-info-section" id="brand-info">
+    <div class="brand-description">
+      MÉSORA is a contemporary fashion house for refined, versatile womenswear. From timeless staples to statement pieces, we craft collections that blend modern silhouettes with classic elegance—never overly trendy, never out of place. Each garment is designed to move with you, elevate every moment, and bring a sense of effortless luxury to the unexpected.
+    </div>
+    <div class="brand-location">
+      FOR EVERY STORY | SURAT, GUJARAT
+    </div>
+  </div>
+
+  <footer id="footer">
+    <div class="footer-columns">
+      <div>
+        <a href="#">Contact Us</a>
+        <a href="#">My Order</a>
+        <a href="#">FAQs</a>
+        <a href="#">Email Unsubscribe</a>
+        <a href="#">Sitemap</a>
+      </div>
+      <div>
+        <a href="#">About MÉSORA</a>
+        <a href="#">Ethical Code</a>
+        <a href="#">Careers</a>
+        <a href="#">Legal</a>
+        <a href="#">Cookies Settings</a>
+      </div>
+      <div>
+        <a href="#">Store Locator</a>
+        <a href="#">Sign Up for Updates</a>
+        <a href="#">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+      <span>LICENSE #2294/17936 and 5647/17936</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+
+  <!-- DELIVERY MODAL -->
+  <div id="deliveryModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2 class="modal-title">DELIVERY INFORMATION</h2>
+      <div class="modal-section">
+        <h3><strong>HOME DELIVERY</strong> – Complimentary</h3>
+        <p><strong>Delivery Timing:</strong></p>
+        <ul>
+          <li>Same day delivery in <strong>Surat</strong> for orders placed by <strong>5pm</strong> (Monday – Saturday)</li>
+          <li>Next day delivery for <strong>Other Cities</strong> for orders placed by <strong>9pm</strong> (Monday – Saturday)</li>
+        </ul>
+      </div>
+      <div class="modal-section">
+        <h3><strong>DELIVERY TO MÉSORA BOUTIQUES</strong> – Complimentary</h3>
+        <ul>
+          <li>Order online or by phone and pick up your creation in a MÉSORA boutique</li>
+          <li>When you are ready to finalise your order, you will have the ability to select 'Delivery to the Boutique' as a delivery method during checkout</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETURN MODAL -->
+  <div id="returnModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2 class="modal-title">RETURN</h2>
+      <div class="modal-section">
+        <h3><strong>RETURN & EXCHANGE POLICY</strong></h3>
+        <p>You can request a return or exchange of your items within 30 days by contacting Mésora Client Relations Centre.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIFT WRAP MODAL -->
+  <div id="giftwrapModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2 class="modal-title">GIFT WRAPPING</h2>
+      <div class="modal-section">
+        <h3><strong>FREE GIFT WRAPPING</strong></h3>
+        <p>All Mésora designs are beautifully wrapped in signature Mésora packaging.</p>
+        <p>Gift wrapping is not available for select items including refills and watch straps.
+           Visit your local boutique or contact the Mésora Client Relations Centre to learn more.
+        </p>
+        <p>You can accompany your purchase with a personalised message on a signature Mésora card.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const header = document.getElementById("header");
+    const overlay = document.getElementById("overlay");
+    const services = document.getElementById("services");
+    const leftVideo = document.getElementById("leftVideo");
+    const rightVideo = document.getElementById("rightVideo");
+    const deliveryModal = document.getElementById("deliveryModal");
+    const returnModal = document.getElementById("returnModal");
+    const giftwrapModal = document.getElementById("giftwrapModal");
+    const deliveryOpenBtns = document.querySelectorAll(".open-delivery-modal");
+    const returnOpenBtns = document.querySelectorAll(".open-return-modal");
+    const giftwrapOpenBtns = document.querySelectorAll(".open-giftwrap-modal");
+    const closeBtns = document.querySelectorAll(".close-btn");
+    const pairedContainer = document.getElementById("paired-container");
+    const quoteSection = document.getElementById("quote-section");
+    const videoQuoteContainer = document.getElementById("video-quote-container");
+    const testimonialBanner = document.getElementById("testimonial-banner");
+    const brandInfo = document.getElementById("brand-info");
+    const footer = document.getElementById("footer");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        header.classList.add("shrink");
+      } else {
+        header.classList.remove("shrink");
+      }
+
+      const servicesTop = services.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > servicesTop + 100) {
+        services.classList.add("visible");
+      }
+
+      const pairedTop = pairedContainer.offsetTop;
+      if (scrollBottom > pairedTop + 100) {
+        pairedContainer.classList.add("visible");
+        document.getElementById("paired-title").classList.add("visible");
+      }
+
+      const quoteTop = videoQuoteContainer.offsetTop;
+      if (scrollBottom > quoteTop + 100) {
+        videoQuoteContainer.classList.add("visible");
+        quoteSection.classList.add("visible");
+      }
+
+      const testimonialTop = testimonialBanner.offsetTop;
+      if (scrollBottom > testimonialTop + 100) {
+        testimonialBanner.classList.add("visible");
+      }
+
+      const brandInfoTop = brandInfo.offsetTop;
+      if (scrollBottom > brandInfoTop + 100) {
+        brandInfo.classList.add("visible");
+      }
+
+      const footerTop = footer.offsetTop;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add("visible");
+      }
+    });
+
+    document.querySelector(".video-container").addEventListener("mousemove", (e) => {
+      const middle = window.innerWidth / 2;
+      if (e.clientX < middle) {
+        leftVideo.play();
+        rightVideo.pause();
+      } else {
+        leftVideo.pause();
+        rightVideo.play();
+      }
+    });
+
+    document.querySelector(".video-container").addEventListener("mouseleave", () => {
+      leftVideo.pause();
+      rightVideo.pause();
+    });
+
+    function startTransition(targetPage) {
+      overlay.classList.add("active");
+      setTimeout(() => {
+        overlay.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
+    }
+
+    function goToSlide(index) {
+      const slidesSample = document.querySelectorAll('.slide');
+      const dotsSample = document.querySelectorAll('.carousel-dots-sample span');
+
+      slidesSample.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      dotsSample.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    deliveryOpenBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        deliveryModal.style.display = "block";
+        document.body.classList.add("modal-open");
+      });
+    });
+
+    returnOpenBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        returnModal.style.display = "block";
+        document.body.classList.add("modal-open");
+      });
+    });
+
+    giftwrapOpenBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        giftwrapModal.style.display = "block";
+        document.body.classList.add("modal-open");
+      });
+    });
+
+    closeBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        deliveryModal.style.display = "none";
+        returnModal.style.display = "none";
+        giftwrapModal.style.display = "none";
+        document.body.classList.remove("modal-open");
+      });
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target == deliveryModal || e.target == returnModal || e.target == giftwrapModal) {
+        deliveryModal.style.display = "none";
+        returnModal.style.display = "none";
+        giftwrapModal.style.display = "none";
+        document.body.classList.remove("modal-open");
+      }
+    });
+
+    window.addEventListener('load', () => {
+      goToSlide(0);
+    });
+  </script>
+</body>
+</html>
