@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MÉSORA</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -231,8 +233,14 @@
       background: black;
       color: white;
       padding: 40px 80px;
-      display: flex;
-      flex-direction: column;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .footer-columns {
@@ -402,6 +410,370 @@
       cursor: pointer;
       color: inherit;
     }
+
+    /* Today's Paired Perfection styles */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      text-align: left;
+      margin: 40px 0 20px 80px;
+      letter-spacing: 4px;
+      color: white;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px;
+      background-color: black;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fixed-image {
+      position: relative;
+      max-width: 500px;
+      flex-shrink: 0;
+    }
+
+    .fixed-image img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .dot-sample {
+      width: 18px;
+      height: 18px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 3px solid black;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      animation: glow 1.5s ease-in-out infinite;
+    }
+
+    .dot-sample:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+      }
+    }
+
+    .man-chest { top: 38%; left: 35%; }
+    .man-pant { top: 75%; left: 35%; }
+    .woman-chest { top: 30%; left: 62%; }
+    .woman-pant { top: 70%; left: 62%; }
+
+    .carousel-sample {
+      width: 400px;
+      height: auto;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .slide h2 {
+      font-size: 20px;
+      margin-top: 10px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      color: white;
+    }
+
+    .slide p {
+      font-size: 16px;
+      margin-top: 5px;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .carousel-dots-sample {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .carousel-dots-sample span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin: 0 6px;
+      background: #999;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .carousel-dots-sample span.active {
+      background: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Video and Quote section */
+    .video-quote-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 40px;
+      padding: 20px 40px;
+      background: linear-gradient(to right, #d3d3d3, #ffffff);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .video-quote-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .video-section {
+      max-width: 900px;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    .video-section video {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .quote-section {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: black;
+      line-height: 1.6;
+      max-width: 400px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .quote-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scrolling Testimonial Banner Styles */
+    .scrolling-banner-container {
+      background-color: #C2B68A;
+      width: 100%;
+      overflow: hidden;
+      padding: 10px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .scrolling-banner-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scrolling-banner {
+      display: flex;
+      animation: scroll 15s linear infinite;
+    }
+
+    .banner-item {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      margin: 0 40px;
+      color: #000;
+      font-size: 18px;
+      white-space: nowrap;
+      font-family: 'Cinzel', serif;
+    }
+
+    .banner-item .logo {
+      font-size: 24px;
+      margin-left: 1em;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .banner-item .logo img {
+      height: 24px;
+      width: auto;
+      vertical-align: middle;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* New wrapper for the brand section */
+    .brand-info-section {
+      background: linear-gradient(to right, #d3d3d3, #ffffff);
+      padding: 80px 30px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .brand-info-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modified brand description to match image style */
+    .brand-description {
+      font-family: 'EB Garamond', 'Times New Roman', serif;
+      font-size: 24px;
+      line-height: 1.6;
+      max-width: 840px;
+      margin: 0 auto;
+      color: #333333;
+    }
+
+    /* Modified brand location to match image style */
+    .brand-location {
+      font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 11px;
+      color: #333333;
+      margin-top: 50px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .section-title {
+        margin-left: 40px;
+        font-size: 32px;
+        margin: 20px 0 10px 40px;
+      }
+
+      .container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .fixed-image, .carousel-sample {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .video-quote-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .video-section {
+        width: 100%;
+        max-width: 400px;
+        margin-left: 0;
+      }
+
+      .quote-section {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .scrolling-banner-container {
+        padding: 5px 0;
+      }
+
+      .banner-item {
+        font-size: 16px;
+        margin: 0 20px;
+      }
+
+      .banner-item .logo {
+        font-size: 20px;
+      }
+
+      .banner-item .logo img {
+        height: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .fixed-image, .carousel-sample {
+        max-width: 300px;
+      }
+
+      .video-section {
+        max-width: 300px;
+      }
+
+      .quote-section {
+        max-width: 300px;
+      }
+
+      .banner-item {
+        font-size: 14px;
+        margin: 0 15px;
+      }
+
+      .banner-item .logo {
+        font-size: 18px;
+      }
+
+      .banner-item .logo img {
+        height: 18px;
+      }
+
+      .brand-description {
+          font-size: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -432,6 +804,75 @@
 
   <div class="spacer"></div>
 
+  <h2 class="section-title" id="paired-title">Today's Paired Perfection</h2>
+  <div class="container" id="paired-container">
+    <div class="fixed-image">
+      <img src="media/couple.jpg" alt="Couple" />
+      <div class="dot-sample man-chest" onclick="goToSlide(0)"></div>
+      <div class="dot-sample man-pant" onclick="goToSlide(1)"></div>
+      <div class="dot-sample woman-chest" onclick="goToSlide(2)"></div>
+      <div class="dot-sample woman-pant" onclick="goToSlide(3)"></div>
+    </div>
+
+    <div class="carousel-sample" id="carousel-sample">
+      <div class="slide active">
+        <img src="media/mchest.jpg" alt="Lunar T-Shirt" />
+        <h2>Lunar Black Full Sleeve T Shirt</h2>
+        <p>₹1500</p>
+      </div>
+      <div class="slide">
+        <img src="media/mpant.jpg" alt="Raudra Pants" />
+        <h2>Raudra Straight Fit Baggy Pants</h2>
+        <p>₹1700</p>
+      </div>
+      <div class="slide">
+        <img src="media/wchest.jpg" alt="Eclipse Tee" />
+        <h2>Eclipse Women's Baby Long Sleeve Tee</h2>
+        <p>₹800</p>
+      </div>
+      <div class="slide">
+        <img src="media/wpant.jpg" alt="Yagna Pants" />
+        <h2>Yagna Straight Fit Baggy Pants</h2>
+        <p>₹1700</p>
+      </div>
+
+      <div class="carousel-dots-sample">
+        <span class="active" onclick="goToSlide(0)"></span>
+        <span onclick="goToSlide(1)"></span>
+        <span onclick="goToSlide(2)"></span>
+        <span onclick="goToSlide(3)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-quote-container" id="video-quote-container">
+    <div class="video-section">
+      <video autoplay muted loop src="media/mesora.mp4"></video>
+    </div>
+    <div class="quote-section" id="quote-section">
+      “My aim is to focus on style, which is a way of being, of putting things together, of behaving and appearing.” – Jonathan Anderson
+    </div>
+  </div>
+
+  <div class="scrolling-banner-container" id="testimonial-banner">
+    <div class="scrolling-banner">
+      <!-- ORIGINAL SET OF ITEMS -->
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+      <div class="banner-item">"What every closet secretly dreams of" — <span class="logo"><img src="media/gq.jpg" alt="GQ"></span></div>
+      <div class="banner-item">"Rewriting the rules of luxury streetwear" — <span class="logo"><img src="media/fastcompany.jpg" alt="FAST COMPANY"></span></div>
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+      <div class="banner-item">"What every closet secretly dreams of" — <span class="logo"><img src="media/gq.jpg" alt="GQ"></span></div>
+      <!-- DUPLICATED SET OF ITEMS (for seamless loop) -->
+      <div class="banner-item">"Rewriting the rules of luxury streetwear" — <span class="logo"><img src="media/fastcompany.jpg" alt="FAST COMPANY"></span></div>
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+      <div class="banner-item">"What every closet secretly dreams of" — <span class="logo"><img src="media/gq.jpg" alt="GQ"></span></div>
+      <div class="banner-item">"Rewriting the rules of luxury streetwear" — <span class="logo"><img src="media/fastcompany.jpg" alt="FAST COMPANY"></span></div>
+      <div class="banner-item">"The new standard for modern silhouettes" — <span class="logo"><img src="media/wsj.jpg" alt="WSJ"></span></div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
   <section class="services" id="services">
     <div class="service-item">
       <img src="media/delivery.png" alt="Delivery">
@@ -447,9 +888,18 @@
     </div>
   </section>
 
-  <div class="footer-spacer"></div>
+  <div class="spacer"></div>
 
-  <footer>
+  <div class="brand-info-section" id="brand-info">
+    <div class="brand-description">
+      MÉSORA is a contemporary fashion house for refined, versatile womenswear. From timeless staples to statement pieces, we craft collections that blend modern silhouettes with classic elegance—never overly trendy, never out of place. Each garment is designed to move with you, elevate every moment, and bring a sense of effortless luxury to the unexpected.
+    </div>
+    <div class="brand-location">
+      FOR EVERY STORY | SURAT, GUJARAT
+    </div>
+  </div>
+
+  <footer id="footer">
     <div class="footer-columns">
       <div>
         <a href="#">Contact Us</a>
@@ -543,6 +993,12 @@
     const returnOpenBtns = document.querySelectorAll(".open-return-modal");
     const giftwrapOpenBtns = document.querySelectorAll(".open-giftwrap-modal");
     const closeBtns = document.querySelectorAll(".close-btn");
+    const pairedContainer = document.getElementById("paired-container");
+    const quoteSection = document.getElementById("quote-section");
+    const videoQuoteContainer = document.getElementById("video-quote-container");
+    const testimonialBanner = document.getElementById("testimonial-banner");
+    const brandInfo = document.getElementById("brand-info");
+    const footer = document.getElementById("footer");
 
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
@@ -555,6 +1011,33 @@
       const scrollBottom = window.scrollY + window.innerHeight;
       if (scrollBottom > servicesTop + 100) {
         services.classList.add("visible");
+      }
+
+      const pairedTop = pairedContainer.offsetTop;
+      if (scrollBottom > pairedTop + 100) {
+        pairedContainer.classList.add("visible");
+        document.getElementById("paired-title").classList.add("visible");
+      }
+
+      const quoteTop = videoQuoteContainer.offsetTop;
+      if (scrollBottom > quoteTop + 100) {
+        videoQuoteContainer.classList.add("visible");
+        quoteSection.classList.add("visible");
+      }
+
+      const testimonialTop = testimonialBanner.offsetTop;
+      if (scrollBottom > testimonialTop + 100) {
+        testimonialBanner.classList.add("visible");
+      }
+
+      const brandInfoTop = brandInfo.offsetTop;
+      if (scrollBottom > brandInfoTop + 100) {
+        brandInfo.classList.add("visible");
+      }
+
+      const footerTop = footer.offsetTop;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add("visible");
       }
     });
 
@@ -582,6 +1065,19 @@
       setTimeout(() => {
         window.location.href = targetPage;
       }, 2000);
+    }
+
+    function goToSlide(index) {
+      const slidesSample = document.querySelectorAll('.slide');
+      const dotsSample = document.querySelectorAll('.carousel-dots-sample span');
+
+      slidesSample.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      dotsSample.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
     }
 
     deliveryOpenBtns.forEach(btn => {
@@ -621,6 +1117,10 @@
         giftwrapModal.style.display = "none";
         document.body.classList.remove("modal-open");
       }
+    });
+
+    window.addEventListener('load', () => {
+      goToSlide(0);
     });
   </script>
 </body>

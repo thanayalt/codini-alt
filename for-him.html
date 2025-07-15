@@ -206,7 +206,7 @@
       position: absolute;
       bottom: 10%;
       left: 5%;
-      color: #000;
+      color: #fff;
       font-family: 'Playfair Display', serif;
       font-size: 2.5em;
       font-weight: 700;
@@ -215,7 +215,7 @@
       transform: translateY(20px);
       transition: opacity 1s ease-in-out, transform 1s ease-in-out;
       transition-delay: 0.3s;
-      text-shadow: 0 2px 5px rgba(255, 255, 255, 0.8);
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
     }
 
     .carousel-item.active {
@@ -287,17 +287,33 @@
       font-size: 40px;
       font-weight: 700;
       text-align: left;
-      margin: 80px 0 40px 80px;
+      margin: 40px 0 20px 80px;
       letter-spacing: 4px;
       color: #1a1a1a;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .products-container {
       position: relative;
       max-width: 1400px;
       margin: auto;
-      padding: 0 60px 80px;
+      padding: 0 60px 40px;
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .products-container.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .products {
@@ -305,22 +321,22 @@
       transition: transform 0.5s ease-in-out;
     }
 
-    .product-card {
+    #kits-container .product-card {
       flex: 0 0 25%;
       padding: 0 15px;
       box-sizing: border-box;
       position: relative;
       overflow: hidden;
-      height: 450px;
+      height: 350px;
     }
 
-    /* Specific adjustments for PSG, Inter, Chelsea images */
-    .product-card:nth-child(3) img, /* PSG */
-    .product-card:nth-child(7) img, /* Inter */
-    .product-card:nth-child(8) img { /* Chelsea */
+    /* Specific adjustments for PSG, Inter, Man UTD images in kits section */
+    #kits-container .product-card:nth-child(3) img, /* PSG */
+    #kits-container .product-card:nth-child(7) img, /* Inter */
+    #kits-container .product-card:nth-child(8) img { /* Man UTD */
       object-fit: contain;
       background-color: #f5f5f5;
-      transform: scale(1.2); /* Increased size by 20% */
+      transform: scale(1.1);
     }
 
     .product-card img {
@@ -331,17 +347,73 @@
       transition: transform 0.5s ease;
     }
 
-    .product-card:hover img {
+    #kits-container .product-card:hover img {
       transform: scale(1.05);
     }
 
-    .product-card:nth-child(3):hover img, /* PSG */
-    .product-card:nth-child(7):hover img, /* Inter */
-    .product-card:nth-child(8):hover img { /* Chelsea */
-      transform: scale(1.26); /* Maintains 20% increase on hover */
+    #kits-container .product-card:nth-child(3):hover img, /* PSG */
+    #kits-container .product-card:nth-child(7):hover img, /* Inter */
+    #kits-container .product-card:nth-child(8):hover img { /* Man UTD */
+      transform: scale(1.16);
     }
 
-    .product-info {
+    #kits-container .product-info {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      color: #fff;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.5s ease;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+      font-weight: 500;
+    }
+
+    /* Specific styles for rma.jpg and bayern.jpg in kits section */
+    #kits-container .product-card:nth-child(1) .product-info,
+    #kits-container .product-card:nth-child(6) .product-info {
+      color: #000;
+      text-shadow: 0 2px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    #kits-container .product-card:hover .product-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #kits-container .product-info h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    #kits-container .product-info p {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Styles for Mesora Exclusives */
+    #exclusives-container .product-card {
+      flex: 0 0 25%;
+      padding: 0 15px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      height: 450px;
+    }
+
+    #exclusives-container .product-card img {
+      object-fit: contain;
+      background-color: #f5f5f5;
+      transform: scale(1.2);
+    }
+
+    #exclusives-container .product-card:hover img {
+      transform: scale(1.26);
+    }
+
+    #exclusives-container .product-info {
       position: absolute;
       bottom: 20px;
       left: 20px;
@@ -354,25 +426,18 @@
       font-weight: 500;
     }
 
-    /* Specific styles for rma.jpg and bayern.jpg */
-    .product-card:nth-child(1) .product-info,
-    .product-card:nth-child(6) .product-info {
-      color: #000;
-      text-shadow: 0 2px 5px rgba(255, 255, 255, 0.8);
-    }
-
-    .product-card:hover .product-info {
+    #exclusives-container .product-card:hover .product-info {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .product-info h3 {
+    #exclusives-container .product-info h3 {
       font-size: 18px;
       margin-bottom: 5px;
       font-weight: 600;
     }
 
-    .product-info p {
+    #exclusives-container .product-info p {
       font-size: 14px;
       font-weight: 500;
     }
@@ -388,6 +453,10 @@
       pointer-events: none;
       padding: 0 5px;
       box-sizing: border-box;
+    }
+
+    #kits-container .products-nav {
+      top: 175px;
     }
 
     .products-nav button {
@@ -410,8 +479,61 @@
       line-height: 1;
     }
 
+    #kits-container .products-nav button {
+      font-size: 28px;
+      width: 40px;
+      height: 40px;
+    }
+
     .products-nav button:hover {
       color: #000;
+    }
+
+    /* Footer styles */
+    .footer-spacer {
+      height: 40px;
+      background: white;
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
     }
 
     @media (max-width: 768px) {
@@ -428,15 +550,21 @@
       .section-title {
         margin-left: 40px;
         font-size: 32px;
+        margin: 20px 0 10px 40px;
       }
 
-      .product-card {
+      #kits-container .product-card {
+        flex: 0 0 50%;
+        height: 280px;
+      }
+
+      #exclusives-container .product-card {
         flex: 0 0 50%;
         height: 350px;
       }
 
       .products-container {
-        padding: 0 40px 80px;
+        padding: 0 40px 20px;
       }
 
       .products-nav {
@@ -444,13 +572,28 @@
         padding: 0 2px;
       }
 
+      #kits-container .products-nav {
+        top: 140px;
+      }
+
       .products-nav button {
         font-size: 28px;
+      }
+
+      #kits-container .products-nav button {
+        font-size: 24px;
+        width: 35px;
+        height: 35px;
       }
     }
 
     @media (max-width: 480px) {
-      .product-card {
+      #kits-container .product-card {
+        flex: 0 0 100%;
+        height: 240px;
+      }
+
+      #exclusives-container .product-card {
         flex: 0 0 100%;
         height: 300px;
       }
@@ -460,8 +603,18 @@
         padding: 0 1px;
       }
 
+      #kits-container .products-nav {
+        top: 120px;
+      }
+
       .products-nav button {
         font-size: 24px;
+      }
+
+      #kits-container .products-nav button {
+        font-size: 20px;
+        width: 30px;
+        height: 30px;
       }
     }
   </style>
@@ -529,62 +682,62 @@
     </div>
   </div>
 
-  <h2 class="section-title">25/26 Season Kits</h2>
-  <div class="products-container">
+  <h2 class="section-title" id="kits-title">25/26 Season Kits</h2>
+  <div class="products-container" id="kits-container">
     <div class="products" id="products">
-      <a href="#" class="product-card">
+      <a href="real-madrid-home.html" class="product-card" onclick="smoothRedirect(event, 'real-madrid-home.html')">
         <img src="media/rma.jpg" alt="Real Madrid CF Home 25/26">
         <div class="product-info">
           <h3>Real Madrid CF Home 25/26</h3>
           <p>₹8000</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="barcelona-home.html" class="product-card" onclick="smoothRedirect(event, 'barcelona-home.html')">
         <img src="media/fcb.jpg" alt="FC Barcelona Home 25/26">
         <div class="product-info">
           <h3>FC Barcelona Home 25/26</h3>
           <p>₹7500</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="psg-home.html" class="product-card" onclick="smoothRedirect(event, 'psg-home.html')">
         <img src="media/psg.jpg" alt="PSG FC Home 25/26">
         <div class="product-info">
           <h3>PSG FC Home 25/26</h3>
           <p>₹8000</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="spurs-away.html" class="product-card" onclick="smoothRedirect(event, 'spurs-away.html')">
         <img src="media/tot.jpg" alt="Spurs FC Away 25/26">
         <div class="product-info">
           <h3>Spurs FC Away 25/26</h3>
           <p>₹6800</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="acmilan-home.html" class="product-card" onclick="smoothRedirect(event, 'acmilan-home.html')">
         <img src="media/acm.jpg" alt="AC Milan FC Home 25/26">
         <div class="product-info">
           <h3>AC Milan FC Home 25/26</h3>
           <p>₹7000</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="bayern-away.html" class="product-card" onclick="smoothRedirect(event, 'bayern-away.html')">
         <img src="media/bayern.jpg" alt="FC Bayern Munich Away 25/26">
         <div class="product-info">
           <h3>FC Bayern Munich Away 25/26</h3>
           <p>₹6500</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="intermilan-home.html" class="product-card" onclick="smoothRedirect(event, 'intermilan-home.html')">
         <img src="media/inter.jpg" alt="Inter Milan Home 25/26">
         <div class="product-info">
           <h3>Inter Milan Home 25/26</h3>
           <p>₹7000</p>
         </div>
       </a>
-      <a href="#" class="product-card">
-        <img src="media/chelsea.jpg" alt="Chelsea FC Home 25/26">
+      <a href="manu-home.html" class="product-card" onclick="smoothRedirect(event, 'manu-home.html')">
+        <img src="media/man u.jpg" alt="Man UTD Home 25/26">
         <div class="product-info">
-          <h3>Chelsea FC Home 25/26</h3>
+          <h3>Man UTD Home 25/26</h3>
           <p>₹8000</p>
         </div>
       </a>
@@ -595,73 +748,219 @@
     </div>
   </div>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById('menu').classList.toggle('open');
-    }
+  <h2 class="section-title" id="exclusives-title">Mesora Exclusives</h2>
+  <div class="products-container" id="exclusives-container">
+    <div class="products" id="products-exclusives">
+      <a href="#" class="product-card">
+        <img src="media/exclusive1.jpg" alt="Dawn Straight Fit Baggy Pants">
+        <div class="product-info">
+          <h3>Dawn Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
+        <div class="product-info">
+          <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Skorpion Boxy Oversized Tshirt</h3>
+          <p>₹1300</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
+        <div class="product-info">
+          <h3>Apex Red Boxy Vest</h3>
+          <p>₹999</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive5.jpg" alt="Athletica Jersey T-Shirt">
+        <div class="product-info">
+          <h3>Athletica Jersey T-Shirt</h3>
+          <p>₹1200</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive6.jpg" alt="Glock Black Full Sleeve T-Shirt">
+        <div class="product-info">
+          <h3>Glock Black Full Sleeve T-Shirt</h3>
+          <p>₹1400</p>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <img src="media/exclusive7.jpg" alt="Prism Black Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Prism Black Boxy Oversized Tshirt</h3>
+          <p>₹1400</p>
+        </div>
+      </a>
+    </div>
+    <div class="products-nav">
+      <button class="prev" onclick="prevProductExclusives()">‹</button>
+      <button class="next" onclick="nextProductExclusives()">›</button>
+    </div>
+  </div>
 
-    // Main carousel
-    const slides = document.querySelectorAll('.carousel-item');
-    const dots = document.querySelectorAll('.carousel-dot');
-    let currentSlide = 0;
-    let fadeInterval;
+  <div class="footer-spacer"></div>
 
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.remove('active');
-        dots[i].classList.remove('active');
-      });
-      slides[index].classList.add('active');
-      dots[index].classList.add('active');
-    }
+  <footer>
+    <div class="footer-columns">
+      <div>
+        <a href="#">Contact Us</a>
+        <a href="#">My Order</a>
+        <a href="#">FAQs</a>
+        <a href="#">Email Unsubscribe</a>
+        <a href="#">Sitemap</a>
+      </div>
+      <div>
+        <a href="#">About MÉSORA</a>
+        <a href="#">Ethical Code</a>
+        <a href="#">Careers</a>
+        <a href="#">Legal</a>
+        <a href="#">Cookies Settings</a>
+      </div>
+      <div>
+        <a href="#">Store Locator</a>
+        <a href="#">Sign Up for Updates</a>
+        <a href="#">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+      <span>LICENSE #2294/17936 and 5647/17936</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
 
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % slides.length;
-      showSlide(currentSlide);
-    }
+<script>
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('open');
+  }
 
-    function prevSlide() {
-      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-      showSlide(currentSlide);
-    }
+  // Main carousel
+  const slides = document.querySelectorAll('.carousel-item');
+  const dots = document.querySelectorAll('.carousel-dot');
+  let currentSlide = 0;
+  let fadeInterval;
 
-    function goToSlide(index) {
-      currentSlide = index;
-      showSlide(currentSlide);
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        showSlide(0);
-      }, 100);
-      fadeInterval = setInterval(nextSlide, 5000);
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active');
+      dots[i].classList.remove('active');
     });
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+  }
 
-    // Products carousel
-    const productsContainer = document.getElementById('products');
-    let currentProductIndex = 0;
-    const productCards = document.querySelectorAll('.product-card');
-    const totalProducts = productCards.length;
-    const productsPerPage = 4;
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
 
-    function updateProducts() {
-      const translateX = -(currentProductIndex * (100 / productsPerPage));
-      productsContainer.style.transform = `translateX(${translateX}%)`;
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    showSlide(currentSlide);
+  }
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      showSlide(0);
+    }, 100);
+    fadeInterval = setInterval(nextSlide, 5000);
+  });
+
+  // Products carousel - 25/26 Season Kits
+  const productsContainer = document.getElementById('products');
+  let currentProductIndex = 0;
+  const productCards = document.querySelectorAll('#products .product-card');
+  const totalProducts = productCards.length;
+  const productsPerPage = 4;
+
+  function updateProducts() {
+    const translateX = -(currentProductIndex * (100 / productsPerPage));
+    productsContainer.style.transform = `translateX(${translateX}%)`;
+  }
+
+  function nextProduct() {
+    if (currentProductIndex < totalProducts - productsPerPage) {
+      currentProductIndex++;
+      updateProducts();
     }
+  }
 
-    function nextProduct() {
-      if (currentProductIndex < totalProducts - productsPerPage) {
-        currentProductIndex++;
-        updateProducts();
+  function prevProduct() {
+    if (currentProductIndex > 0) {
+      currentProductIndex--;
+      updateProducts();
+    }
+  }
+
+  // Products carousel - Mesora Exclusives
+  const productsContainerExclusives = document.getElementById('products-exclusives');
+  let currentProductIndexExclusives = 0;
+  const productCardsExclusives = document.querySelectorAll('#products-exclusives .product-card');
+  const totalProductsExclusives = productCardsExclusives.length;
+  const productsPerPageExclusives = 4;
+
+  function updateProductsExclusives() {
+    const translateX = -(currentProductIndexExclusives * (100 / productsPerPageExclusives));
+    productsContainerExclusives.style.transform = `translateX(${translateX}%)`;
+  }
+
+  function nextProductExclusives() {
+    if (currentProductIndexExclusives < totalProductsExclusives - productsPerPageExclusives) {
+      currentProductIndexExclusives++;
+      updateProductsExclusives();
+    }
+  }
+
+  function prevProductExclusives() {
+    if (currentProductIndexExclusives > 0) {
+      currentProductIndexExclusives--;
+      updateProductsExclusives();
+    }
+  }
+
+  // Scroll animation for sections
+  function handleScroll() {
+    const sections = [
+      { title: document.getElementById('kits-title'), container: document.getElementById('kits-container') },
+      { title: document.getElementById('exclusives-title'), container: document.getElementById('exclusives-container') }
+    ];
+
+    sections.forEach(section => {
+      const rect = section.container.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
+        if (section.title) section.title.classList.add('visible');
+        section.container.classList.add('visible');
       }
-    }
+    });
+  }
 
-    function prevProduct() {
-      if (currentProductIndex > 0) {
-        currentProductIndex--;
-        updateProducts();
-      }
-    }
-  </script>
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('load', handleScroll);
+
+  // Smooth redirect function with transition
+  function smoothRedirect(event, url) {
+    event.preventDefault();
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = url;
+    }, 500);
+  }
+</script>
 </body>
 </html>
