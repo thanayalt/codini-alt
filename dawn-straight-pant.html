@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inter Milan Home 25/26</title>
+  <title>Dawn Straight Fit Baggy Pants</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * {
@@ -272,7 +272,7 @@
       overflow-y: auto;
       padding: 20px;
     }
-
+    
     .cart-item {
       display: flex;
       gap: 15px;
@@ -345,7 +345,7 @@
       font-weight: bold;
       margin-bottom: 20px;
     }
-
+    
     .checkout-btn {
       width: 100%;
       padding: 15px;
@@ -428,7 +428,7 @@
       padding: 10px;
       cursor: pointer;
       font-size: 24px;
-      z-index: 1;
+      z-index: 10;
       transition: color 0.3s ease;
     }
 
@@ -658,10 +658,20 @@
       height: 100%;
       object-fit: contain;
       object-position: center;
+      background-color: #f5f5f5;
+      transform: scale(1.2);
       transition: transform 0.5s ease;
     }
 
     .recommendations .product-card:hover img {
+      transform: scale(1.26);
+    }
+
+    .recommendations .product-card[href="skin-raudra-pant.html"] img {
+      transform: scale(1.0);
+    }
+
+    .recommendations .product-card[href="skin-raudra-pant.html"]:hover img {
       transform: scale(1.05);
     }
 
@@ -742,7 +752,7 @@
     }
   </style>
 </head>
-<body>
+<body class="loaded">
   <div class="header">
     <div class="left-header">
       <div class="menu-toggle" onclick="toggleMenu()">
@@ -801,20 +811,20 @@
   <div class="product-container">
     <div class="product-gallery">
       <div class="thumbnail-images">
-        <img src="media/inter1.jpg" alt="Inter Milan Home 25/26 Thumbnail 1" class="thumbnail active" onclick="changeImage('media/inter1.jpg')">
-        <img src="media/inter2.jpg" alt="Inter Milan Home 25/26 Thumbnail 2" class="thumbnail" onclick="changeImage('media/inter2.jpg')">
-        <img src="media/inter3.jpg" alt="Inter Milan Home 25/26 Thumbnail 3" class="thumbnail" onclick="changeImage('media/inter3.jpg')">
-        <img src="media/inter4.jpg" alt="Inter Milan Home 25/26 Thumbnail 4" class="thumbnail" onclick="changeImage('media/inter4.jpg')">
+        <img src="media/dawnp1.jpg" alt="Dawn Straight Fit Baggy Pants Thumbnail 1" class="thumbnail active" onclick="changeImage('media/dawnp1.jpg')">
+        <img src="media/dawnp2.jpg" alt="Dawn Straight Fit Baggy Pants Thumbnail 2" class="thumbnail" onclick="changeImage('media/dawnp2.jpg')">
+        <img src="media/dawnp3.jpg" alt="Dawn Straight Fit Baggy Pants Thumbnail 3" class="thumbnail" onclick="changeImage('media/dawnp3.jpg')">
+        <img src="media/dawnp4.jpg" alt="Dawn Straight Fit Baggy Pants Thumbnail 4" class="thumbnail" onclick="changeImage('media/dawnp4.jpg')">
       </div>
       <div class="main-image-container">
         <button class="carousel-arrow arrow-left" onclick="prevImage()">❮</button>
-        <img src="media/inter1.jpg" alt="Inter Milan Home 25/26" class="main-image" id="main-product-image">
+        <img src="media/dawnp1.jpg" alt="Dawn Straight Fit Baggy Pants" class="main-image" id="main-product-image">
         <button class="carousel-arrow arrow-right" onclick="nextImage()">❯</button>
       </div>
     </div>
     <div class="product-details">
-      <h1>Inter Milan Home 25/26</h1>
-      <p class="price">₹7000</p>
+      <h1>Dawn Straight Fit Baggy Pants</h1>
+      <p class="price">₹1700</p>
       <div class="size-selector">
         <label>Size</label>
         <div class="sizes">
@@ -841,7 +851,7 @@
           <div class="info-box" onclick="toggleDropdown(this)">
             <h2>Product Description <span>⯆</span></h2>
             <div class="dropdown-content">
-              <p>Showcasing a bold new look. This Inter Milan home authentic jersey celebrates the club's iconic blue and black stripes with a modern twist, designed for the 25/26 season. Crafted for peak performance, it features a lightweight construction and a heat-applied club crest for ultimate fan pride.</p>
+              <p>Embrace effortless style with the Dawn Straight Fit Baggy Pants. Designed for comfort and versatility, these pants feature a relaxed silhouette with a modern straight fit, perfect for casual outings or elevated streetwear looks. Crafted with premium materials, they offer durability and a soft feel, ensuring all-day wearability.</p>
             </div>
           </div>
         </div>
@@ -850,10 +860,10 @@
             <h2>Product Details <span>⯆</span></h2>
             <div class="dropdown-content">
               <ul>
-                <li>Slim fit;</li>
-                <li>V-neck;</li>
-                <li>100% polyester (recycled);</li>
-                <li>Inter Milan heat-applied crest;</li>
+                <li>Relaxed straight fit;</li>
+                <li>Elasticated waistband;</li>
+                <li>100% cotton;</li>
+                <li>Side and back pockets;</li>
               </ul>
             </div>
           </div>
@@ -865,32 +875,32 @@
   <div class="recommendations">
     <h2>WE THINK YOU'D LIKE</h2>
     <div class="products">
-      <a href="barcelona-home.html" class="product-card" onclick="smoothRedirect(event, 'barcelona-home.html')">
-        <img src="media/fcb.jpg" alt="FC Barcelona Home 25/26">
+      <a href="skin-raudra-pant.html" class="product-card" onclick="smoothRedirect(event, 'skin-raudra-pant.html')">
+        <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
         <div class="product-info">
-          <h3>FC Barcelona Home 25/26</h3>
-          <p>₹7500</p>
+          <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
         </div>
       </a>
-      <a href="bayern-away.html" class="product-card" onclick="smoothRedirect(event, 'bayern-away.html')">
-        <img src="media/bayern.jpg" alt="FC Bayern Munich Away 25/26">
+      <a href="skorpion-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'skorpion-boxy-tshirt.html')">
+        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
         <div class="product-info">
-          <h3>FC Bayern Munich Away 25/26</h3>
-          <p>₹6500</p>
+          <h3>Skorpion Boxy Oversized Tshirt</h3>
+          <p>₹1300</p>
         </div>
       </a>
-      <a href="manu-home.html" class="product-card" onclick="smoothRedirect(event, 'manu-home.html')">
-        <img src="media/manu.jpg" alt="Man UTD Home 25/26">
+      <a href="apex-vest.html" class="product-card" onclick="smoothRedirect(event, 'apex-vest.html')">
+        <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
         <div class="product-info">
-          <h3>Man UTD Home 25/26</h3>
-          <p>₹8000</p>
+          <h3>Apex Red Boxy Vest</h3>
+          <p>₹999</p>
         </div>
       </a>
-      <a href="spurs-away.html" class="product-card" onclick="smoothRedirect(event, 'spurs-away.html')">
-        <img src="media/tot.jpg" alt="Spurs FC Away 25/26">
+      <a href="athletica-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'athletica-tshirt.html')">
+        <img src="media/exclusive5.jpg" alt="Athletica Jersey T-Shirt">
         <div class="product-info">
-          <h3>Spurs FC Away 25/26</h3>
-          <p>₹6800</p>
+          <h3>Athletica Jersey T-Shirt</h3>
+          <p>₹1200</p>
         </div>
       </a>
     </div>
@@ -929,10 +939,10 @@
 
   <script>
     const images = [
-      'media/inter1.jpg',
-      'media/inter2.jpg',
-      'media/inter3.jpg',
-      'media/inter4.jpg'
+      'media/dawnp1.jpg',
+      'media/dawnp2.jpg',
+      'media/dawnp3.jpg',
+      'media/dawnp4.jpg'
     ];
     let currentImageIndex = 0;
 
@@ -1009,6 +1019,7 @@
         alert('Your cart is empty. Please add items to proceed to checkout.');
         return;
       }
+      const cartModal = document.getElementById('cart-modal');
       cartModal.classList.remove('open');
       document.body.classList.remove('cart-open');
       smoothRedirect({ preventDefault: () => {} }, 'checkout.html');
@@ -1065,68 +1076,68 @@
         };
         cart.push(newItem);
       }
-
+      
       saveCart(cart);
       toggleCart();
     }
 
     function updateCartDisplay() {
-      const cart = getCart();
-      const cartBody = document.querySelector('.cart-body');
-      const cartQuantityEl = document.querySelector('.cart-quantity');
-      const subtotalEl = document.getElementById('subtotal-price');
+        const cart = getCart();
+        const cartBody = document.querySelector('.cart-body');
+        const cartQuantityEl = document.querySelector('.cart-quantity');
+        const subtotalEl = document.getElementById('subtotal-price');
 
-      cartBody.innerHTML = '';
-      let totalQuantity = 0;
-      let subtotal = 0;
+        cartBody.innerHTML = '';
+        let totalQuantity = 0;
+        let subtotal = 0;
 
-      if (cart.length === 0) {
-        cartBody.innerHTML = '<p>Your cart is empty.</p>';
-      } else {
-        cart.forEach((item, index) => {
-          const itemEl = document.createElement('div');
-          itemEl.classList.add('cart-item');
-          itemEl.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
-            <div class="cart-item-details">
-              <div class="cart-item-title">${item.name}</div>
-              <div class="cart-item-price">₹${item.price.toFixed(2)}</div>
-              <div class="cart-item-size">Size: ${item.size}</div>
-              <div class="cart-item-actions">
-                <div class="cart-item-quantity">
-                  <button onclick="updateItemQuantity(${index}, -1)">-</button>
-                  <span>${item.quantity}</span>
-                  <button onclick="updateItemQuantity(${index}, 1)">+</button>
-                </div>
-                <span class="remove-item" onclick="removeItemFromCart(${index})">Remove</span>
-              </div>
-            </div>
-          `;
-          cartBody.appendChild(itemEl);
-          subtotal += item.price * item.quantity;
-        });
-      }
-
-      totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-      cartQuantityEl.innerText = totalQuantity;
-      subtotalEl.innerText = `₹${subtotal.toFixed(2)}`;
+        if (cart.length === 0) {
+            cartBody.innerHTML = '<p>Your cart is empty.</p>';
+        } else {
+            cart.forEach((item, index) => {
+                const itemEl = document.createElement('div');
+                itemEl.classList.add('cart-item');
+                itemEl.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">₹${item.price.toFixed(2)}</div>
+                        <div class="cart-item-size">Size: ${item.size}</div>
+                        <div class="cart-item-actions">
+                            <div class="cart-item-quantity">
+                                <button onclick="updateItemQuantity(${index}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateItemQuantity(${index}, 1)">+</button>
+                            </div>
+                            <span class="remove-item" onclick="removeItemFromCart(${index})">Remove</span>
+                        </div>
+                    </div>
+                `;
+                cartBody.appendChild(itemEl);
+                subtotal += item.price * item.quantity;
+            });
+        }
+        
+        totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartQuantityEl.innerText = totalQuantity;
+        subtotalEl.innerText = `₹${subtotal.toFixed(2)}`;
     }
 
     function removeItemFromCart(index) {
-      let cart = getCart();
-      cart.splice(index, 1);
-      saveCart(cart);
+        let cart = getCart();
+        cart.splice(index, 1);
+        saveCart(cart);
     }
 
     function updateItemQuantity(index, change) {
-      let cart = getCart();
-      if (cart[index]) {
-        cart[index].quantity += change;
-        if (cart[index].quantity <= 0) {
-          cart.splice(index, 1);
+        let cart = getCart();
+        if (cart[index]) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
         }
-      }
-      saveCart(cart);
+        saveCart(cart);
     }
 
     document.addEventListener('DOMContentLoaded', updateCartDisplay);

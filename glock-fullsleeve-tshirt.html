@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inter Milan Home 25/26</title>
+  <title>Glock Black Full Sleeve T-Shirt</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * {
@@ -386,7 +386,7 @@
       object-fit: cover;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: border-color 0.3s ease;
+      transition: border-color: 0.3s ease;
     }
 
     .product-gallery .thumbnail:hover,
@@ -428,7 +428,7 @@
       padding: 10px;
       cursor: pointer;
       font-size: 24px;
-      z-index: 1;
+      z-index: 10;
       transition: color 0.3s ease;
     }
 
@@ -658,10 +658,22 @@
       height: 100%;
       object-fit: contain;
       object-position: center;
+      background-color: #f5f5f5;
+      transform: scale(1.2);
       transition: transform 0.5s ease;
     }
 
     .recommendations .product-card:hover img {
+      transform: scale(1.26);
+    }
+
+    .recommendations .product-card[href="skin-raudra-pant.html"] img,
+    .recommendations .product-card[href="dawn-straight-pant.html"] img {
+      transform: scale(1.0);
+    }
+
+    .recommendations .product-card[href="skin-raudra-pant.html"]:hover img,
+    .recommendations .product-card[href="dawn-straight-pant.html"]:hover img {
       transform: scale(1.05);
     }
 
@@ -801,20 +813,18 @@
   <div class="product-container">
     <div class="product-gallery">
       <div class="thumbnail-images">
-        <img src="media/inter1.jpg" alt="Inter Milan Home 25/26 Thumbnail 1" class="thumbnail active" onclick="changeImage('media/inter1.jpg')">
-        <img src="media/inter2.jpg" alt="Inter Milan Home 25/26 Thumbnail 2" class="thumbnail" onclick="changeImage('media/inter2.jpg')">
-        <img src="media/inter3.jpg" alt="Inter Milan Home 25/26 Thumbnail 3" class="thumbnail" onclick="changeImage('media/inter3.jpg')">
-        <img src="media/inter4.jpg" alt="Inter Milan Home 25/26 Thumbnail 4" class="thumbnail" onclick="changeImage('media/inter4.jpg')">
+        <img src="media/glockfst1.jpg" alt="Glock Black Full Sleeve T-Shirt Thumbnail 1" class="thumbnail active" onclick="changeImage('media/glockfst1.jpg')">
+        <img src="media/glockfst2.jpg" alt="Glock Black Full Sleeve T-Shirt Thumbnail 2" class="thumbnail" onclick="changeImage('media/glockfst2.jpg')">
       </div>
       <div class="main-image-container">
         <button class="carousel-arrow arrow-left" onclick="prevImage()">❮</button>
-        <img src="media/inter1.jpg" alt="Inter Milan Home 25/26" class="main-image" id="main-product-image">
+        <img src="media/glockfst1.jpg" alt="Glock Black Full Sleeve T-Shirt" class="main-image" id="main-product-image">
         <button class="carousel-arrow arrow-right" onclick="nextImage()">❯</button>
       </div>
     </div>
     <div class="product-details">
-      <h1>Inter Milan Home 25/26</h1>
-      <p class="price">₹7000</p>
+      <h1>Glock Black Full Sleeve T-Shirt</h1>
+      <p class="price">₹1400</p>
       <div class="size-selector">
         <label>Size</label>
         <div class="sizes">
@@ -841,7 +851,7 @@
           <div class="info-box" onclick="toggleDropdown(this)">
             <h2>Product Description <span>⯆</span></h2>
             <div class="dropdown-content">
-              <p>Showcasing a bold new look. This Inter Milan home authentic jersey celebrates the club's iconic blue and black stripes with a modern twist, designed for the 25/26 season. Crafted for peak performance, it features a lightweight construction and a heat-applied club crest for ultimate fan pride.</p>
+              <p>The Glock Black Full Sleeve T-Shirt offers a sleek, modern look with a comfortable fit. Perfect for cooler days or layering, this t-shirt is crafted from premium cotton, providing durability and breathability for all-day wear.</p>
             </div>
           </div>
         </div>
@@ -850,10 +860,10 @@
             <h2>Product Details <span>⯆</span></h2>
             <div class="dropdown-content">
               <ul>
-                <li>Slim fit;</li>
-                <li>V-neck;</li>
-                <li>100% polyester (recycled);</li>
-                <li>Inter Milan heat-applied crest;</li>
+                <li>Regular fit;</li>
+                <li>100% premium cotton;</li>
+                <li>Full-length sleeves;</li>
+                <li>Crew neck design;</li>
               </ul>
             </div>
           </div>
@@ -865,32 +875,32 @@
   <div class="recommendations">
     <h2>WE THINK YOU'D LIKE</h2>
     <div class="products">
-      <a href="barcelona-home.html" class="product-card" onclick="smoothRedirect(event, 'barcelona-home.html')">
-        <img src="media/fcb.jpg" alt="FC Barcelona Home 25/26">
+      <a href="dawn-straight-pant.html" class="product-card" onclick="smoothRedirect(event, 'dawn-straight-pant.html')">
+        <img src="media/exclusive1.jpg" alt="Dawn Straight Fit Baggy Pants">
         <div class="product-info">
-          <h3>FC Barcelona Home 25/26</h3>
-          <p>₹7500</p>
+          <h3>Dawn Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
         </div>
       </a>
-      <a href="bayern-away.html" class="product-card" onclick="smoothRedirect(event, 'bayern-away.html')">
-        <img src="media/bayern.jpg" alt="FC Bayern Munich Away 25/26">
+      <a href="skin-raudra-pant.html" class="product-card" onclick="smoothRedirect(event, 'skin-raudra-pant.html')">
+        <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
         <div class="product-info">
-          <h3>FC Bayern Munich Away 25/26</h3>
-          <p>₹6500</p>
+          <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
         </div>
       </a>
-      <a href="manu-home.html" class="product-card" onclick="smoothRedirect(event, 'manu-home.html')">
-        <img src="media/manu.jpg" alt="Man UTD Home 25/26">
+      <a href="skorpion-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'skorpion-boxy-tshirt.html')">
+        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
         <div class="product-info">
-          <h3>Man UTD Home 25/26</h3>
-          <p>₹8000</p>
+          <h3>Skorpion Boxy Oversized Tshirt</h3>
+          <p>₹1300</p>
         </div>
       </a>
-      <a href="spurs-away.html" class="product-card" onclick="smoothRedirect(event, 'spurs-away.html')">
-        <img src="media/tot.jpg" alt="Spurs FC Away 25/26">
+      <a href="apex-vest.html" class="product-card" onclick="smoothRedirect(event, 'apex-vest.html')">
+        <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
         <div class="product-info">
-          <h3>Spurs FC Away 25/26</h3>
-          <p>₹6800</p>
+          <h3>Apex Red Boxy Vest</h3>
+          <p>₹999</p>
         </div>
       </a>
     </div>
@@ -928,12 +938,7 @@
   </footer>
 
   <script>
-    const images = [
-      'media/inter1.jpg',
-      'media/inter2.jpg',
-      'media/inter3.jpg',
-      'media/inter4.jpg'
-    ];
+    const images = ['media/glockfst1.jpg', 'media/glockfst2.jpg'];
     let currentImageIndex = 0;
 
     function toggleMenu() {

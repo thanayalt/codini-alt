@@ -16,6 +16,16 @@
       font-family: 'Futura PT', 'Roboto', sans-serif;
       background-color: white;
       overflow-x: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    body.cart-open {
+      overflow: hidden;
     }
 
     a {
@@ -42,10 +52,61 @@
       gap: 30px;
     }
 
-    .right-placeholder {
+    .right-header {
       position: absolute;
       right: 40px;
-      width: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    .cart-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #000;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .cart-link svg {
+      stroke: #000;
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+      transition: stroke 0.3s ease, transform 0.3s ease;
+    }
+
+    .cart-link:hover svg {
+      stroke: #333;
+      transform: scale(1.1);
+    }
+
+    .cart-link span {
+      font-family: 'Futura PT', 'Roboto', sans-serif;
+      font-weight: 400;
+    }
+
+    .cart-quantity {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      transform: translate(40%, -40%);
     }
 
     .menu-toggle {
@@ -167,6 +228,136 @@
 
     .menu-items:hover .menu-item:hover {
       opacity: 1;
+    }
+
+    /* Cart Modal Styles */
+    .cart-modal {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      background: white;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      transition: right 0.4s ease;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-modal.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      color: #000;
+    }
+
+    .cart-header h2 {
+      font-size: 20px;
+    }
+
+    .cart-header .close-cart {
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .cart-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      color: #000;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+
+    .cart-item-details {
+      flex-grow: 1;
+    }
+
+    .cart-item-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .cart-item-price {
+      font-size: 14px;
+      color: #555;
+    }
+    .cart-item-size {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+    }
+
+    .cart-item-quantity button {
+      background: none;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .cart-item-quantity span {
+      padding: 0 10px;
+    }
+
+    .remove-item {
+      cursor: pointer;
+      color: red;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+      color: #000;
+    }
+
+    .cart-subtotal {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 15px;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
     }
 
     /* Carousel */
@@ -529,6 +720,7 @@
     }
 
     .footer-logo {
+      font-family: 'Didot', serif;
       font-size: 120px;
       text-align: center;
       letter-spacing: 40px;
@@ -631,8 +823,14 @@
         <span>Menu</span>
       </div>
     </div>
-    <div class="logo">MÉSORA</div>
-    <div class="right-placeholder"></div>
+    <a href="index.html" class="logo">MÉSORA</a>
+    <div class="right-header">
+      <div class="cart-link" onclick="toggleCart()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <span>Cart</span>
+        <span class="cart-quantity">0</span>
+      </div>
+    </div>
   </div>
 
   <div class="menu-overlay" id="menu">
@@ -648,6 +846,24 @@
       <div class="menu-item"><span>Jerseys</span> <span class="menu-arrow">›</span></div>
       <div class="menu-item"><span>Footwear</span> <span class="menu-arrow">›</span></div>
       <div class="menu-item"><span>Perfumes</span> <span class="menu-arrow">›</span></div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cart-modal">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <span class="close-cart" onclick="toggleCart()">✕</span>
+    </div>
+    <div class="cart-body">
+      <!-- Cart items will be injected here by JavaScript -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="subtotal-price">₹0</span>
+      </div>
+      <button class="checkout-btn" onclick="proceedToCheckout()">PROCEED TO CHECKOUT</button>
     </div>
   </div>
 
@@ -735,7 +951,7 @@
         </div>
       </a>
       <a href="manu-home.html" class="product-card" onclick="smoothRedirect(event, 'manu-home.html')">
-        <img src="media/man u.jpg" alt="Man UTD Home 25/26">
+        <img src="media/manu.jpg" alt="Man UTD Home 25/26">
         <div class="product-info">
           <h3>Man UTD Home 25/26</h3>
           <p>₹8000</p>
@@ -751,49 +967,49 @@
   <h2 class="section-title" id="exclusives-title">Mesora Exclusives</h2>
   <div class="products-container" id="exclusives-container">
     <div class="products" id="products-exclusives">
-      <a href="#" class="product-card">
+      <a href="dawn-straight-pant.html" class="product-card" onclick="smoothRedirect(event, 'dawn-straight-pant.html')">
         <img src="media/exclusive1.jpg" alt="Dawn Straight Fit Baggy Pants">
         <div class="product-info">
           <h3>Dawn Straight Fit Baggy Pants</h3>
           <p>₹1700</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="skin-raudra-pant.html" class="product-card" onclick="smoothRedirect(event, 'skin-raudra-pant.html')">
         <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
         <div class="product-info">
           <h3>Skin Raudra Straight Fit Baggy Pants</h3>
           <p>₹1700</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="skorpion-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'skorpion-boxy-tshirt.html')">
         <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
         <div class="product-info">
           <h3>Skorpion Boxy Oversized Tshirt</h3>
           <p>₹1300</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="apex-vest.html" class="product-card" onclick="smoothRedirect(event, 'apex-vest.html')">
         <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
         <div class="product-info">
           <h3>Apex Red Boxy Vest</h3>
           <p>₹999</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="athletica-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'athletica-tshirt.html')">
         <img src="media/exclusive5.jpg" alt="Athletica Jersey T-Shirt">
         <div class="product-info">
           <h3>Athletica Jersey T-Shirt</h3>
           <p>₹1200</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="glock-fullsleeve-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'glock-fullsleeve-tshirt.html')">
         <img src="media/exclusive6.jpg" alt="Glock Black Full Sleeve T-Shirt">
         <div class="product-info">
           <h3>Glock Black Full Sleeve T-Shirt</h3>
           <p>₹1400</p>
         </div>
       </a>
-      <a href="#" class="product-card">
+      <a href="prism-black-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'prism-black-boxy-tshirt.html')">
         <img src="media/exclusive7.jpg" alt="Prism Black Boxy Oversized Tshirt">
         <div class="product-info">
           <h3>Prism Black Boxy Oversized Tshirt</h3>
@@ -839,128 +1055,219 @@
     <div class="footer-logo">MÉSORA</div>
   </footer>
 
-<script>
-  function toggleMenu() {
-    document.getElementById('menu').classList.toggle('open');
-  }
+  <script>
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('open');
+    }
 
-  // Main carousel
-  const slides = document.querySelectorAll('.carousel-item');
-  const dots = document.querySelectorAll('.carousel-dot');
-  let currentSlide = 0;
-  let fadeInterval;
+    // Main carousel
+    const slides = document.querySelectorAll('.carousel-item');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let currentSlide = 0;
+    let fadeInterval;
 
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.remove('active');
-      dots[i].classList.remove('active');
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        dots[i].classList.remove('active');
+      });
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      showSlide(currentSlide);
+    }
+
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+      setTimeout(() => {
+        showSlide(0);
+      }, 100);
+      fadeInterval = setInterval(nextSlide, 5000);
     });
-    slides[index].classList.add('active');
-    dots[index].classList.add('active');
-  }
 
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
-  }
+    // Products carousel - 25/26 Season Kits
+    const productsContainer = document.getElementById('products');
+    let currentProductIndex = 0;
+    const productCards = document.querySelectorAll('#products .product-card');
+    const totalProducts = productCards.length;
+    const productsPerPage = 4;
 
-  function prevSlide() {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    showSlide(currentSlide);
-  }
-
-  function goToSlide(index) {
-    currentSlide = index;
-    showSlide(currentSlide);
-  }
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      showSlide(0);
-    }, 100);
-    fadeInterval = setInterval(nextSlide, 5000);
-  });
-
-  // Products carousel - 25/26 Season Kits
-  const productsContainer = document.getElementById('products');
-  let currentProductIndex = 0;
-  const productCards = document.querySelectorAll('#products .product-card');
-  const totalProducts = productCards.length;
-  const productsPerPage = 4;
-
-  function updateProducts() {
-    const translateX = -(currentProductIndex * (100 / productsPerPage));
-    productsContainer.style.transform = `translateX(${translateX}%)`;
-  }
-
-  function nextProduct() {
-    if (currentProductIndex < totalProducts - productsPerPage) {
-      currentProductIndex++;
-      updateProducts();
+    function updateProducts() {
+      const translateX = -(currentProductIndex * (100 / productsPerPage));
+      productsContainer.style.transform = `translateX(${translateX}%)`;
     }
-  }
 
-  function prevProduct() {
-    if (currentProductIndex > 0) {
-      currentProductIndex--;
-      updateProducts();
-    }
-  }
-
-  // Products carousel - Mesora Exclusives
-  const productsContainerExclusives = document.getElementById('products-exclusives');
-  let currentProductIndexExclusives = 0;
-  const productCardsExclusives = document.querySelectorAll('#products-exclusives .product-card');
-  const totalProductsExclusives = productCardsExclusives.length;
-  const productsPerPageExclusives = 4;
-
-  function updateProductsExclusives() {
-    const translateX = -(currentProductIndexExclusives * (100 / productsPerPageExclusives));
-    productsContainerExclusives.style.transform = `translateX(${translateX}%)`;
-  }
-
-  function nextProductExclusives() {
-    if (currentProductIndexExclusives < totalProductsExclusives - productsPerPageExclusives) {
-      currentProductIndexExclusives++;
-      updateProductsExclusives();
-    }
-  }
-
-  function prevProductExclusives() {
-    if (currentProductIndexExclusives > 0) {
-      currentProductIndexExclusives--;
-      updateProductsExclusives();
-    }
-  }
-
-  // Scroll animation for sections
-  function handleScroll() {
-    const sections = [
-      { title: document.getElementById('kits-title'), container: document.getElementById('kits-container') },
-      { title: document.getElementById('exclusives-title'), container: document.getElementById('exclusives-container') }
-    ];
-
-    sections.forEach(section => {
-      const rect = section.container.getBoundingClientRect();
-      if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
-        if (section.title) section.title.classList.add('visible');
-        section.container.classList.add('visible');
+    function nextProduct() {
+      if (currentProductIndex < totalProducts - productsPerPage) {
+        currentProductIndex++;
+        updateProducts();
       }
-    });
-  }
+    }
 
-  window.addEventListener('scroll', handleScroll);
-  window.addEventListener('load', handleScroll);
+    function prevProduct() {
+      if (currentProductIndex > 0) {
+        currentProductIndex--;
+        updateProducts();
+      }
+    }
 
-  // Smooth redirect function with transition
-  function smoothRedirect(event, url) {
-    event.preventDefault();
-    document.body.style.transition = 'opacity 0.5s ease';
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-      window.location.href = url;
-    }, 500);
-  }
-</script>
+    // Products carousel - Mesora Exclusives
+    const productsContainerExclusives = document.getElementById('products-exclusives');
+    let currentProductIndexExclusives = 0;
+    const productCardsExclusives = document.querySelectorAll('#products-exclusives .product-card');
+    const totalProductsExclusives = productCardsExclusives.length;
+    const productsPerPageExclusives = 4;
+
+    function updateProductsExclusives() {
+      const translateX = -(currentProductIndexExclusives * (100 / productsPerPageExclusives));
+      productsContainerExclusives.style.transform = `translateX(${translateX}%)`;
+    }
+
+    function nextProductExclusives() {
+      if (currentProductIndexExclusives < totalProductsExclusives - productsPerPageExclusives) {
+        currentProductIndexExclusives++;
+        updateProductsExclusives();
+      }
+    }
+
+    function prevProductExclusives() {
+      if (currentProductIndexExclusives > 0) {
+        currentProductIndexExclusives--;
+        updateProductsExclusives();
+      }
+    }
+
+    // Scroll animation for sections
+    function handleScroll() {
+      const sections = [
+        { title: document.getElementById('kits-title'), container: document.getElementById('kits-container') },
+        { title: document.getElementById('exclusives-title'), container: document.getElementById('exclusives-container') }
+      ];
+
+      sections.forEach(section => {
+        const rect = section.container.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
+          if (section.title) section.title.classList.add('visible');
+          section.container.classList.add('visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', handleScroll);
+
+    // Smooth redirect function with transition
+    function smoothRedirect(event, url) {
+      event.preventDefault();
+      document.body.style.transition = 'opacity 0.5s ease';
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    }
+
+    // Proceed to checkout
+    function proceedToCheckout() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert('Your cart is empty. Please add items to proceed to checkout.');
+        return;
+      }
+      cartModal.classList.remove('open');
+      document.body.classList.remove('cart-open');
+      smoothRedirect({ preventDefault: () => {} }, 'checkout.html');
+    }
+
+    // Cart Logic
+    const cartModal = document.getElementById('cart-modal');
+
+    function toggleCart() {
+      cartModal.classList.toggle('open');
+      document.body.classList.toggle('cart-open');
+    }
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const cart = getCart();
+      const cartBody = document.querySelector('.cart-body');
+      const cartQuantityEl = document.querySelector('.cart-quantity');
+      const subtotalEl = document.getElementById('subtotal-price');
+
+      cartBody.innerHTML = '';
+      let totalQuantity = 0;
+      let subtotal = 0;
+
+      if (cart.length === 0) {
+        cartBody.innerHTML = '<p>Your cart is empty.</p>';
+      } else {
+        cart.forEach((item, index) => {
+          const itemEl = document.createElement('div');
+          itemEl.classList.add('cart-item');
+          itemEl.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.name}</div>
+              <div class="cart-item-price">₹${item.price.toFixed(2)}</div>
+              <div class="cart-item-size">Size: ${item.size}</div>
+              <div class="cart-item-actions">
+                <div class="cart-item-quantity">
+                  <button onclick="updateItemQuantity(${index}, -1)">-</button>
+                  <span>${item.quantity}</span>
+                  <button onclick="updateItemQuantity(${index}, 1)">+</button>
+                </div>
+                <span class="remove-item" onclick="removeItemFromCart(${index})">Remove</span>
+              </div>
+            </div>
+          `;
+          cartBody.appendChild(itemEl);
+          subtotal += item.price * item.quantity;
+        });
+      }
+
+      totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartQuantityEl.innerText = totalQuantity;
+      subtotalEl.innerText = `₹${subtotal.toFixed(2)}`;
+    }
+
+    function removeItemFromCart(index) {
+      let cart = getCart();
+      cart.splice(index, 1);
+      saveCart(cart);
+    }
+
+    function updateItemQuantity(index, change) {
+      let cart = getCart();
+      if (cart[index]) {
+        cart[index].quantity += change;
+        if (cart[index].quantity <= 0) {
+          cart.splice(index, 1);
+        }
+      }
+      saveCart(cart);
+    }
+
+    document.addEventListener('DOMContentLoaded', updateCartDisplay);
+  </script>
 </body>
 </html>

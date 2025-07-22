@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inter Milan Home 25/26</title>
+  <title>Prism Black Boxy Oversized Tshirt</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * {
@@ -293,10 +293,12 @@
       font-size: 14px;
       font-weight: 500;
     }
+
     .cart-item-price {
       font-size: 14px;
       color: #555;
     }
+
     .cart-item-size {
       font-size: 12px;
       color: #777;
@@ -374,13 +376,13 @@
       position: relative;
     }
 
-    .product-gallery .thumbnail-images {
+    .thumbnail-images {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .product-gallery .thumbnail {
+    .thumbnail {
       width: 80px;
       height: 80px;
       object-fit: cover;
@@ -389,36 +391,36 @@
       transition: border-color 0.3s ease;
     }
 
-    .product-gallery .thumbnail:hover,
-    .product-gallery .thumbnail.active {
+    .thumbnail:hover,
+    .thumbnail.active {
       border-color: #000;
     }
 
-    .product-gallery .main-image-container {
+    .main-image-container {
       position: relative;
       width: 100%;
       max-width: 500px;
       overflow: hidden;
     }
 
-    .product-gallery .main-image {
+    .main-image {
       width: 100%;
       max-width: 500px;
       transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
       opacity: 1;
     }
 
-    .product-gallery .main-image.fade-out {
+    .main-image.fade-out {
       opacity: 0;
       transform: translateX(-20px);
     }
 
-    .product-gallery .main-image.fade-in {
+    .main-image.fade-in {
       opacity: 1;
       transform: translateX(0);
     }
 
-    .product-gallery .carousel-arrow {
+    .carousel-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -428,19 +430,19 @@
       padding: 10px;
       cursor: pointer;
       font-size: 24px;
-      z-index: 1;
+      z-index: 10;
       transition: color 0.3s ease;
     }
 
-    .product-gallery .carousel-arrow:hover {
+    .carousel-arrow:hover {
       color: #333;
     }
 
-    .product-gallery .arrow-left {
+    .arrow-left {
       left: 10px;
     }
 
-    .product-gallery .arrow-right {
+    .arrow-right {
       right: 10px;
     }
 
@@ -457,51 +459,51 @@
       margin-bottom: 20px;
     }
 
-    .product-details .price {
+    .price {
       font-size: 24px;
       font-weight: 500;
       color: #333;
       margin-bottom: 20px;
     }
 
-    .product-details .size-selector,
-    .product-details .quantity-selector {
+    .size-selector,
+    .quantity-selector {
       margin-bottom: 20px;
     }
 
-    .product-details label {
+    label {
       display: block;
       margin-bottom: 10px;
       font-weight: 500;
     }
 
-    .product-details .sizes {
+    .sizes {
       display: flex;
       gap: 10px;
     }
 
-    .product-details .size-option {
+    .size-option {
       padding: 10px 20px;
       border: 1px solid #ccc;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .product-details .size-option:hover,
-    .product-details .size-option.selected {
+    .size-option:hover,
+    .size-option.selected {
       background-color: #000;
       color: #fff;
       border-color: #000;
     }
 
-    .product-details .quantity-input {
+    .quantity-input {
       display: flex;
       align-items: center;
       border: 1px solid #ccc;
       width: fit-content;
     }
 
-    .product-details .quantity-btn {
+    .quantity-btn {
       background: none;
       border: none;
       padding: 10px;
@@ -509,20 +511,20 @@
       font-size: 18px;
     }
 
-    .product-details #quantity {
+    #quantity {
       width: 40px;
       text-align: center;
       border: none;
       font-size: 16px;
     }
 
-    .product-details .actions {
+    .actions {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .product-details .btn {
+    .btn {
       padding: 15px;
       border: none;
       cursor: pointer;
@@ -531,13 +533,13 @@
       transition: background-color 0.3s ease;
     }
 
-    .product-details .btn-add-to-cart {
+    .btn-add-to-cart {
       background-color: #fff;
       color: #000;
       border: 2px solid #000;
     }
 
-    .product-details .btn-add-to-cart:hover {
+    .btn-add-to-cart:hover {
       background-color: #f0f0f0;
     }
 
@@ -545,11 +547,11 @@
       margin-top: 20px;
     }
 
-    .product-info .info-section {
+    .info-section {
       margin-bottom: 15px;
     }
 
-    .product-info .info-box {
+    .info-box {
       background: linear-gradient(180deg, #f5f7fa, #e8ecef);
       padding: 20px;
       border-radius: 10px;
@@ -560,11 +562,11 @@
       transition: background 0.6s ease-in-out, color 0.6s ease-in-out;
     }
 
-    .product-info .info-box:hover {
+    .info-box:hover {
       background: linear-gradient(180deg, #f0f5ff, #e6f0ff);
     }
 
-    .product-info .info-box h2 {
+    .info-box h2 {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -575,19 +577,19 @@
       transition: color 0.6s ease-in-out;
     }
 
-    .product-info .info-box:hover h2 {
+    .info-box:hover h2 {
       color: #003087;
     }
 
-    .product-info .info-box h2 span {
+    .info-box h2 span {
       transition: transform 0.6s ease-in-out;
     }
 
-    .product-info .info-box.active h2 span {
+    .info-box.active h2 span {
       transform: rotate(180deg);
     }
 
-    .product-info .info-box .dropdown-content {
+    .info-box .dropdown-content {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
@@ -596,26 +598,26 @@
       padding: 0 20px;
     }
 
-    .product-info .info-box .dropdown-content.show {
+    .info-box .dropdown-content.show {
       max-height: 500px;
       opacity: 1;
       transform: translateY(0);
       padding: 20px;
     }
 
-    .product-info .info-box .dropdown-content p,
-    .product-info .info-box .dropdown-content ul {
+    .info-box .dropdown-content p,
+    .info-box .dropdown-content ul {
       margin: 0;
       padding: 0;
       color: rgba(0, 0, 0, 0.7);
     }
 
-    .product-info .info-box .dropdown-content ul {
+    .info-box .dropdown-content ul {
       list-style: none;
       padding-left: 20px;
     }
 
-    .product-info .info-box .dropdown-content ul li:before {
+    .info-box .dropdown-content ul li:before {
       content: "✔";
       margin-right: 8px;
       color: rgba(0, 0, 0, 0.7);
@@ -662,7 +664,7 @@
     }
 
     .recommendations .product-card:hover img {
-      transform: scale(1.05);
+      transform: scale(1.26);
     }
 
     .recommendations .product-info {
@@ -794,27 +796,26 @@
         <span>Subtotal</span>
         <span id="subtotal-price">₹0</span>
       </div>
-      <button class="checkout-btn" onclick="proceedToCheckout()">PROCEED TO CHECKOUT</button>
+      <button class="checkout-btn" onclick="proceedToCheckout()" aria-label="Proceed to checkout">PROCEED TO CHECKOUT</button>
     </div>
   </div>
 
   <div class="product-container">
     <div class="product-gallery">
       <div class="thumbnail-images">
-        <img src="media/inter1.jpg" alt="Inter Milan Home 25/26 Thumbnail 1" class="thumbnail active" onclick="changeImage('media/inter1.jpg')">
-        <img src="media/inter2.jpg" alt="Inter Milan Home 25/26 Thumbnail 2" class="thumbnail" onclick="changeImage('media/inter2.jpg')">
-        <img src="media/inter3.jpg" alt="Inter Milan Home 25/26 Thumbnail 3" class="thumbnail" onclick="changeImage('media/inter3.jpg')">
-        <img src="media/inter4.jpg" alt="Inter Milan Home 25/26 Thumbnail 4" class="thumbnail" onclick="changeImage('media/inter4.jpg')">
+        <img src="media/prismboxy1.jpg" alt="Prism Black Boxy Oversized Tshirt Thumbnail 1" class="thumbnail active" onclick="changeImage('media/prismboxy1.jpg')">
+        <img src="media/prismboxy2.jpg" alt="Prism Black Boxy Oversized Tshirt Thumbnail 2" class="thumbnail" onclick="changeImage('media/prismboxy2.jpg')">
+        <img src="media/prismboxy3.jpg" alt="Prism Black Boxy Oversized Tshirt Thumbnail 3" class="thumbnail" onclick="changeImage('media/prismboxy3.jpg')">
       </div>
       <div class="main-image-container">
-        <button class="carousel-arrow arrow-left" onclick="prevImage()">❮</button>
-        <img src="media/inter1.jpg" alt="Inter Milan Home 25/26" class="main-image" id="main-product-image">
-        <button class="carousel-arrow arrow-right" onclick="nextImage()">❯</button>
+        <button class="carousel-arrow arrow-left" onclick="prevImage()" aria-label="Previous image">‹</button>
+        <img src="media/prismboxy1.jpg" alt="Prism Black Boxy Oversized Tshirt" class="main-image" id="main-product-image">
+        <button class="carousel-arrow arrow-right" onclick="nextImage()" aria-label="Next image">›</button>
       </div>
     </div>
     <div class="product-details">
-      <h1>Inter Milan Home 25/26</h1>
-      <p class="price">₹7000</p>
+      <h1>Prism Black Boxy Oversized Tshirt</h1>
+      <p class="price">₹1400</p>
       <div class="size-selector">
         <label>Size</label>
         <div class="sizes">
@@ -828,20 +829,20 @@
       <div class="quantity-selector">
         <label>Quantity</label>
         <div class="quantity-input">
-          <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+          <button class="quantity-btn" onclick="changeQuantity(-1)" aria-label="Decrease quantity">-</button>
           <input type="text" id="quantity" value="1" readonly>
-          <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+          <button class="quantity-btn" onclick="changeQuantity(1)" aria-label="Increase quantity">+</button>
         </div>
       </div>
       <div class="actions">
-        <button class="btn btn-add-to-cart" onclick="addToCart()">ADD TO CART</button>
+        <button class="btn btn-add-to-cart" onclick="addToCart()" aria-label="Add to cart">ADD TO CART</button>
       </div>
       <div class="product-info">
         <div class="info-section">
           <div class="info-box" onclick="toggleDropdown(this)">
             <h2>Product Description <span>⯆</span></h2>
             <div class="dropdown-content">
-              <p>Showcasing a bold new look. This Inter Milan home authentic jersey celebrates the club's iconic blue and black stripes with a modern twist, designed for the 25/26 season. Crafted for peak performance, it features a lightweight construction and a heat-applied club crest for ultimate fan pride.</p>
+              <p>The Prism Black Boxy Oversized Tshirt is a bold statement piece with a relaxed, oversized fit. Crafted from premium cotton, it offers supreme comfort and a modern silhouette, perfect for streetwear enthusiasts.</p>
             </div>
           </div>
         </div>
@@ -850,10 +851,10 @@
             <h2>Product Details <span>⯆</span></h2>
             <div class="dropdown-content">
               <ul>
-                <li>Slim fit;</li>
-                <li>V-neck;</li>
-                <li>100% polyester (recycled);</li>
-                <li>Inter Milan heat-applied crest;</li>
+                <li>Boxy oversized fit;</li>
+                <li>100% premium cotton;</li>
+                <li>Short sleeves;</li>
+                <li>Crew neck design;</li>
               </ul>
             </div>
           </div>
@@ -865,32 +866,32 @@
   <div class="recommendations">
     <h2>WE THINK YOU'D LIKE</h2>
     <div class="products">
-      <a href="barcelona-home.html" class="product-card" onclick="smoothRedirect(event, 'barcelona-home.html')">
-        <img src="media/fcb.jpg" alt="FC Barcelona Home 25/26">
+      <a href="dawn-straight-pant.html" class="product-card" onclick="smoothRedirect(event, 'dawn-straight-pant.html')">
+        <img src="media/exclusive1.jpg" alt="Dawn Straight Fit Baggy Pants">
         <div class="product-info">
-          <h3>FC Barcelona Home 25/26</h3>
-          <p>₹7500</p>
+          <h3>Dawn Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
         </div>
       </a>
-      <a href="bayern-away.html" class="product-card" onclick="smoothRedirect(event, 'bayern-away.html')">
-        <img src="media/bayern.jpg" alt="FC Bayern Munich Away 25/26">
+      <a href="skin-raudra-pant.html" class="product-card" onclick="smoothRedirect(event, 'skin-raudra-pant.html')">
+        <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
         <div class="product-info">
-          <h3>FC Bayern Munich Away 25/26</h3>
-          <p>₹6500</p>
+          <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
         </div>
       </a>
-      <a href="manu-home.html" class="product-card" onclick="smoothRedirect(event, 'manu-home.html')">
-        <img src="media/manu.jpg" alt="Man UTD Home 25/26">
+      <a href="skorpion-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'skorpion-boxy-tshirt.html')">
+        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
         <div class="product-info">
-          <h3>Man UTD Home 25/26</h3>
-          <p>₹8000</p>
+          <h3>Skorpion Boxy Oversized Tshirt</h3>
+          <p>₹1300</p>
         </div>
       </a>
-      <a href="spurs-away.html" class="product-card" onclick="smoothRedirect(event, 'spurs-away.html')">
-        <img src="media/tot.jpg" alt="Spurs FC Away 25/26">
+      <a href="apex-vest.html" class="product-card" onclick="smoothRedirect(event, 'apex-vest.html')">
+        <img src="media/exclusive4.jpg" alt="Apex Red Boxy Vest">
         <div class="product-info">
-          <h3>Spurs FC Away 25/26</h3>
-          <p>₹6800</p>
+          <h3>Apex Red Boxy Vest</h3>
+          <p>₹999</p>
         </div>
       </a>
     </div>
@@ -929,10 +930,9 @@
 
   <script>
     const images = [
-      'media/inter1.jpg',
-      'media/inter2.jpg',
-      'media/inter3.jpg',
-      'media/inter4.jpg'
+      'media/prismboxy1.jpg',
+      'media/prismboxy2.jpg',
+      'media/prismboxy3.jpg'
     ];
     let currentImageIndex = 0;
 
@@ -1047,7 +1047,7 @@
         return;
       }
       const productSize = selectedSizeEl.innerText;
-      const productId = productName.replace(/\s+/g, '-') + '-' + productSize;
+      const productId = productName.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + productSize;
 
       let cart = getCart();
       const existingItem = cart.find(item => item.id === productId);
@@ -1094,9 +1094,9 @@
               <div class="cart-item-size">Size: ${item.size}</div>
               <div class="cart-item-actions">
                 <div class="cart-item-quantity">
-                  <button onclick="updateItemQuantity(${index}, -1)">-</button>
+                  <button onclick="updateItemQuantity(${index}, -1)" aria-label="Decrease quantity">-</button>
                   <span>${item.quantity}</span>
-                  <button onclick="updateItemQuantity(${index}, 1)">+</button>
+                  <button onclick="updateItemQuantity(${index}, 1)" aria-label="Increase quantity">+</button>
                 </div>
                 <span class="remove-item" onclick="removeItemFromCart(${index})">Remove</span>
               </div>
