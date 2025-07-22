@@ -6,6 +6,12 @@
   <title>Checkout | MÉSORA</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("2yfMQ2NiKA3zpBNQW");
+    })();
+  </script>
   <style>
     * {
       margin: 0;
@@ -259,7 +265,7 @@
     }
 
     .payment-details.active {
-      max-height: 350px; /* Increased to accommodate the gap */
+      max-height: 350px;
       padding: 20px;
     }
 
@@ -284,16 +290,27 @@
       max-width: 150px;
       height: auto;
       display: block;
-      margin: 20px auto 0; /* Adjusted margin to create gap above QR code */
+      margin: 20px auto 0;
       border-radius: 6px;
       border: 1px solid #e9ecef;
       transition: opacity 0.3s ease;
     }
 
+    .order-confirmation {
+      text-align: center;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin: 40px auto;
+      max-width: 600px;
+      display: none;
+    }
+
     #qr-code-container {
       opacity: 0;
       animation: fadeIn 0.5s ease forwards;
-      margin-top: 20px; /* Added to create gap between QR code and UPI option */
+      margin-top: 20px;
     }
 
     @keyframes fadeIn {
@@ -392,12 +409,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 8px;
       height: 50px;
     }
 
     #place-order-btn .input-icon {
-      font-size: 18px;
+      font-size: 16px;
+      color: #ffffff;
       position: static;
       transform: none;
       line-height: 1;
@@ -482,6 +500,10 @@
 
       #place-order-btn {
         height: 48px;
+      }
+
+      #place-order-btn .input-icon {
+        font-size: 14px;
       }
     }
   </style>
@@ -651,6 +673,10 @@
   </div>
 
   <div id="empty-cart-message" style="display: none;"></div>
+  <div id="order-confirmation" class="order-confirmation" style="display: none;">
+    <h2>Order placed successfully!</h2>
+    <p>Check your email for the confirmation.</p>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -658,6 +684,8 @@
       const orderSummaryContainer = document.getElementById('order-summary-items');
       const checkoutContainer = document.getElementById('checkout-container');
       const emptyCartMessage = document.getElementById('empty-cart-message');
+      const form = document.getElementById('checkout-form-details');
+      const confirmation = document.getElementById('order-confirmation');
       
       const subtotalEl = document.getElementById('summary-subtotal');
       const shippingEl = document.getElementById('summary-shipping');
@@ -674,11 +702,9 @@
       }
 
       let subtotal = 0;
-      
       cart.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.classList.add('summary-item');
-        
         subtotal += item.price * item.quantity;
 
         itemElement.innerHTML = `
@@ -696,7 +722,7 @@
 
       const shippingCost = 50.00;
       const total = subtotal + shippingCost;
-      
+
       subtotalEl.innerText = `₹${subtotal.toFixed(2)}`;
       shippingEl.innerText = `₹${shippingCost.toFixed(2)}`;
       totalEl.innerText = `₹${total.toFixed(2)}`;
@@ -707,7 +733,6 @@
       paymentRadios.forEach(radio => {
         radio.addEventListener('change', (e) => {
           allDetails.forEach(detail => detail.classList.remove('active'));
-          
           const selectedDetail = document.getElementById(`${e.target.value}-details`);
           if (selectedDetail) {
             selectedDetail.classList.add('active');
@@ -715,10 +740,9 @@
         });
       });
 
-      const cardNumberInput = document.getElementById('card-number');
-      cardNumberInput.addEventListener('input', (e) => {
+      document.getElementById('card-number')?.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 16) value = value.slice(0, 16);
+        value = value.slice(0, 16);
         let formatted = '';
         for (let i = 0; i < value.length; i += 4) {
           formatted += value.slice(i, i + 4) + ' ';
@@ -726,8 +750,7 @@
         e.target.value = formatted.trim();
       });
 
-      const expiryInput = document.getElementById('expiry');
-      expiryInput.addEventListener('input', (e) => {
+      document.getElementById('expiry')?.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 4) value = value.slice(0, 4);
         if (value.length > 2) {
@@ -737,30 +760,59 @@
         }
       });
 
-      const cvcInput = document.getElementById('cvc');
-      cvcInput.addEventListener('input', (e) => {
+      document.getElementById('cvc')?.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 3) value = value.slice(0, 3);
-        e.target.value = value;
+        e.target.value = value.slice(0, 3);
       });
 
-      // Toggle QR code visibility
-      const generateQrLink = document.getElementById('generate-qr-link');
-      const qrCodeContainer = document.getElementById('qr-code-container');
-
-      generateQrLink.addEventListener('click', (e) => {
+      document.getElementById('generate-qr-link').addEventListener('click', (e) => {
         e.preventDefault();
+        const qrCodeContainer = document.getElementById('qr-code-container');
         qrCodeContainer.style.display = qrCodeContainer.style.display === 'none' ? 'block' : 'none';
       });
 
-      const checkoutForm = document.getElementById('checkout-form-details');
-      checkoutForm.addEventListener('submit', (e) => {
+      form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        alert('Order placed successfully! Thank you for shopping with MÉSORA.');
-        
-        localStorage.removeItem('cart');
-        window.location.href = 'index.html';
+
+        const orderId = 'ORD' + Math.floor(Math.random() * 1000000);
+        const formData = new FormData(form);
+        const items = JSON.parse(localStorage.getItem('cart') || '[]');
+
+        const orderItemsText = items
+          .map(item => `${item.name} - Size: ${item.size}, Qty: ${item.quantity}, ₹${(item.price * item.quantity).toFixed(2)}`)
+          .join('\n');
+
+        const templateParams = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          address: formData.get('address'),
+          city: formData.get('city'),
+          state: formData.get('state'),
+          pincode: formData.get('pincode'),
+          country: formData.get('country'),
+          paymentMethod: document.querySelector('input[name="payment_method"]:checked')?.value || 'Not specified',
+          orderId: orderId,
+          orderItems: orderItemsText,
+          subtotal: subtotal.toFixed(2),
+          shipping: shippingCost.toFixed(2),
+          total: total.toFixed(2),
+        };
+
+        emailjs.send('service_x5q4myf', 'template_reu7m1d', templateParams)
+          .then(() => {
+            confirmation.style.display = 'block';
+            checkoutContainer.style.display = 'none';
+            emptyCartMessage.style.display = 'none';
+            form.reset();
+            localStorage.removeItem('cart');
+          })
+          .catch((error) => {
+            alert('Order placed, but failed to send confirmation email: ' + error.text);
+            checkoutContainer.style.display = 'none';
+            emptyCartMessage.style.display = 'none';
+            form.reset();
+            localStorage.removeItem('cart');
+          });
       });
     });
   </script>
