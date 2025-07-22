@@ -96,7 +96,7 @@
       position: absolute;
       top: -8px;
       right: -8px;
-      background-color: red;
+      background-color: #e63946;
       color: white;
       border-radius: 50%;
       width: 18px;
@@ -420,32 +420,6 @@
       transform: translateX(0);
     }
 
-    .carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      color: #000;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      font-size: 24px;
-      z-index: 10;
-      transition: color 0.3s ease;
-    }
-
-    .carousel-arrow:hover {
-      color: #333;
-    }
-
-    .arrow-left {
-      left: 10px;
-    }
-
-    .arrow-right {
-      right: 10px;
-    }
-
     .product-details {
       flex: 1;
       padding: 40px;
@@ -664,13 +638,13 @@
     }
 
     .recommendations .product-card:hover img {
-      transform: scale(1.26);
+      transform: scale(1.05);
     }
 
     .recommendations .product-info {
       position: absolute;
       bottom: 10px;
-      left: 10px;
+      left: 30px;
       color: #fff;
       text-align: left;
       opacity: 0;
@@ -759,7 +733,7 @@
     <a href="index.html" class="logo">MÉSORA</a>
     <div class="right-header">
       <div class="cart-link" onclick="toggleCart()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
         <span>Cart</span>
         <span class="cart-quantity">0</span>
       </div>
@@ -804,13 +778,9 @@
     <div class="product-gallery">
       <div class="thumbnail-images">
         <img src="media/prismboxy1.jpg" alt="Prism Black Boxy Oversized Tshirt Thumbnail 1" class="thumbnail active" onclick="changeImage('media/prismboxy1.jpg')">
-        <img src="media/prismboxy2.jpg" alt="Prism Black Boxy Oversized Tshirt Thumbnail 2" class="thumbnail" onclick="changeImage('media/prismboxy2.jpg')">
-        <img src="media/prismboxy3.jpg" alt="Prism Black Boxy Oversized Tshirt Thumbnail 3" class="thumbnail" onclick="changeImage('media/prismboxy3.jpg')">
       </div>
       <div class="main-image-container">
-        <button class="carousel-arrow arrow-left" onclick="prevImage()" aria-label="Previous image">‹</button>
         <img src="media/prismboxy1.jpg" alt="Prism Black Boxy Oversized Tshirt" class="main-image" id="main-product-image">
-        <button class="carousel-arrow arrow-right" onclick="nextImage()" aria-label="Next image">›</button>
       </div>
     </div>
     <div class="product-details">
@@ -929,11 +899,7 @@
   </footer>
 
   <script>
-    const images = [
-      'media/prismboxy1.jpg',
-      'media/prismboxy2.jpg',
-      'media/prismboxy3.jpg'
-    ];
+    const images = ['media/prismboxy1.jpg'];
     let currentImageIndex = 0;
 
     function toggleMenu() {
@@ -941,11 +907,7 @@
     }
 
     function changeImage(src) {
-      const index = images.indexOf(src);
-      if (index !== -1) {
-        currentImageIndex = index;
-        updateImage(src);
-      }
+      updateImage(src);
     }
 
     function updateImage(src) {
@@ -959,16 +921,6 @@
         document.querySelectorAll('.thumbnail').forEach(e => e.classList.remove('active'));
         document.querySelector(`.thumbnail[src="${src}"]`).classList.add('active');
       }, 500);
-    }
-
-    function prevImage() {
-      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-      updateImage(images[currentImageIndex]);
-    }
-
-    function nextImage() {
-      currentImageIndex = (currentImageIndex + 1) % images.length;
-      updateImage(images[currentImageIndex]);
     }
 
     function selectSize(el) {
@@ -1009,6 +961,7 @@
         alert('Your cart is empty. Please add items to proceed to checkout.');
         return;
       }
+      const cartModal = document.getElementById('cart-modal');
       cartModal.classList.remove('open');
       document.body.classList.remove('cart-open');
       smoothRedirect({ preventDefault: () => {} }, 'checkout.html');
@@ -1047,7 +1000,7 @@
         return;
       }
       const productSize = selectedSizeEl.innerText;
-      const productId = productName.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + productSize;
+      const productId = productName.replace(/\s+/g, '-') + '-' + productSize;
 
       let cart = getCart();
       const existingItem = cart.find(item => item.id === productId);
