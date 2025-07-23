@@ -683,7 +683,7 @@
 
     .recommendations .product-card[href="skin-raudra-pant.html"]:hover img,
     .recommendations .product-card[href="dawn-straight-pant.html"]:hover img {
-      transform: scale(1.05);
+      reform: scale(1.05);
     }
 
     .recommendations .product-info {
@@ -854,7 +854,6 @@
       </div>
       <div class="actions">
         <button class="btn btn-add-to-cart" onclick="addToCart()">ADD TO CART</button>
-        <button class="btn btn-buy-it-now">BUY IT NOW</button>
       </div>
       <div class="product-info">
         <div class="info-section">
@@ -1110,7 +1109,7 @@
                         <div class="cart-item-size">Size: ${item.size}</div>
                         <div class="cart-item-actions">
                             <div class="cart-item-quantity">
-                                <button onclick="updateItemQuantity(${index}, -1)">-</button>
+                                <URIbutton onclick="updateItemQuantity(${index}, -1)">-</button>
                                 <span>${item.quantity}</span>
                                 <button onclick="updateItemQuantity(${index}, 1)">+</button>
                             </div>
@@ -1148,4 +1147,4 @@
     document.addEventListener('DOMContentLoaded', updateCartDisplay);
   </script>
 </body>
-</html>```
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skin Raudra Straight Fit Baggy Pants</title>
+  <title>Skorpion Boxy Oversized Tshirt</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * {
@@ -376,13 +376,13 @@
       position: relative;
     }
 
-    .thumbnail-images {
+    .product-gallery .thumbnail-images {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .thumbnail {
+    .product-gallery .thumbnail {
       width: 80px;
       height: 80px;
       object-fit: cover;
@@ -391,36 +391,36 @@
       transition: border-color 0.3s ease;
     }
 
-    .thumbnail:hover,
-    .thumbnail.active {
+    .product-gallery .thumbnail:hover,
+    .product-gallery .thumbnail.active {
       border-color: #000;
     }
 
-    .main-image-container {
+    .product-gallery .main-image-container {
       position: relative;
       width: 100%;
-      max-width: 500px;
+      max-width: 400px;
       overflow: hidden;
     }
 
-    .main-image {
+    .product-gallery .main-image {
       width: 100%;
-      max-width: 500px;
+      max-width: 400px;
       transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
       opacity: 1;
     }
 
-    .main-image.fade-out {
+    .product-gallery .main-image.fade-out {
       opacity: 0;
       transform: translateX(-20px);
     }
 
-    .main-image.fade-in {
+    .product-gallery .main-image.fade-in {
       opacity: 1;
       transform: translateX(0);
     }
 
-    .carousel-arrow {
+    .product-gallery .carousel-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -434,20 +434,15 @@
       transition: color 0.3s ease;
     }
 
-    .carousel-arrow:hover {
+    .product-gallery .carousel-arrow:hover {
       color: #333;
     }
 
-    .carousel-arrow.disabled {
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    .arrow-left {
+    .product-gallery .arrow-left {
       left: 10px;
     }
 
-    .arrow-right {
+    .product-gallery .arrow-right {
       right: 10px;
     }
 
@@ -464,51 +459,51 @@
       margin-bottom: 20px;
     }
 
-    .price {
+    .product-details .price {
       font-size: 24px;
       font-weight: 500;
       color: #333;
       margin-bottom: 20px;
     }
 
-    .size-selector,
-    .quantity-selector {
+    .product-details .size-selector,
+    .product-details .quantity-selector {
       margin-bottom: 20px;
     }
 
-    label {
+    .product-details label {
       display: block;
       margin-bottom: 10px;
       font-weight: 500;
     }
 
-    .sizes {
+    .product-details .sizes {
       display: flex;
       gap: 10px;
     }
 
-    .size-option {
+    .product-details .size-option {
       padding: 10px 20px;
       border: 1px solid #ccc;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .size-option:hover,
-    .size-option.selected {
+    .product-details .size-option:hover,
+    .product-details .size-option.selected {
       background-color: #000;
       color: #fff;
       border-color: #000;
     }
 
-    .quantity-input {
+    .product-details .quantity-input {
       display: flex;
       align-items: center;
       border: 1px solid #ccc;
       width: fit-content;
     }
 
-    .quantity-btn {
+    .product-details .quantity-btn {
       background: none;
       border: none;
       padding: 10px;
@@ -516,20 +511,20 @@
       font-size: 18px;
     }
 
-    #quantity {
+    .product-details #quantity {
       width: 40px;
       text-align: center;
       border: none;
       font-size: 16px;
     }
 
-    .actions {
+    .product-details .actions {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .btn {
+    .product-details .btn {
       padding: 15px;
       border: none;
       cursor: pointer;
@@ -538,13 +533,13 @@
       transition: background-color 0.3s ease;
     }
 
-    .btn-add-to-cart {
+    .product-details .btn-add-to-cart {
       background-color: #fff;
       color: #000;
       border: 2px solid #000;
     }
 
-    .btn-add-to-cart:hover {
+    .product-details .btn-add-to-cart:hover {
       background-color: #f0f0f0;
     }
 
@@ -552,11 +547,11 @@
       margin-top: 20px;
     }
 
-    .info-section {
+    .product-info .info-section {
       margin-bottom: 15px;
     }
 
-    .info-box {
+    .product-info .info-box {
       background: linear-gradient(180deg, #f5f7fa, #e8ecef);
       padding: 20px;
       border-radius: 10px;
@@ -567,11 +562,11 @@
       transition: background 0.6s ease-in-out, color 0.6s ease-in-out;
     }
 
-    .info-box:hover {
+    .product-info .info-box:hover {
       background: linear-gradient(180deg, #f0f5ff, #e6f0ff);
     }
 
-    .info-box h2 {
+    .product-info .info-box h2 {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -582,19 +577,19 @@
       transition: color 0.6s ease-in-out;
     }
 
-    .info-box:hover h2 {
+    .product-info .info-box:hover h2 {
       color: #003087;
     }
 
-    .info-box h2 span {
+    .product-info .info-box h2 span {
       transition: transform 0.6s ease-in-out;
     }
 
-    .info-box.active h2 span {
+    .product-info .info-box.active h2 span {
       transform: rotate(180deg);
     }
 
-    .info-box .dropdown-content {
+    .product-info .info-box .dropdown-content {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
@@ -603,26 +598,26 @@
       padding: 0 20px;
     }
 
-    .info-box .dropdown-content.show {
+    .product-info .info-box .dropdown-content.show {
       max-height: 500px;
       opacity: 1;
       transform: translateY(0);
       padding: 20px;
     }
 
-    .info-box .dropdown-content p,
-    .info-box .dropdown-content ul {
+    .product-info .info-box .dropdown-content p,
+    .product-info .info-box .dropdown-content ul {
       margin: 0;
       padding: 0;
       color: rgba(0, 0, 0, 0.7);
     }
 
-    .info-box .dropdown-content ul {
+    .product-info .info-box .dropdown-content ul {
       list-style: none;
       padding-left: 20px;
     }
 
-    .info-box .dropdown-content ul li:before {
+    .product-info .info-box .dropdown-content ul li:before {
       content: "✔";
       margin-right: 8px;
       color: rgba(0, 0, 0, 0.7);
@@ -665,25 +660,35 @@
       height: 100%;
       object-fit: contain;
       object-position: center;
+      background-color: #f5f5f5;
+      transform: scale(1.2);
       transition: transform 0.5s ease;
     }
 
     .recommendations .product-card:hover img {
+      transform: scale(1.26);
+    }
+
+    .recommendations .product-card[href="skin-raudra-pant.html"] img,
+    .recommendations .product-card[href="dawn-straight-pant.html"] img {
+      transform: scale(1.0);
+    }
+
+    .recommendations .product-card[href="skin-raudra-pant.html"]:hover img,
+    .recommendations .product-card[href="dawn-straight-pant.html"]:hover img {
       transform: scale(1.05);
     }
 
     .recommendations .product-info {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7);
+      bottom: 10px;
+      left: 10px;
       color: #fff;
       text-align: left;
       opacity: 0;
-      transform: translateY(100%);
+      transform: translateY(10px);
       transition: all 0.5s ease;
-      padding: 10px;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
       font-weight: 500;
     }
 
@@ -735,8 +740,7 @@
     }
 
     .footer-bottom {
-      display: flex;
-      justify-content: space-between;
+      display: facto justify-content: space-between;
       font-size: 14px;
       margin-top: 20px;
     }
@@ -803,24 +807,26 @@
         <span>Subtotal</span>
         <span id="subtotal-price">₹0</span>
       </div>
-      <button class="checkout-btn" onclick="proceedToCheckout()" aria-label="Proceed to checkout">PROCEED TO CHECKOUT</button>
+      <button class="checkout-btn" onclick="proceedToCheckout()">PROCEED TO CHECKOUT</button>
     </div>
   </div>
 
   <div class="product-container">
     <div class="product-gallery">
       <div class="thumbnail-images">
-        <img src="media/skinraudra.jpg" alt="Skin Raudra Straight Fit Baggy Pants Thumbnail" class="thumbnail active" onclick="changeImage('media/skinraudra.jpg')">
+        <img src="media/skorpion1.jpg" alt="Skorpion Boxy Oversized Tshirt Thumbnail 1" class="thumbnail active" onclick="changeImage('media/skorpion1.jpg')">
+        <img src="media/skorpion2.jpg" alt="Skorpion Boxy Oversized Tshirt Thumbnail 2" class="thumbnail" onclick="changeImage('media/skorpion2.jpg')">
+        <img src="media/skorpion3.jpg" alt="Skorpion Boxy Oversized Tshirt Thumbnail 3" class="thumbnail" onclick="changeImage('media/skorpion3.jpg')">
       </div>
       <div class="main-image-container">
-        <button class="carousel-arrow arrow-left disabled" onclick="prevImage()" aria-label="Previous image">‹</button>
-        <img src="media/skinraudra.jpg" alt="Skin Raudra Straight Fit Baggy Pants" class="main-image" id="main-product-image">
-        <button class="carousel-arrow arrow-right disabled" onclick="nextImage()" aria-label="Next image">›</button>
+        <button class="carousel-arrow arrow-left" onclick="prevImage()">‹</button>
+        <img src="media/skorpion1.jpg" alt="Skorpion Boxy Oversized Tshirt" class="main-image" id="main-product-image">
+        <button class="carousel-arrow arrow-right" onclick="nextImage()">›</button>
       </div>
     </div>
     <div class="product-details">
-      <h1>Skin Raudra Straight Fit Baggy Pants</h1>
-      <p class="price">₹1700</p>
+      <h1>Skorpion Boxy Oversized Tshirt</h1>
+      <p class="price">₹1300</p>
       <div class="size-selector">
         <label>Size</label>
         <div class="sizes">
@@ -834,20 +840,20 @@
       <div class="quantity-selector">
         <label>Quantity</label>
         <div class="quantity-input">
-          <button class="quantity-btn" onclick="changeQuantity(-1)" aria-label="Decrease quantity">-</button>
+          <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
           <input type="text" id="quantity" value="1" readonly>
-          <button class="quantity-btn" onclick="changeQuantity(1)" aria-label="Increase quantity">+</button>
+          <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
         </div>
       </div>
       <div class="actions">
-        <button class="btn btn-add-to-cart" onclick="addToCart()" aria-label="Add to cart">ADD TO CART</button>
+        <button class="btn btn-add-to-cart" onclick="addToCart()">ADD TO CART</button>
       </div>
       <div class="product-info">
         <div class="info-section">
           <div class="info-box" onclick="toggleDropdown(this)">
             <h2>Product Description <span>⯆</span></h2>
             <div class="dropdown-content">
-              <p>Experience bold style with the Skin Raudra Straight Fit Baggy Pants. These pants combine a relaxed fit with a contemporary edge, ideal for streetwear enthusiasts. Made from high-quality cotton, they provide comfort and durability for everyday wear.</p>
+              <p>Elevate your streetwear game with the Skorpion Boxy Oversized Tshirt. Designed for a relaxed, oversized fit, this T-shirt blends bold aesthetics with ultimate comfort, perfect for everyday wear or making a statement. Crafted from premium cotton, it ensures breathability and durability.</p>
             </div>
           </div>
         </div>
@@ -856,10 +862,11 @@
             <h2>Product Details <span>⯆</span></h2>
             <div class="dropdown-content">
               <ul>
-                <li>Relaxed straight fit;</li>
-                <li>Elasticated waistband;</li>
-                <li>100% cotton;</li>
-                <li>Side and back pockets;</li>
+                <li>Oversized boxy fit;</li>
+                <li>100% premium cotton;</li>
+                <li>Crew neck design;</li>
+                <li>Short sleeves;</li>
+                <li>Soft and breathable fabric;</li>
               </ul>
             </div>
           </div>
@@ -878,11 +885,11 @@
           <p>₹1700</p>
         </div>
       </a>
-      <a href="skorpion-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'skorpion-boxy-tshirt.html')">
-        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
+      <a href="skin-raudra-pant.html" class="product-card" onclick="smoothRedirect(event, 'skin-raudra-pant.html')">
+        <img src="media/exclusive2.jpg" alt="Skin Raudra Straight Fit Baggy Pants">
         <div class="product-info">
-          <h3>Skorpion Boxy Oversized Tshirt</h3>
-          <p>₹1300</p>
+          <h3>Skin Raudra Straight Fit Baggy Pants</h3>
+          <p>₹1700</p>
         </div>
       </a>
       <a href="apex-vest.html" class="product-card" onclick="smoothRedirect(event, 'apex-vest.html')">
@@ -934,7 +941,7 @@
   </footer>
 
   <script>
-    const images = ['media/skinraudra.jpg'];
+    const images = ['media/skorpion1.jpg', 'media/skorpion2.jpg', 'media/skorpion3.jpg'];
     let currentImageIndex = 0;
 
     function toggleMenu() {
@@ -963,17 +970,13 @@
     }
 
     function prevImage() {
-      if (images.length > 1) {
-        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-        updateImage(images[currentImageIndex]);
-      }
+      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+      updateImage(images[currentImageIndex]);
     }
 
     function nextImage() {
-      if (images.length > 1) {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        updateImage(images[currentImageIndex]);
-      }
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      updateImage(images[currentImageIndex]);
     }
 
     function selectSize(el) {
@@ -1014,6 +1017,7 @@
         alert('Your cart is empty. Please add items to proceed to checkout.');
         return;
       }
+      const cartModal = document.getElementById('cart-modal');
       cartModal.classList.remove('open');
       document.body.classList.remove('cart-open');
       smoothRedirect({ preventDefault: () => {} }, 'checkout.html');
@@ -1052,7 +1056,7 @@
         return;
       }
       const productSize = selectedSizeEl.innerText;
-      const productId = productName.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + productSize;
+      const productId = productName.replace(/\s+/g, '-') + '-' + productSize;
 
       let cart = getCart();
       const existingItem = cart.find(item => item.id === productId);
@@ -1099,9 +1103,9 @@
               <div class="cart-item-size">Size: ${item.size}</div>
               <div class="cart-item-actions">
                 <div class="cart-item-quantity">
-                  <button onclick="updateItemQuantity(${index}, -1)" aria-label="Decrease quantity">-</button>
+                  <button onclick="updateItemQuantity(${index}, -1)">-</button>
                   <span>${item.quantity}</span>
-                  <button onclick="updateItemQuantity(${index}, 1)" aria-label="Increase quantity">+</button>
+                  <button onclick="updateItemQuantity(${index}, 1)">+</button>
                 </div>
                 <span class="remove-item" onclick="removeItemFromCart(${index})">Remove</span>
               </div>

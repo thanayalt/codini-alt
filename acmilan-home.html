@@ -668,15 +668,13 @@
     .recommendations .product-info {
       position: absolute;
       bottom: 10px;
-      left: 10px;
+      left: 30px; /* Updated to match Inter Milan page */
       color: #fff;
       text-align: left;
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.5s ease;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 5px;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
       font-weight: 500;
     }
 
@@ -744,7 +742,7 @@
     }
   </style>
 </head>
-<body class="loaded">
+<body>
   <div class="header">
     <div class="left-header">
       <div class="menu-toggle" onclick="toggleMenu()">
@@ -803,15 +801,15 @@
   <div class="product-container">
     <div class="product-gallery">
       <div class="thumbnail-images">
-        <img src="media/acm.jpg" alt="Thumbnail 1" class="thumbnail active" onclick="changeImage('media/acm.jpg')">
-        <img src="media/acm1.jpg" alt="Thumbnail 2" class="thumbnail" onclick="changeImage('media/acm1.jpg')">
-        <img src="media/acm2.jpg" alt="Thumbnail 3" class="thumbnail" onclick="changeImage('media/acm2.jpg')">
-        <img src="media/acm3.jpg" alt="Thumbnail 4" class="thumbnail" onclick="changeImage('media/acm3.jpg')">
-        <img src="media/acm4.jpg" alt="Thumbnail 5" class="thumbnail" onclick="changeImage('media/acm4.jpg')">
+        <img src="media/acm.jpg" alt="AC Milan Home 25/26 Thumbnail 1" class="thumbnail active" onclick="changeImage('media/acm.jpg')">
+        <img src="media/acm1.jpg" alt="AC Milan Home 25/26 Thumbnail 2" class="thumbnail" onclick="changeImage('media/acm1.jpg')">
+        <img src="media/acm2.jpg" alt="AC Milan Home 25/26 Thumbnail 3" class="thumbnail" onclick="changeImage('media/acm2.jpg')">
+        <img src="media/acm3.jpg" alt="AC Milan Home 25/26 Thumbnail 4" class="thumbnail" onclick="changeImage('media/acm3.jpg')">
+        <img src="media/acm4.jpg" alt="AC Milan Home 25/26 Thumbnail 5" class="thumbnail" onclick="changeImage('media/acm4.jpg')">
       </div>
       <div class="main-image-container">
         <button class="carousel-arrow arrow-left" onclick="prevImage()">❮</button>
-        <img src="media/acm.jpg" alt="Main" class="main-image" id="main-product-image">
+        <img src="media/acm.jpg" alt="AC Milan Home 25/26" class="main-image" id="main-product-image">
         <button class="carousel-arrow arrow-right" onclick="nextImage()">❯</button>
       </div>
     </div>
@@ -1013,7 +1011,6 @@
         alert('Your cart is empty. Please add items to proceed to checkout.');
         return;
       }
-      const cartModal = document.getElementById('cart-modal');
       cartModal.classList.remove('open');
       document.body.classList.remove('cart-open');
       smoothRedirect({ preventDefault: () => {} }, 'checkout.html');

@@ -96,7 +96,7 @@
       position: absolute;
       top: -8px;
       right: -8px;
-      background-color: red;
+      background-color: #e63946;
       color: white;
       border-radius: 50%;
       width: 18px;
@@ -670,16 +670,16 @@
     .recommendations .product-info {
       position: absolute;
       bottom: 10px;
-      left: 10px;
+      left: 30px;
       color: #fff;
       text-align: left;
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.5s ease;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 5px;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
       font-weight: 500;
+      background: none;
+      padding: 0;
     }
 
     .recommendations .product-card:hover .product-info {
@@ -761,7 +761,7 @@
     <a href="index.html" class="logo">MÉSORA</a>
     <div class="right-header">
       <div class="cart-link" onclick="toggleCart()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
         <span>Cart</span>
         <span class="cart-quantity">0</span>
       </div>
@@ -1015,6 +1015,7 @@
         alert('Your cart is empty. Please add items to proceed to checkout.');
         return;
       }
+      const cartModal = document.getElementById('cart-modal');
       cartModal.classList.remove('open');
       document.body.classList.remove('cart-open');
       smoothRedirect({ preventDefault: () => {} }, 'checkout.html');
@@ -1053,7 +1054,7 @@
         return;
       }
       const productSize = selectedSizeEl.innerText;
-      const productId = productName.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + productSize;
+      const productId = productName.replace(/\s+/g, '-') + '-' + productSize;
 
       let cart = getCart();
       const existingItem = cart.find(item => item.id === productId);
