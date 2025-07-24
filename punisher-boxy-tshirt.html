@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Punisher Brown Boxy Oversized Tshirt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Futura PT', 'Roboto', sans-serif;
+      background-color: white;
+      overflow-x: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    body.cart-open {
+      overflow: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid #eee;
+      z-index: 10;
+      background: white;
+    }
+
+    .left-header {
+      position: absolute;
+      left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .right-header {
+      position: absolute;
+      right: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .cart-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #000;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .cart-link svg {
+      stroke: #000;
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+      transition: stroke 0.3s ease, transform 0.3s ease;
+    }
+
+    .cart-link:hover svg {
+      stroke: #333;
+      transform: scale(1.1);
+    }
+
+    .cart-link span {
+      font-family: 'Futura PT', 'Roboto', sans-serif;
+      font-weight: 400;
+    }
+
+    .cart-quantity {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      transform: translate(40%, -40%);
+    }
+
+    .menu-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .menu-icon {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 14px;
+    }
+
+    .menu-icon div {
+      width: 16px;
+      height: 1.5px;
+      background: black;
+    }
+
+    .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 28px;
+      letter-spacing: 10px;
+      color: black;
+      text-decoration: none;
+      text-align: center;
+      flex-grow: 1;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      color: #a67c00;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: -420px;
+      width: 420px;
+      height: 100%;
+      background: white;
+      transition: left 0.4s ease;
+      z-index: 999;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .menu-overlay.open {
+      left: 0;
+    }
+
+    .menu-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+
+    .menu-header span {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .close-icon {
+      font-size: 20px;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item {
+      font-size: 22px;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: black;
+      transition: width 0.3s ease;
+    }
+
+    .menu-arrow {
+      opacity: 0;
+      transform: translateX(-10px);
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item:hover span:first-child::after {
+      width: 100%;
+    }
+
+    .menu-item:hover .menu-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .menu-items:hover .menu-item {
+      opacity: 0.3;
+    }
+
+    .menu-items:hover .menu-item:hover {
+      opacity: 1;
+    }
+
+    .cart-modal {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      background: white;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      transition: right 0.4s ease;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-modal.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-header h2 {
+      font-size: 20px;
+    }
+
+    .cart-header .close-cart {
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .cart-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+
+    .cart-item-details {
+      flex-grow: 1;
+    }
+
+    .cart-item-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .cart-item-price {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .cart-item-size {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+    }
+
+    .cart-item-quantity button {
+      background: none;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .cart-item-quantity span {
+      padding: 0 10px;
+    }
+
+    .remove-item {
+      cursor: pointer;
+      color: red;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .cart-subtotal {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 15px;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .product-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 40px auto;
+    }
+
+    .product-gallery {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 20px;
+      gap: 20px;
+      margin-left: -20px;
+      position: relative;
+    }
+
+    .product-gallery .thumbnail-images {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-gallery .thumbnail {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .product-gallery .thumbnail:hover,
+    .product-gallery .thumbnail.active {
+      border-color: #000;
+    }
+
+    .product-gallery .main-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      overflow: hidden;
+    }
+
+    .product-gallery .main-image {
+      width: 100%;
+      max-width: 400px;
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      opacity: 1;
+    }
+
+    .product-gallery .main-image.fade-out {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .product-gallery .main-image.fade-in {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .product-gallery .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      color: #000;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 10;
+      transition: color 0.3s ease;
+    }
+
+    .product-gallery .carousel-arrow:hover {
+      color: #333;
+    }
+
+    .product-gallery .arrow-left {
+      left: 10px;
+    }
+
+    .product-gallery .arrow-right {
+      right: 10px;
+    }
+
+    .product-details {
+      flex: 1;
+      padding: 40px;
+      margin-right: -20px;
+    }
+
+    .product-details h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .product-details .price {
+      font-size: 24px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .product-details .size-selector,
+    .product-details .quantity-selector {
+      margin-bottom: 20px;
+    }
+
+    .product-details label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .product-details .sizes {
+      display: flex;
+      gap: 10px;
+    }
+
+    .product-details .size-option {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .product-details .size-option:hover,
+    .product-details .size-option.selected {
+      background-color: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    .product-details .quantity-input {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      width: fit-content;
+    }
+
+    .product-details .quantity-btn {
+      background: none;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .product-details #quantity {
+      width: 40px;
+      text-align: center;
+      border: none;
+      font-size: 16px;
+    }
+
+    .product-details .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-details .btn {
+      padding: 15px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .product-details .btn-add-to-cart {
+      background-color: #fff;
+      color: #000;
+      border: 2px solid #000;
+    }
+
+    .product-details .btn-add-to-cart:hover {
+      background-color: #f0f0f0;
+    }
+
+    .product-details .btn-buy-it-now {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .product-details .btn-buy-it-now:hover {
+      background-color: #333;
+    }
+
+    .product-info {
+      margin-top: 20px;
+    }
+
+    .product-info .info-section {
+      margin-bottom: 15px;
+    }
+
+    .product-info .info-box {
+      background: linear-gradient(180deg, #f5f7fa, #e8ecef);
+      padding: 20px;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+      transition: background 0.6s ease-in-out, color 0.6s ease-in-out;
+    }
+
+    .product-info .info-box:hover {
+      background: linear-gradient(180deg, #f0f5ff, #e6f0ff);
+    }
+
+    .product-info .info-box h2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 20px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.7);
+      transition: color 0.6s ease-in-out;
+    }
+
+    .product-info .info-box:hover h2 {
+      color: #003087;
+    }
+
+    .product-info .info-box h2 span {
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .product-info .info-box.active h2 span {
+      transform: rotate(180deg);
+    }
+
+    .product-info .info-box .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: max-height 0.6s ease-in-out, opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+      padding: 0 20px;
+    }
+
+    .product-info .info-box .dropdown-content.show {
+      max-height: 500px;
+      opacity: 1;
+      transform: translateY(0);
+      padding: 20px;
+    }
+
+    .product-info .info-box .dropdown-content p,
+    .product-info .info-box .dropdown-content ul {
+      margin: 0;
+      padding: 0;
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    .product-info .info-box .dropdown-content ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+
+    .product-info .info-box .dropdown-content ul li:before {
+      content: "✔";
+      margin-right: 8px;
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    .recommendations {
+      margin-top: 40px;
+      padding: 0 30px;
+    }
+
+    .recommendations h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a1a;
+      text-align: left;
+      padding-left: 60px;
+      text-transform: uppercase;
+    }
+
+    .recommendations .products {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 0 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .recommendations .product-card {
+      flex: 0 0 22%;
+      position: relative;
+      overflow: hidden;
+      height: 300px;
+    }
+
+    .recommendations .product-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background-color: #f5f5f5;
+      transform: scale(1.2);
+      transition: transform 0.5s ease;
+    }
+
+    .recommendations .product-card:hover img {
+      transform: scale(1.26);
+    }
+
+    .recommendations .product-info {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: #fff;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s ease;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+      font-weight: 500;
+    }
+
+    .recommendations .product-card:hover .product-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .recommendations .product-info h3 {
+      font-size: 14px;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+
+    .recommendations .product-info p {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .footer-spacer {
+      height: 40px;
+      background: white;
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-columns a:hover {
+      opacity: 0.6;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
+    }
+
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .transition-overlay .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 100px;
+      color: black;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease;
+    }
+
+    .transition-overlay.move-logo .logo {
+      top: 20px;
+      transform: translateY(0);
+      font-size: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .product-container {
+        flex-direction: column;
+        margin: 20px;
+      }
+
+      .product-gallery {
+        margin-left: 0;
+        flex-direction: column;
+      }
+
+      .product-gallery .thumbnail-images {
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .product-details {
+        margin-right: 0;
+        padding: 20px;
+      }
+
+      .recommendations .products {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .recommendations .product-card {
+        flex: 0 0 100%;
+        max-width: 300px;
+      }
+
+      .recommendations h2 {
+        padding-left: 20px;
+      }
+
+      .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .footer-logo {
+        font-size: 80px;
+        letter-spacing: 20px;
+      }
+
+      footer {
+        padding: 40px;
+      }
+    }
+  </style>
+</head>
+<body class="loaded">
+  <div class="header">
+    <div class="left-header">
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <div class="menu-icon">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <span>Menu</span>
+      </div>
+    </div>
+    <a href="index.html" class="logo">MÉSORA</a>
+    <div class="right-header">
+      <div class="cart-link" onclick="toggleCart()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Cart</span>
+        <span class="cart-quantity">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-overlay" id="menu">
+    <div class="menu-header">
+      <span onclick="toggleMenu()" class="close-icon">✕</span>
+      <span>Close</span>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item" onclick="startTransition('men-new-arrivals.html')">
+        <span>New Arrivals</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="startTransition('men-tshirt-and-vest.html')">
+        <span>T-shirts & Vests</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="startTransition('men-shorts-and-trousers.html')">
+        <span>Shorts & Trouser</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="startTransition('men-jersey.html')">
+        <span>Jerseys</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="startTransition('men-footwear.html')">
+        <span>Footwear</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="startTransition('men-perfume.html')">
+        <span>Perfumes</span>
+        <span class="menu-arrow">›</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-modal" id="cart-modal">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <span class="close-cart" onclick="toggleCart()">✕</span>
+    </div>
+    <div class="cart-body"></div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="subtotal-price">₹0</span>
+      </div>
+      <button class="checkout-btn" onclick="proceedToCheckout()">PROCEED TO CHECKOUT</button>
+    </div>
+  </div>
+
+  <div class="product-container">
+    <div class="product-gallery">
+      <div class="thumbnail-images">
+        <img src="media/punisher-boxy-tshirt1.jpg" alt="Punisher Tshirt Thumbnail 1" class="thumbnail active" onclick="changeImage('media/punisher-boxy-tshirt1.jpg')">
+        <img src="media/punisher-boxy-tshirt2.jpg" alt="Punisher Tshirt Thumbnail 2" class="thumbnail" onclick="changeImage('media/punisher-boxy-tshirt2.jpg')">
+        <img src="media/punisher-boxy-tshirt3.jpg" alt="Punisher Tshirt Thumbnail 3" class="thumbnail" onclick="changeImage('media/punisher-boxy-tshirt3.jpg')">
+        <img src="media/punisher-boxy-tshirt4.jpg" alt="Punisher Tshirt Thumbnail 4" class="thumbnail" onclick="changeImage('media/punisher-boxy-tshirt4.jpg')">
+      </div>
+      <div class="main-image-container">
+        <button class="carousel-arrow arrow-left" onclick="prevImage()">‹</button>
+        <img src="media/punisher-boxy-tshirt1.jpg" alt="Punisher Brown Boxy Oversized Tshirt" class="main-image" id="main-product-image">
+        <button class="carousel-arrow arrow-right" onclick="nextImage()">›</button>
+      </div>
+    </div>
+    <div class="product-details">
+      <h1>Punisher Brown Boxy Oversized Tshirt</h1>
+      <p class="price">₹4000</p>
+      <div class="size-selector">
+        <label>Size</label>
+        <div class="sizes">
+          <div class="size-option" onclick="selectSize(this)">S</div>
+          <div class="size-option" onclick="selectSize(this)">M</div>
+          <div class="size-option" onclick="selectSize(this)">L</div>
+          <div class="size-option" onclick="selectSize(this)">XL</div>
+          <div class="size-option" onclick="selectSize(this)">XXL</div>
+        </div>
+      </div>
+      <div class="quantity-selector">
+        <label>Quantity</label>
+        <div class="quantity-input">
+          <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+          <input type="text" id="quantity" value="1" readonly>
+          <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-add-to-cart" onclick="addToCart()">ADD TO CART</button>
+      </div>
+      <div class="product-info">
+        <div class="info-section">
+          <div class="info-box" onclick="toggleDropdown(this)">
+            <h2>Product Description <span>⯆</span></h2>
+            <div class="dropdown-content">
+              <p>Make a powerful statement with the Punisher Brown Boxy Oversized Tshirt. This tee features an aggressive graphic on an earthy brown backdrop, cut in a modern oversized fit for ultimate comfort and style.</p>
+            </div>
+          </div>
+        </div>
+        <div class="info-section">
+          <div class="info-box" onclick="toggleDropdown(this)">
+            <h2>Product Details <span>⯆</span></h2>
+            <div class="dropdown-content">
+              <ul>
+                <li>Comfortable boxy fit</li>
+                <li>Soft, heavyweight cotton</li>
+                <li>Durable front and back graphic print</li>
+                <li>Ribbed crewneck</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recommendations">
+    <h2>WE THINK YOU'D LIKE</h2>
+    <div class="products">
+      <a href="inferno-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'inferno-boxy-tshirt.html')">
+        <img src="media/inferno-boxy-tshirt1.jpg" alt="Inferno Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Inferno Boxy Oversized Tshirt</h3>
+          <p>₹4500</p>
+        </div>
+      </a>
+      <a href="narcissist-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'narcissist-boxy-tshirt.html')">
+        <img src="media/narcissist-boxy-tshirt1.jpg" alt="Narcissist Night Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Narcissist Night Boxy Oversized Tshirt</h3>
+          <p>₹2500</p>
+        </div>
+      </a>
+      <a href="wraith-boxy-shirt.html" class="product-card" onclick="smoothRedirect(event, 'wraith-boxy-shirt.html')">
+        <img src="media/wraith-boxy-shirt1.jpg" alt="Wraith Boxy Black Oversized Shirt">
+        <div class="product-info">
+          <h3>Wraith Boxy Black Oversized Shirt</h3>
+          <p>₹8000</p>
+        </div>
+      </a>
+      <a href="skorpion-boxy-tshirt.html" class="product-card" onclick="smoothRedirect(event, 'skorpion-boxy-tshirt.html')">
+        <img src="media/exclusive3.jpg" alt="Skorpion Boxy Oversized Tshirt">
+        <div class="product-info">
+          <h3>Skorpion Boxy Oversized Tshirt</h3>
+          <p>₹1300</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-spacer"></div>
+  <footer id="footer">
+    <div class="footer-columns">
+      <div>
+        <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+        <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+        <a href="#" onclick="startTransition('faq.html')">FAQs</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+        <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+        <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+
+  <script>
+    const images = [
+      'media/punisher-boxy-tshirt1.jpg',
+      'media/punisher-boxy-tshirt2.jpg',
+      'media/punisher-boxy-tshirt3.jpg',
+      'media/punisher-boxy-tshirt4.jpg'
+    ];
+    let currentImageIndex = 0;
+
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("open");
+    }
+
+    function changeImage(e) {
+      const t = images.indexOf(e);
+      if (-1 !== t) {
+        currentImageIndex = t;
+        updateImage(e);
+      }
+    }
+
+    function updateImage(e) {
+      const t = document.getElementById("main-product-image");
+      t.classList.remove("fade-in");
+      t.classList.add("fade-out");
+      setTimeout(() => {
+        t.src = e;
+        t.classList.remove("fade-out");
+        t.classList.add("fade-in");
+        document.querySelectorAll(".thumbnail").forEach(e => e.classList.remove("active"));
+        document.querySelector(`.thumbnail[src="${e}"]`).classList.add("active");
+      }, 500);
+    }
+
+    function prevImage() {
+      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+      updateImage(images[currentImageIndex]);
+    }
+
+    function nextImage() {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      updateImage(images[currentImageIndex]);
+    }
+
+    function selectSize(e) {
+      document.querySelectorAll(".size-option").forEach(e => e.classList.remove("selected"));
+      e.classList.add("selected");
+    }
+
+    function changeQuantity(e) {
+      let t = document.getElementById("quantity");
+      let n = parseInt(t.value);
+      if (n + e > 0) {
+        t.value = n + e;
+      }
+    }
+
+    function toggleDropdown(e) {
+      e.classList.toggle("active");
+      const t = e.querySelector(".dropdown-content");
+      if (t.classList.contains("show")) {
+        t.classList.remove("show");
+      } else {
+        t.classList.add("show");
+      }
+    }
+
+    function smoothRedirect(e, t) {
+      e.preventDefault();
+      document.body.style.transition = "opacity 0.5s ease";
+      document.body.style.opacity = "0";
+      setTimeout(() => {
+        window.location.href = t;
+      }, 500);
+    }
+
+    function startTransition(e) {
+      const t = document.createElement("div");
+      t.className = "transition-overlay active";
+      t.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(t);
+      setTimeout(() => {
+        t.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = e;
+      }, 2000);
+    }
+
+    function proceedToCheckout() {
+      if (getCart().length === 0) {
+        alert("Your cart is empty. Please add items to proceed to checkout.");
+        return;
+      }
+      document.getElementById("cart-modal").classList.remove("open");
+      document.body.classList.remove("cart-open");
+      smoothRedirect({ preventDefault: () => {} }, "checkout.html");
+    }
+
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+    });
+
+    const cartModal = document.getElementById("cart-modal");
+
+    function toggleCart() {
+      cartModal.classList.toggle("open");
+      document.body.classList.toggle("cart-open");
+    }
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem("cart")) || [];
+    }
+
+    function saveCart(e) {
+      localStorage.setItem("cart", JSON.stringify(e));
+      updateCartDisplay();
+    }
+
+    function addToCart() {
+      const e = document.querySelector(".product-details h1").innerText;
+      const t = parseFloat(document.querySelector(".product-details .price").innerText.replace("₹", ""));
+      const n = document.getElementById("main-product-image").src;
+      const o = document.querySelector(".size-option.selected");
+      const i = parseInt(document.getElementById("quantity").value);
+      if (!o) {
+        alert("Please select a size.");
+        return;
+      }
+      const a = o.innerText;
+      const c = e.replace(/\s+/g, "-") + "-" + a;
+      let l = getCart();
+      const s = l.find(e => e.id === c);
+      if (s) {
+        s.quantity += i;
+      } else {
+        l.push({ id: c, name: e, price: t, image: n, size: a, quantity: i });
+      }
+      saveCart(l);
+      toggleCart();
+    }
+
+    function updateCartDisplay() {
+      const e = getCart();
+      const t = document.querySelector(".cart-body");
+      const n = document.querySelector(".cart-quantity");
+      const o = document.getElementById("subtotal-price");
+      let i = t.innerHTML = "";
+      let a = 0;
+      let c = 0;
+      if (e.length === 0) {
+        t.innerHTML = "<p>Your cart is empty.</p>";
+      } else {
+        e.forEach((l, s) => {
+          const d = document.createElement("div");
+          d.classList.add("cart-item");
+          d.innerHTML = `
+            <img src="${l.image}" alt="${l.name}">
+            <div class="cart-item-details">
+              <div class="cart-item-title">${l.name}</div>
+              <div class="cart-item-price">₹${l.price.toFixed(2)}</div>
+              <div class="cart-item-size">Size: ${l.size}</div>
+              <div class="cart-item-actions">
+                <div class="cart-item-quantity">
+                  <button onclick="updateItemQuantity(${s}, -1)">-</button>
+                  <span>${l.quantity}</span>
+                  <button onclick="updateItemQuantity(${s}, 1)">+</button>
+                </div>
+                <span class="remove-item" onclick="removeItemFromCart(${s})">Remove</span>
+              </div>
+            </div>
+          `;
+          t.appendChild(d);
+          c += l.price * l.quantity;
+        });
+      }
+      a = e.reduce((e, t) => e + t.quantity, 0);
+      n.innerText = a;
+      o.innerText = `₹${c.toFixed(2)}`;
+    }
+
+    function removeItemFromCart(e) {
+      let t = getCart();
+      t.splice(e, 1);
+      saveCart(t);
+    }
+
+    function updateItemQuantity(e, t) {
+      let n = getCart();
+      if (n[e]) {
+        n[e].quantity += t;
+        if (n[e].quantity <= 0) {
+          n.splice(e, 1);
+        }
+      }
+      saveCart(n);
+    }
+
+    window.addEventListener("scroll", () => {
+      const e = document.getElementById("footer");
+      const t = e.offsetTop;
+      const n = window.scrollY + window.innerHeight;
+      if (n > t + 100) {
+        e.classList.add("visible");
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", updateCartDisplay);
+  </script>
+</body>
+</html>

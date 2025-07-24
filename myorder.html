@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Order - MÉSORA</title>
+  
+  <!-- Leaflet.js CSS - Required for the map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap');
+    /* General Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', 'EB Garamond', serif; background: white; color: black; }
+    /* Header */
+    header { background: white; color: black; padding: 20px 40px; display: flex; justify-content: center; align-items: center; }
+    .logo { font-family: 'Times New Roman', serif; font-size: 28px; letter-spacing: 10px; color: black; text-decoration: none; text-align: center; flex-grow: 1; transition: color 0.3s ease; }
+    .logo:hover { color: #a67c00; }
+    /* Main Content */
+    .main-content { padding: 80px 40px; text-align: center; }
+    .main-content h1 { font-family: 'EB Garamond', serif; font-size: 48px; margin-bottom: 40px; }
+    .order-tracking-form { max-width: 600px; margin: 0 auto; }
+    .order-tracking-form label { display: block; text-align: left; font-size: 16px; margin-bottom: 5px; font-family: 'Roboto', sans-serif; }
+    .order-tracking-form input { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #ccc; font-family: 'Roboto', sans-serif; }
+    .order-tracking-form button { padding: 15px 40px; background: black; color: white; border: none; cursor: pointer; font-size: 16px; transition: background-color 0.2s; }
+    .order-tracking-form button:disabled { background-color: #6c757d; cursor: wait; }
+    /* Checkpoint Timeline */
+    .checkpoint-timeline { max-width: 600px; margin: 40px auto; display: none; }
+    .checkpoint { position: relative; margin: 20px 0; padding-left: 50px; text-align: left; }
+    .checkpoint::before { content: ''; position: absolute; left: 20px; top: 0; bottom:0; width: 2px; background: #ccc; }
+    .checkpoint::after { content: ''; position: absolute; left: 15px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: black; }
+    .checkpoint.completed::after { background: green; }
+    .checkpoint h3 { font-family: 'EB Garamond', serif; font-size: 20px; margin-bottom: 5px; }
+    .checkpoint p { font-family: 'Roboto', sans-serif; font-size: 14px; color: #333; }
+    /* Map */
+    #map { height: 400px; max-width: 600px; margin: 40px auto; display: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    /* Footer */
+    footer { background: black; color: white; padding: 40px 80px; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    footer.visible { opacity: 1; transform: translateY(0); }
+    .footer-columns { display: flex; justify-content: space-between; margin-bottom: 40px; }
+    .footer-columns div { display: flex; flex-direction: column; gap: 12px; }
+    .footer-columns a { color: white; text-decoration: none; font-size: 16px; transition: opacity 0.3s ease; }
+    .footer-columns a:hover { opacity: 0.6; }
+    .footer-bottom { display: flex; justify-content: space-between; font-size: 14px; margin-top: 20px; }
+    .footer-logo { font-family: 'Times New Roman', serif; font-size: 120px; text-align: center; letter-spacing: 40px; font-weight: 400; margin-top: 30px; }
+    /* Transition Overlay */
+    .transition-overlay { position: fixed; top: 0; left: 1; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 1s ease; }
+    .transition-overlay.active { opacity: 1; pointer-events: all; }
+    .transition-overlay .logo { font-family: 'Times New Roman', serif; font-size: 100px; color: black; position: absolute; top: 50%; transform: translateY(-50%); transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease; }
+    .transition-overlay.move-logo .logo { top: 20px; transform: translateY(0); font-size: 28px; }
+    /* Responsive */
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 20px; }
+      .main-content h1 { font-size: 36px; }
+      .order-tracking-form input { padding: 10px; font-size: 14px; }
+      #map { height: 300px; }
+      .footer-columns { flex-direction: column; gap: 30px; text-align: center; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      footer { padding: 40px; }
+      .footer-logo { font-size: 80px; letter-spacing: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">MÉSORA</a>
+  </header>
+  <div class="main-content">
+    <h1>Track Your Order</h1>
+    <div class="order-tracking-form">
+      <form id="track-order-form">
+        <label for="order-number">Order Number</label>
+        <input id="order-number" type="text" placeholder="Enter Order Number" required>
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="Enter Your Email" required>
+        <button id="track-btn" type="submit">Track Order</button>
+      </form>
+      <p id="form-message" style="display: none; color: red; margin-top: 20px;"></p>
+    </div>
+    <div class="checkpoint-timeline" id="checkpoint-timeline">
+      <!-- Checkpoints will be inserted here -->
+    </div>
+    <div id="map"></div>
+  </div>
+  <footer id="footer">
+    <div class="footer-columns">
+      <div>
+        <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+        <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+        <a href="#" onclick="startTransition('faq.html')">FAQs</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+        <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+        <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <script>
+    const regionalHubs = {
+        'North Hub (Delhi)': { lat: 28.7041, lng: 77.1025 },
+        'East Hub (Kolkata)': { lat: 22.5726, lng: 88.3639 },
+        'Central Hub (Nagpur)': { lat: 21.1458, lng: 79.0882 },
+        'South Hub (Bangalore)': { lat: 12.9716, lng: 77.5946 },
+        'West Hub (Mumbai)': { lat: 19.0760, lng: 72.8777 },
+    };
+
+    /**
+     * Converts a city name to coordinates using OpenStreetMap's Nominatim API.
+     * @param {string} city The name of the city.
+     * @param {string} state The name of the state.
+     * @returns {Promise<object|null>} A promise that resolves to {lat, lng} or null if not found.
+     */
+    async function getCoordinatesForCity(city, state) {
+        const query = `${city}, ${state}, India`;
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`;
+        
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network response was not ok.');
+            
+            const data = await response.json();
+            if (data && data.length > 0) {
+                return {
+                    lat: parseFloat(data[0].lat),
+                    lng: parseFloat(data[0].lon) // Note: Nominatim uses 'lon' for longitude
+                };
+            }
+            return null; // City not found
+        } catch (error) {
+            console.error('Error fetching coordinates:', error);
+            return null;
+        }
+    }
+
+    // --- Helper function to calculate distance ---
+    function getDistance(coords1, coords2) {
+        if (!coords1 || !coords2) return Infinity;
+        const R = 6371; // Earth radius in km
+        const dLat = (coords2.lat - coords1.lat) * (Math.PI / 180);
+        const dLon = (coords2.lng - coords1.lng) * (Math.PI / 180);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(coords1.lat * (Math.PI / 180)) * Math.cos(coords2.lat * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+    
+    // --- Logic to find the most plausible intermediate hub ---
+    function getLogicalHub(destinationCoords) {
+        let closestHub = null;
+        let minDistance = Infinity;
+
+        for (const hubName in regionalHubs) {
+            const hubCoords = regionalHubs[hubName];
+            const distance = getDistance(destinationCoords, hubCoords);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestHub = { name: hubName, ...hubCoords };
+            }
+        }
+        return closestHub;
+    }
+
+    async function generateCheckpoints(destination) {
+        const warehouse = { name: "SVNIT Surat, Gujarat", lat: 21.1674, lng: 72.7849 };
+        const destCoords = await getCoordinatesForCity(destination.city, destination.state);
+        
+        if (!destCoords) return null; // Exit if the city could not be geocoded
+
+        const destinationLocation = `${destination.city}, ${destination.state}`;
+        const now = new Date();
+        const addHours = (date, h) => new Date(date.getTime() + h * 60 * 60 * 1000);
+        const formatDate = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        
+        let checkpoints = [
+            { status: "Order Placed", location: warehouse.name, timestamp: formatDate(now), ...warehouse, completed: true },
+            { status: "Departed Warehouse", location: warehouse.name, timestamp: formatDate(addHours(now, 4)), ...warehouse, completed: true },
+        ];
+
+        const intermediateHub = getLogicalHub(destCoords);
+        if (intermediateHub && getDistance(warehouse, destCoords) > 400 && getDistance(intermediateHub, destCoords) > 100) {
+            checkpoints.push({ status: "In Transit - Arrived at Hub", location: intermediateHub.name, timestamp: formatDate(addHours(now, 18)), ...intermediateHub, completed: true });
+            checkpoints.push({ status: "In Transit - Departed Hub", location: intermediateHub.name, timestamp: formatDate(addHours(now, 22)), ...intermediateHub, completed: false });
+        }
+        
+        checkpoints.push({ status: "Out for Delivery", location: destinationLocation, timestamp: "", ...destCoords, completed: false });
+        checkpoints.push({ status: "Delivered", location: destinationLocation, timestamp: "", ...destCoords, completed: false });
+
+        return checkpoints;
+    }
+
+    document.getElementById('track-order-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const orderNumber = document.getElementById('order-number').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('form-message');
+        const trackBtn = document.getElementById('track-btn');
+        
+        // Provide user feedback while processing
+        trackBtn.disabled = true;
+        trackBtn.textContent = "Tracking...";
+        message.style.display = 'none';
+        
+        if (!orderNumber || !email) {
+            message.textContent = 'Please fill in all fields.';
+            message.style.display = 'block';
+            trackBtn.disabled = false;
+            trackBtn.textContent = "Track Order";
+            return;
+        }
+
+        const allOrders = JSON.parse(localStorage.getItem('MÉSORA_ORDERS')) || [];
+        const orderData = allOrders.find(o => o.orderId === orderNumber && o.email === email);
+        
+        if (orderData) {
+            const checkpoints = await generateCheckpoints(orderData.shipping);
+            if(checkpoints){
+                displayCheckpoints(checkpoints);
+                renderMap(checkpoints);
+            } else {
+                 message.textContent = `Sorry, the location '${orderData.shipping.city}' could not be found. Please check the spelling.`;
+                 message.style.display = 'block';
+                 document.getElementById('checkpoint-timeline').style.display = 'none';
+                 if (map) map.remove(); map = null;
+                 document.getElementById('map').style.display = 'none';
+            }
+        } else {
+            message.textContent = 'Order not found. Please check your Order ID and Email.';
+            message.style.display = 'block';
+            document.getElementById('checkpoint-timeline').style.display = 'none';
+            if (map) map.remove(); map = null;
+            document.getElementById('map').style.display = 'none';
+        }
+
+        // Restore button after processing
+        trackBtn.disabled = false;
+        trackBtn.textContent = "Track Order";
+    });
+
+    function displayCheckpoints(checkpoints) {
+        const timeline = document.getElementById('checkpoint-timeline');
+        timeline.innerHTML = '';
+        checkpoints.forEach(cp => {
+            const div = document.createElement('div');
+            div.className = `checkpoint ${cp.completed ? 'completed' : ''}`;
+            div.innerHTML = `<h3>${cp.status}</h3><p>${cp.location}${cp.timestamp ? ' - ' + cp.timestamp : ''}</p>`;
+            timeline.appendChild(div);
+        });
+        timeline.style.display = 'block';
+    }
+
+    let map;
+    
+    function renderMap(checkpoints) {
+        const mapElement = document.getElementById('map');
+        mapElement.style.display = 'block';
+        if (map) map.remove();
+
+        map = L.map('map');
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+        const createIcon = (url) => new L.Icon({
+            iconUrl: url,
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+        });
+
+        const greenIcon = createIcon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png');
+        const redIcon = createIcon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png');
+        const goldIcon = createIcon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png');
+
+        const bounds = L.latLngBounds();
+        const completedPathCoords = [];
+        let lastCompletedCoords = null;
+        
+        const destinationCheckpoint = checkpoints[checkpoints.length - 1];
+
+        checkpoints.forEach(cp => {
+            if (cp.lat && cp.lng) {
+                const isDestinationMarker = cp.lat === destinationCheckpoint.lat && cp.lng === destinationCheckpoint.lng;
+                
+                let icon;
+                if (isDestinationMarker) {
+                    icon = goldIcon;
+                } else if (cp.completed) {
+                    icon = greenIcon;
+                } else {
+                    icon = redIcon;
+                }
+
+                const position = [cp.lat, cp.lng];
+                if(cp.status !== "Out for Delivery") {
+                     L.marker(position, { icon: icon }).addTo(map).bindPopup(`<b>${cp.status}</b><br>${cp.location}`);
+                     bounds.extend(position);
+                }
+
+                if (cp.completed) {
+                    completedPathCoords.push(position);
+                    lastCompletedCoords = position;
+                }
+            }
+        });
+
+        if (completedPathCoords.length > 1) {
+            L.polyline(completedPathCoords, { color: 'blue', weight: 4, opacity: 0.8 }).addTo(map);
+        }
+        
+        const destinationCoords = [destinationCheckpoint.lat, destinationCheckpoint.lng];
+        if (lastCompletedCoords && getDistance({lat: lastCompletedCoords[0], lng: lastCompletedCoords[1]}, {lat: destinationCoords[0], lng: destinationCoords[1]}) > 1) {
+            L.polyline([lastCompletedCoords, destinationCoords], { color: '#555555', weight: 3, opacity: 0.7, dashArray: '8, 8' }).addTo(map);
+        }
+
+        if (bounds.isValid()) {
+            map.fitBounds(bounds, { padding: [50, 50] });
+        }
+    }
+
+    // Scroll event listener for footer visibility
+    window.addEventListener("scroll", () => {
+      const footer = document.getElementById("footer");
+      const footerTop = footer.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add("visible");
+      }
+    });
+
+    // Transition function for fade animation
+    function startTransition(targetPage) {
+      const overlay = document.createElement("div");
+      overlay.className = "transition-overlay active";
+      overlay.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(overlay);
+      setTimeout(() => {
+        overlay.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

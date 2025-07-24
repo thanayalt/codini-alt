@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQs - MÉSORA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Times New Roman', serif;
+      background: white;
+      color: black;
+    }
+
+    /* Header */
+    header {
+      background: white;
+      color: black;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .logo {
+        font-family: 'Times New Roman', serif;
+        font-size: 28px;
+        letter-spacing: 10px;
+        color: black;
+        text-decoration: none;
+        text-align: center;
+        flex-grow: 1;
+        transition: color 0.3s ease;
+    }
+    
+    .logo:hover {
+      color: #a67c00;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 80px 40px;
+    }
+
+    .main-content h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 48px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .faq-item {
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .faq-question {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 15px;
+      background: #f8f8f8;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    .faq-question:hover {
+      background: #e0e0e0;
+    }
+
+    .faq-question::after {
+      content: '\25BC'; /* Down arrow */
+      font-size: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-question::after {
+      transform: rotate(180deg); /* Rotate arrow when active */
+    }
+
+    .faq-answer {
+      font-size: 18px;
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 15px;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px; /* Adjust based on content */
+      padding: 15px;
+    }
+
+    /* Footer */
+    footer {
+        background: black;
+        color: white;
+        padding: 40px 80px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    footer.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .footer-columns {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-columns a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: opacity 0.3s ease;
+    }
+    
+    .footer-columns a:hover {
+        opacity: 0.6;
+    }
+
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .footer-logo {
+        font-family: 'Times New Roman', serif;
+        font-size: 120px;
+        text-align: center;
+        letter-spacing: 40px;
+        font-weight: 400;
+        margin-top: 30px;
+    }
+    /* Transition Overlay */
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 1;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .transition-overlay .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 100px;
+      color: black;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease;
+    }
+
+    .transition-overlay.move-logo .logo {
+      top: 20px;
+      transform: translateY(0);
+      font-size: 28px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-content h1 {
+        font-size: 36px;
+      }
+
+      .faq-question {
+        font-size: 20px;
+      }
+
+      .faq-answer {
+        font-size: 16px;
+      }
+      .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      footer {
+        padding: 40px;
+      }
+      .footer-logo {
+        font-size: 80px;
+        letter-spacing: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">MÉSORA</a>
+  </header>
+  <div class="main-content">
+    <h1>Frequently Asked Questions</h1>
+    <div class="faq-item">
+      <div class="faq-question">What is your return policy?</div>
+      <div class="faq-answer">You can request a return or exchange of your items within 30 days by contacting our Client Relations Centre.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How can I track my order?</div>
+      <div class="faq-answer">Visit the "My Order" page and enter your order number and email to track your shipment.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Do you offer international shipping?</div>
+      <div class="faq-answer">Yes, we ship to over 50 countries. Shipping costs and delivery times vary by destination. Check our shipping page for details.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How can I contact customer support?</div>
+      <div class="faq-answer">Reach out via email at thanaybodda@gmail.com, call us at +91 7337425218, or use the live chat feature on our website.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">What payment methods do you accept?</div>
+      <div class="faq-answer">We accept credit/debit cards, UPI, net banking, and cash on delivery for select locations.</div>
+    </div>
+  </div>
+  <footer id="footer">
+    <div class="footer-columns">
+        <div>
+            <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+            <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+            <a href="#" onclick="startTransition('faq.html')">FAQs</a>
+        </div>
+        <div>
+            <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+            <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
+        </div>
+        <div>
+            <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+            <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+            <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 MÉSORA All rights reserved</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+  <script>
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+
+    // Scroll event listener for footer visibility
+    window.addEventListener("scroll", () => {
+      const footer = document.getElementById("footer");
+      const footerTop = footer.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add("visible");
+      }
+    });
+
+    // Transition function for fade animation
+    function startTransition(targetPage) {
+      const overlay = document.createElement("div");
+      overlay.className = "transition-overlay active";
+      overlay.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(overlay);
+      setTimeout(() => {
+        overlay.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

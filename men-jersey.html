@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MÉSORA | Jerseys</title>
+  <link href="https://fonts.googleapis.com/css2?family=Didot&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Futura PT', 'Roboto', sans-serif;
+      background-color: white;
+      overflow-x: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    body.cart-open {
+      overflow: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid #eee;
+      z-index: 10;
+      background: white;
+    }
+
+    .left-header {
+      position: absolute;
+      left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .right-header {
+      position: absolute;
+      right: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .cart-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #000;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .cart-link svg {
+      stroke: #000;
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+      transition: stroke 0.3s ease, transform 0.3s ease;
+    }
+
+    .cart-link:hover svg {
+      stroke: #333;
+      transform: scale(1.1);
+    }
+
+    .cart-link span {
+      font-family: 'Futura PT', 'Roboto', sans-serif;
+      font-weight: 400;
+    }
+
+    .cart-quantity {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      transform: translate(40%, -40%);
+    }
+
+    .menu-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .menu-icon {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 14px;
+    }
+
+    .menu-icon div {
+      width: 16px;
+      height: 1.5px;
+      background: black;
+    }
+
+    .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 28px;
+      letter-spacing: 10px;
+      color: black;
+      text-decoration: none;
+      text-align: center;
+      flex-grow: 1;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      color: #a67c00;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: -420px;
+      width: 420px;
+      height: 100%;
+      background: white;
+      transition: left 0.4s ease;
+      z-index: 999;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .menu-overlay.open {
+      left: 0;
+    }
+
+    .menu-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+
+    .menu-header span {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .close-icon {
+      font-size: 20px;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item {
+      font-size: 22px;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item span:first-child::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: black;
+      transition: width 0.3s ease;
+    }
+
+    .menu-arrow {
+      opacity: 0;
+      transform: translateX(-10px);
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .menu-item:hover span:first-child::after {
+      width: 100%;
+    }
+
+    .menu-item:hover .menu-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .menu-items:hover .menu-item {
+      opacity: 0.3;
+    }
+
+    .menu-items:hover .menu-item:hover {
+      opacity: 1;
+    }
+
+    .cart-modal {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      background: white;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      transition: right 0.4s ease;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-modal.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      color: #000;
+    }
+
+    .cart-header h2 {
+      font-size: 20px;
+    }
+
+    .cart-header .close-cart {
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .cart-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      color: #000;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+
+    .cart-item-details {
+      flex-grow: 1;
+    }
+
+    .cart-item-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .cart-item-price {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .cart-item-size {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+    }
+
+    .cart-item-quantity button {
+      background: none;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .cart-item-quantity span {
+      padding: 0 10px;
+    }
+
+    .remove-item {
+      cursor: pointer;
+      color: red;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+      color: #000;
+    }
+
+    .cart-subtotal {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 15px;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .footer-spacer {
+      height: 40px;
+      background: white;
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-columns a:hover {
+      opacity: 0.6;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
+    }
+
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .transition-overlay.move-logo .logo {
+      transform: scale(1.5);
+      opacity: 0;
+      transition: transform 1s ease, opacity 1s ease;
+    }
+
+    .main-content {
+      padding: 40px 80px;
+      background: linear-gradient(to bottom, #f9f9f9 0%, #ffffff 100%);
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: 5px;
+      color: #1a1a1a;
+      animation: fadeInDown 1s ease;
+    }
+
+    .page-subtitle {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 40px;
+      color: #666;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .controls-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .filter-section, .sort-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .filter-section label, .sort-section label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    #price-range {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      cursor: pointer;
+      background: white;
+      transition: border-color 0.3s ease;
+    }
+
+    #price-range:hover, #sort-by:hover {
+      border-color: #a67c00;
+    }
+
+    #sort-by {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      cursor: pointer;
+      background: white;
+      transition: border-color 0.3s ease;
+    }
+
+    .clear-filters {
+      padding: 10px 20px;
+      background: #a67c00;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .clear-filters:hover {
+      background: #8c6500;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    .product-card {
+      position: relative;
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      animation: slideUp 0.5s ease forwards;
+      animation-delay: calc(var(--index) * 0.1s);
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    .product-card-image-container {
+      width: 100%;
+      height: 350px;
+      overflow: hidden;
+      position: relative;
+      padding: 10px;
+      background-color: #ffffff;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .product-card.contain-img img {
+      object-fit: contain;
+      transform: scale(0.95);
+    }
+
+    .product-card.contain-img:hover img {
+      transform: scale(1.0);
+    }
+
+    /* Custom image scaling for Arsenal */
+    .product-card.arsenal-img img {
+      transform: scale(1.1);
+    }
+
+    .product-card.arsenal-img:hover img {
+      transform: scale(1.15);
+    }
+
+    /* Custom image scaling for Bayern */
+    .product-card.bayern-img img {
+      transform: scale(0.9);
+    }
+
+    .product-card.bayern-img:hover img {
+      transform: scale(0.95);
+    }
+
+    .product-card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .product-card:hover .product-card-overlay {
+      opacity: 1;
+    }
+
+    .quick-view-btn, .add-to-cart-btn {
+      padding: 10px 20px;
+      background: white;
+      color: #1a1a1a;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      margin: 5px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .quick-view-btn:hover, .add-to-cart-btn:hover {
+      background: #a67c00;
+      color: white;
+      border-color: #a67c00;
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #a67c00;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .product-card-info {
+      padding: 20px;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    .product-card-info h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+
+    .product-card-info p {
+      font-size: 16px;
+      font-weight: 500;
+      color: #a67c00;
+    }
+
+    .size-selection-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1002;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      max-width: 300px;
+      width: 90%;
+    }
+
+    .size-selection-modal.show {
+      display: flex;
+    }
+
+    .size-selection-modal h3 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .size-selection-modal .sizes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .size-selection-modal .size-option {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .size-selection-modal .size-option:hover,
+    .size-selection-modal .size-option.selected {
+      background-color: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    .size-selection-modal .confirm-btn {
+      padding: 10px 20px;
+      background: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .size-selection-modal .confirm-btn:hover {
+      background: #333;
+    }
+
+    .size-selection-modal .close-size-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1001;
+      display: none;
+    }
+
+    .modal-overlay.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 20px;
+      }
+
+      .controls-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 15px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .product-card-image-container {
+        height: 300px;
+        padding: 8px;
+      }
+
+      .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .footer-logo {
+        font-size: 80px;
+        letter-spacing: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-card-image-container {
+        height: 280px;
+        padding: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="left-header">
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <div class="menu-icon">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <span>Menu</span>
+      </div>
+    </div>
+    <a href="index.html" class="logo">MÉSORA</a>
+    <div class="right-header">
+      <div class="cart-link" onclick="toggleCart()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <span>Cart</span>
+        <span class="cart-quantity">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Overlay -->
+  <div class="menu-overlay" id="menu">
+    <div class="menu-header">
+      <span onclick="toggleMenu()" class="close-icon">✕</span>
+      <span>Close</span>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item" onclick="startTransition('men-new-arrivals.html')"><span>New Arrivals</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-tshirt-and-vest.html')"><span>T-shirts & Vests</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-shorts-and-trousers.html')"><span>Shorts & Trousers</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-jersey.html')"><span>Jerseys</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-footwear.html')"><span>Footwear</span> <span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-perfume.html')"><span>Perfumes</span> <span class="menu-arrow">›</span></div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cart-modal">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <span class="close-cart" onclick="toggleCart()">✕</span>
+    </div>
+    <div class="cart-body">
+      <!-- Cart items will be injected here by JavaScript -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="subtotal-price">₹0</span>
+      </div>
+      <button class="checkout-btn" onclick="proceedToCheckout()">PROCEED TO CHECKOUT</button>
+    </div>
+  </div>
+
+  <!-- Size Selection Modal -->
+  <div class="modal-overlay" id="modal-overlay"></div>
+  <div class="size-selection-modal" id="size-selection-modal">
+    <span class="close-size-modal" onclick="closeSizeModal()">✕</span>
+    <h3>Select Size</h3>
+    <div class="sizes">
+      <div class="size-option" onclick="selectSize(this)">S</div>
+      <div class="size-option" onclick="selectSize(this)">M</div>
+      <div class="size-option" onclick="selectSize(this)">L</div>
+      <div class="size-option" onclick="selectSize(this)">XL</div>
+      <div class="size-option" onclick="selectSize(this)">XXL</div>
+    </div>
+    <button class="confirm-btn" onclick="confirmAddToCart()">Confirm</button>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 class="page-title">Jerseys</h1>
+    <p class="page-subtitle">Wear your passion. Authentic and fan versions from the world's best teams.</p>
+
+    <div class="controls-container">
+      <div class="filter-section">
+        <label for="price-range">Filter by Price:</label>
+        <div>
+          <input type="range" id="price-range" name="price-range" min="0" max="8000" value="8000" oninput="updatePriceFilter(this.value)">
+          <span id="price-value">Up to ₹8000</span>
+        </div>
+      </div>
+      <div class="sort-section">
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by" onchange="sortProducts()">
+          <option value="default">Default</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </div>
+      <button class="clear-filters" onclick="clearFilters()">Clear Filters</button>
+    </div>
+
+    <div class="product-grid" id="product-grid">
+      <!-- Product 1: Real Madrid CF Home 25/26 -->
+      <div class="product-card" data-price="8000" style="--index: 1;">
+        <div class="product-card-image-container">
+          <img src="media/rma.jpg" alt="Real Madrid CF Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('real-madrid-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Real Madrid CF Home 25/26', 8000, 'media/rma.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Real Madrid CF Home 25/26</h3>
+          <p>₹8000</p>
+        </div>
+      </div>
+      <!-- Product 2: FC Barcelona Home 25/26 -->
+      <div class="product-card" data-price="7500" style="--index: 2;">
+        <div class="product-card-image-container">
+          <img src="media/fcb.jpg" alt="FC Barcelona Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('barcelona-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'FC Barcelona Home 25/26', 7500, 'media/fcb.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>FC Barcelona Home 25/26</h3>
+          <p>₹7500</p>
+        </div>
+      </div>
+      <!-- Product 3: PSG FC Home 25/26 -->
+      <div class="product-card contain-img" data-price="8000" style="--index: 3;">
+        <div class="product-card-image-container">
+          <img src="media/psg.jpg" alt="PSG FC Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('psg-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'PSG FC Home 25/26', 8000, 'media/psg.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>PSG FC Home 25/26</h3>
+          <p>₹8000</p>
+        </div>
+      </div>
+      <!-- Product 4: Spurs FC Away 25/26 -->
+      <div class="product-card" data-price="6800" style="--index: 4;">
+        <div class="product-card-image-container">
+          <img src="media/tot.jpg" alt="Spurs FC Away 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('spurs-away')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Spurs FC Away 25/26', 6800, 'media/tot.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Spurs FC Away 25/26</h3>
+          <p>₹6800</p>
+        </div>
+      </div>
+      <!-- Product 5: AC Milan FC Home 25/26 -->
+      <div class="product-card" data-price="7000" style="--index: 5;">
+        <div class="product-card-image-container">
+          <img src="media/acm.jpg" alt="AC Milan FC Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('acmilan-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'AC Milan FC Home 25/26', 7000, 'media/acm.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>AC Milan FC Home 25/26</h3>
+          <p>₹7000</p>
+        </div>
+      </div>
+      <!-- Product 6: FC Bayern Munich Away 25/26 -->
+      <div class="product-card bayern-img" data-price="6500" style="--index: 6;">
+        <div class="product-card-image-container">
+          <img src="media/bayern.jpg" alt="FC Bayern Munich Away 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('bayern-away')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'FC Bayern Munich Away 25/26', 6500, 'media/bayern.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>FC Bayern Munich Away 25/26</h3>
+          <p>₹6500</p>
+        </div>
+      </div>
+      <!-- Product 7: Inter Milan Home 25/26 -->
+      <div class="product-card contain-img" data-price="7000" style="--index: 7;">
+        <div class="product-card-image-container">
+          <img src="media/inter.jpg" alt="Inter Milan Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('intermilan-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Inter Milan Home 25/26', 7000, 'media/inter.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">Best Seller</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Inter Milan Home 25/26</h3>
+          <p>₹7000</p>
+        </div>
+      </div>
+      <!-- Product 8: Man UTD Home 25/26 -->
+      <div class="product-card contain-img" data-price="8000" style="--index: 8;">
+        <div class="product-card-image-container">
+          <img src="media/manu.jpg" alt="Man UTD Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('manu-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Man UTD Home 25/26', 8000, 'media/manu.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Man UTD Home 25/26</h3>
+          <p>₹8000</p>
+        </div>
+      </div>
+      <!-- Product 9: Inter Miami Third Kit -->
+      <div class="product-card" data-price="4000" style="--index: 9;">
+        <div class="product-card-image-container">
+          <img src="media/intermiami1.jpg" alt="Inter Miami Third Kit">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('inter-miami-thirdkit')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Inter Miami Third Kit', 4000, 'media/intermiami1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Inter Miami Third Kit</h3>
+          <p>₹4000</p>
+        </div>
+      </div>
+      <!-- Product 10: Juventus FC Away 25/26 -->
+      <div class="product-card" data-price="7200" style="--index: 10;">
+        <div class="product-card-image-container">
+          <img src="media/juventus1.jpg" alt="Juventus FC Away 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('juventus-away')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Juventus FC Away 25/26', 7200, 'media/juventus1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Juventus FC Away 25/26</h3>
+          <p>₹7200</p>
+        </div>
+      </div>
+      <!-- Product 11: Arsenal FC Home 25/26 -->
+      <div class="product-card arsenal-img" data-price="7800" style="--index: 11;">
+        <div class="product-card-image-container">
+          <img src="media/arsenal1.jpg" alt="Arsenal FC Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('arsenal-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Arsenal FC Home 25/26', 7800, 'media/arsenal1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Arsenal FC Home 25/26</h3>
+          <p>₹7800</p>
+        </div>
+      </div>
+      <!-- Product 12: Man City FC Home 25/26 -->
+      <div class="product-card" data-price="7900" style="--index: 12;">
+        <div class="product-card-image-container">
+          <img src="media/mancity1.jpg" alt="Man City FC Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('mancity-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Man City FC Home 25/26', 7900, 'media/mancity1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Man City FC Home 25/26</h3>
+          <p>₹7900</p>
+        </div>
+      </div>
+      <!-- Product 13: Aston Villa Home Kit -->
+      <div class="product-card" data-price="6500" style="--index: 13;">
+        <div class="product-card-image-container">
+          <img src="media/astonvilla1.jpg" alt="Aston Villa Home Kit">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('aston-villa-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Aston Villa Home Kit', 6500, 'media/astonvilla1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Aston Villa Home Kit</h3>
+          <p>₹6500</p>
+        </div>
+      </div>
+      <!-- Product 14: Real Madrid Away 25/26 -->
+      <div class="product-card" data-price="7200" style="--index: 14;">
+        <div class="product-card-image-container">
+          <img src="media/rmaaway1.jpg" alt="Real Madrid Away 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('real-madrid-away')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Real Madrid Away 25/26', 7200, 'media/rmaaway1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Real Madrid Away 25/26</h3>
+          <p>₹7200</p>
+        </div>
+      </div>
+      <!-- Product 15: AFC Ajax Home 25/26 -->
+      <div class="product-card" data-price="6700" style="--index: 15;">
+        <div class="product-card-image-container">
+          <img src="media/ajax1.jpg" alt="AFC Ajax Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('ajax-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'AFC Ajax Home 25/26', 6700, 'media/ajax1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>AFC Ajax Home 25/26</h3>
+          <p>₹6700</p>
+        </div>
+      </div>
+      <!-- Product 16: Atlético Madrid Home 25/26 -->
+      <div class="product-card" data-price="7100" style="--index: 16;">
+        <div class="product-card-image-container">
+          <img src="media/atm1.jpg" alt="Atlético Madrid Home 25/26">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('atletico-madrid-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Atlético Madrid Home 25/26', 7100, 'media/atm1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Atlético Madrid Home 25/26</h3>
+          <p>₹7100</p>
+        </div>
+      </div>
+      <!-- Product 17: Brazil National Team Home -->
+      <div class="product-card" data-price="6500" style="--index: 17;">
+        <div class="product-card-image-container">
+          <img src="media/brazil1.jpg" alt="Brazil National Team Home">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('brazil-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Brazil National Team Home', 6500, 'media/brazil1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Brazil National Team Home</h3>
+          <p>₹6500</p>
+        </div>
+      </div>
+      <!-- Product 18: Argentina National Team Home -->
+      <div class="product-card" data-price="6600" style="--index: 18;">
+        <div class="product-card-image-container">
+          <img src="media/argentina1.jpg" alt="Argentina National Team Home">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('argentina-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Argentina National Team Home', 6600, 'media/argentina1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Argentina National Team Home</h3>
+          <p>₹6600</p>
+        </div>
+      </div>
+      <!-- Product 19: Germany National Team Away -->
+      <div class="product-card" data-price="6400" style="--index: 19;">
+        <div class="product-card-image-container">
+          <img src="media/germany1.jpg" alt="Germany National Team Away">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('germany-away')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Germany National Team Away', 6400, 'media/germany1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Germany National Team Away</h3>
+          <p>₹6400</p>
+        </div>
+      </div>
+      <!-- Product 20: Portugal National Team Home -->
+      <div class="product-card" data-price="6800" style="--index: 20;">
+        <div class="product-card-image-container">
+          <img src="media/portugal1.jpg" alt="Portugal National Team Home">
+          <div class="product-card-overlay">
+            <button class="quick-view-btn" onclick="quickView('portugal-home')">Quick View</button>
+            <button class="add-to-cart-btn" onclick="openSizeModal(event, 'Portugal National Team Home', 6800, 'media/portugal1.jpg')">Add to Cart</button>
+          </div>
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-card-info">
+          <h3>Portugal National Team Home</h3>
+          <p>₹6800</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="footer-spacer"></div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="footer-columns">
+      <div>
+        <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+        <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+        <a href="#" onclick="startTransition('faq.html')">FAQs</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+        <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+        <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+
+  <script>
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+      console.log('Page loaded successfully');
+      const images = document.querySelectorAll('.product-card img');
+      images.forEach(img => {
+        if (!imgjöcomplete || img.naturalWidth === 0) {
+          console.warn(`Image failed to load: ${img.src}`);
+        }
+      });
+    });
+
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('open');
+    }
+
+    function toggleCart() {
+      document.getElementById('cart-modal').classList.toggle('open');
+      document.body.classList.toggle('cart-open');
+    }
+
+    function startTransition(targetPage) {
+      const overlay = document.createElement("div");
+      overlay.className = "transition-overlay active";
+      overlay.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(overlay);
+      setTimeout(() => {
+        overlay.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
+    }
+
+    function quickView(page) {
+      startTransition(`${page}.html`);
+    }
+
+    function proceedToCheckout() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert('Your cart is empty. Please add items to proceed to checkout.');
+        return;
+      }
+      document.getElementById('cart-modal').classList.remove('open');
+      document.body.classList.remove('cart-open');
+      startTransition('checkout.html');
+    }
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const cart = getCart();
+      const cartBody = document.querySelector('.cart-body');
+      const cartQuantityEl = document.querySelector('.cart-quantity');
+      const subtotalEl = document.getElementById('subtotal-price');
+
+      cartBody.innerHTML = '';
+      let totalQuantity = 0;
+      let subtotal = 0;
+
+      if (cart.length === 0) {
+        cartBody.innerHTML = '<p>Your cart is empty.</p>';
+      } else {
+        cart.forEach((item, index) => {
+          const itemEl = document.createElement('div');
+          itemEl.classList.add('cart-item');
+          itemEl.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.name}</div>
+              <div class="cart-item-price">₹${item.price.toFixed(2)}</div>
+              <div class="cart-item-size">Size: ${item.size}</div>
+              <div class="cart-item-actions">
+                <div class="cart-item-quantity">
+                  <button onclick="updateItemQuantity(${index}, -1)">-</button>
+                  <span>${item.quantity}</span>
+                  <button onclick="updateItemQuantity(${index}, 1)">+</button>
+                </div>
+                <span class="remove-item" onclick="removeItemFromCart(${index})">Remove</span>
+              </div>
+            </div>
+          `;
+          cartBody.appendChild(itemEl);
+          subtotal += item.price * item.quantity;
+        });
+      }
+
+      totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartQuantityEl.innerText = totalQuantity;
+      subtotalEl.innerText = `₹${subtotal.toFixed(2)}`;
+    }
+
+    function removeItemFromCart(index) {
+      let cart = getCart();
+      cart.splice(index, 1);
+      saveCart(cart);
+    }
+
+    function updateItemQuantity(index, change) {
+      let cart = getCart();
+      if (cart[index]) {
+        cart[index].quantity += change;
+        if (cart[index].quantity <= 0) {
+          cart.splice(index, 1);
+        }
+      }
+      saveCart(cart);
+    }
+
+    let currentProduct = null;
+
+    function openSizeModal(event, productName, price, image) {
+      event.preventDefault();
+      event.stopPropagation();
+      currentProduct = { name: productName, price: parseFloat(price), image: image };
+      const modal = document.getElementById('size-selection-modal');
+      const overlay = document.getElementById('modal-overlay');
+      modal.classList.add('show');
+      overlay.classList.add('show');
+      document.querySelectorAll('.size-option').forEach(e => e.classList.remove('selected'));
+    }
+
+    function closeSizeModal() {
+      const modal = document.getElementById('size-selection-modal');
+      const overlay = document.getElementById('modal-overlay');
+      modal.classList.remove('show');
+      overlay.classList.remove('show');
+      currentProduct = null;
+    }
+
+    function selectSize(el) {
+      document.querySelectorAll('.size-option').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function confirmAddToCart() {
+      const selectedSizeEl = document.querySelector('.size-selection-modal .size-option.selected');
+      if (!selectedSizeEl) {
+        alert('Please select a size.');
+        return;
+      }
+      const productSize = selectedSizeEl.innerText;
+      const productId = currentProduct.name.replace(/\s+/g, '-') + '-' + productSize;
+      const cart = getCart();
+      const existingItem = cart.find(item => item.id === productId);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          name: currentProduct.name,
+          price: currentProduct.price,
+          image: currentProduct.image,
+          size: productSize,
+          quantity: 1
+        });
+      }
+
+      saveCart(cart);
+      closeSizeModal();
+      toggleCart();
+      alert(`Added ${currentProduct.name} (Size: ${productSize}) to cart!`);
+    }
+
+    const productGrid = document.getElementById('product-grid');
+    const products = Array.from(productGrid.querySelectorAll('.product-card'));
+    const priceValueSpan = document.getElementById('price-value');
+    const priceRangeSlider = document.getElementById('price-range');
+    const sortBySelect = document.getElementById('sort-by');
+
+    function updatePriceFilter(value) {
+      const price = parseInt(value, 10);
+      priceValueSpan.textContent = `Up to ₹${price}`;
+      products.forEach(product => {
+        const productPrice = parseInt(product.dataset.price, 10);
+        if (productPrice <= price) {
+          product.style.display = 'flex';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    }
+
+    function sortProducts() {
+      const sortByValue = sortBySelect.value;
+      let sortedProducts = [...products];
+
+      if (sortByValue === 'price-asc') {
+        sortedProducts.sort((a, b) => {
+          return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+        });
+      } else if (sortByValue === 'price-desc') {
+        sortedProducts.sort((a, b) => {
+          return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+        });
+      }
+
+      productGrid.innerHTML = '';
+      sortedProducts.forEach(product => {
+        productGrid.appendChild(product);
+      });
+
+      updatePriceFilter(priceRangeSlider.value);
+    }
+
+    function clearFilters() {
+      priceRangeSlider.value = 8000;
+      priceValueSpan.textContent = 'Up to ₹8000';
+      sortBySelect.value = 'default';
+      products.forEach(product => {
+        product.style.display = 'flex';
+      });
+      productGrid.innerHTML = '';
+      products.forEach(product => {
+        productGrid.appendChild(product);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartDisplay();
+      updatePriceFilter(priceRangeSlider.value);
+    });
+  </script>
+</body>
+</html>
