@@ -131,10 +131,18 @@
     }
 
     .logo {
-      font-family: 'Didot', serif;
-      font-size: 32px;
-      font-weight: normal;
-      letter-spacing: 6px;
+      font-family: 'Times New Roman', serif;
+      font-size: 28px;
+      letter-spacing: 10px;
+      color: black;
+      text-decoration: none;
+      text-align: center;
+      flex-grow: 1;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+        color: #a67c00;
     }
 
     .menu-overlay {
@@ -601,6 +609,97 @@
       color: #000;
     }
 
+    /* Footer styles */
+    footer {
+        background: black;
+        color: white;
+        padding: 40px 80px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    footer.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .footer-columns {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-columns a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: opacity 0.3s ease;
+    }
+    
+    .footer-columns a:hover {
+        opacity: 0.6;
+    }
+
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .footer-logo {
+        font-family: 'Times New Roman', serif;
+        font-size: 120px;
+        text-align: center;
+        letter-spacing: 40px;
+        font-weight: 400;
+        margin-top: 30px;
+    }
+    
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 1;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .transition-overlay .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 100px;
+      color: black;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease;
+    }
+
+    .transition-overlay.move-logo .logo {
+      top: 20px;
+      transform: translateY(0);
+      font-size: 28px;
+    }
+
     @media (max-width: 768px) {
       .carousel-item .text {
         font-size: 1.6em;
@@ -634,6 +733,11 @@
       .products-nav button {
         font-size: 28px;
       }
+      
+      footer { padding: 40px; }
+      .footer-columns { flex-direction: column; gap: 30px; text-align: center; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      .footer-logo { font-size: 80px; letter-spacing: 20px; }
     }
 
     @media (max-width: 480px) {
@@ -803,6 +907,29 @@
     </div>
   </div>
 
+    <footer id="footer">
+        <div class="footer-columns">
+            <div>
+                <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+                <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+                <a href="#" onclick="startTransition('faq.html')">FAQs</a>
+            </div>
+            <div>
+                <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+                <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
+            </div>
+            <div>
+                <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+                <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+                <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 MÉSORA All rights reserved</span>
+        </div>
+        <div class="footer-logo">MÉSORA</div>
+    </footer>
+
   <script>
     function toggleMenu() {
       document.getElementById('menu').classList.toggle('open');
@@ -870,6 +997,30 @@
         currentProductIndex--;
         updateProducts();
       }
+    }
+    
+    // Scroll event listener for footer visibility
+    window.addEventListener("scroll", () => {
+      const footer = document.getElementById("footer");
+      const footerTop = footer.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add("visible");
+      }
+    });
+
+    // Page Transition
+    function startTransition(targetPage) {
+      const overlay = document.createElement("div");
+      overlay.className = "transition-overlay active";
+      overlay.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(overlay);
+      setTimeout(() => {
+        overlay.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
     }
 
     // Cart Logic

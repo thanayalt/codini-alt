@@ -131,10 +131,18 @@
     }
 
     .logo {
-      font-family: 'Didot', serif;
-      font-size: 32px;
-      font-weight: normal;
-      letter-spacing: 6px;
+      font-family: 'Times New Roman', serif;
+      font-size: 28px;
+      letter-spacing: 10px;
+      color: black;
+      text-decoration: none;
+      text-align: center;
+      flex-grow: 1;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      color: #a67c00;
     }
 
     .menu-overlay {
@@ -668,7 +676,7 @@
     .recommendations .product-info {
       position: absolute;
       bottom: 10px;
-      left: 30px; /* Updated to match Inter Milan page */
+      left: 30px;
       color: #fff;
       text-align: left;
       opacity: 0;
@@ -699,12 +707,19 @@
       background: white;
     }
 
+    /* Footer (Copied from aboutus.html) */
     footer {
       background: black;
       color: white;
       padding: 40px 80px;
-      display: flex;
-      flex-direction: column;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .footer-columns {
@@ -723,6 +738,11 @@
       color: white;
       text-decoration: none;
       font-size: 16px;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-columns a:hover {
+      opacity: 0.6;
     }
 
     .footer-bottom {
@@ -733,12 +753,97 @@
     }
 
     .footer-logo {
-      font-family: 'Didot', serif;
+      font-family: 'Times New Roman', serif;
       font-size: 120px;
       text-align: center;
       letter-spacing: 40px;
       font-weight: 400;
       margin-top: 30px;
+    }
+
+    /* Transition Overlay (Copied from aboutus.html for fade animation) */
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 1;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .transition-overlay .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 100px;
+      color: black;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease;
+    }
+
+    .transition-overlay.move-logo .logo {
+      top: 20px;
+      transform: translateY(0);
+      font-size: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .product-container {
+        flex-direction: column;
+        margin: 20px;
+      }
+      .product-gallery {
+        margin-left: 0;
+        flex-direction: column;
+      }
+      .product-gallery .thumbnail-images {
+        flex-direction: row;
+        justify-content: center;
+      }
+      .product-details {
+        margin-right: 0;
+        padding: 20px;
+      }
+      .recommendations .products {
+        flex-direction: column;
+        align-items: center;
+      }
+      .recommendations .product-card {
+        flex: 0 0 100%;
+        max-width: 300px;
+      }
+      .recommendations h2 {
+        padding-left: 20px;
+      }
+      .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .footer-logo {
+        font-size: 80px;
+        letter-spacing: 20px;
+      }
+      footer {
+        padding: 40px;
+      }
     }
   </style>
 </head>
@@ -770,13 +875,12 @@
       <span>Close</span>
     </div>
     <div class="menu-items">
-      <div class="menu-item"><span>New Arrivals</span><span class="menu-arrow">›</span></div>
-      <div class="menu-item"><span>Mesora Originals</span><span class="menu-arrow">›</span></div>
-      <div class="menu-item"><span>T-shirts & Vests</span><span class="menu-arrow">›</span></div>
-      <div class="menu-item"><span>Shorts & Trouser</span><span class="menu-arrow">›</span></div>
-      <div class="menu-item"><span>Jerseys</span><span class="menu-arrow">›</span></div>
-      <div class="menu-item"><span>Footwear</span><span class="menu-arrow">›</span></div>
-      <div class="menu-item"><span>Perfumes</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-new-arrivals.html')"><span>New Arrivals</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-tshirt-and-vest.html')"><span>T-shirts & Vests</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-shorts-and-trousers.html')"><span>Shorts & Trouser</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-jersey.html')"><span>Jerseys</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-footwear.html')"><span>Footwear</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item" onclick="startTransition('men-perfume.html')"><span>Perfumes</span><span class="menu-arrow">›</span></div>
     </div>
   </div>
 
@@ -898,32 +1002,25 @@
   </div>
 
   <div class="footer-spacer"></div>
-  <footer>
+  <footer id="footer">
     <div class="footer-columns">
       <div>
-        <a href="#">Contact Us</a>
-        <a href="#">My Order</a>
-        <a href="#">FAQs</a>
-        <a href="#">Email Unsubscribe</a>
-        <a href="#">Sitemap</a>
+        <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+        <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+        <a href="#" onclick="startTransition('faq.html')">FAQs</a>
       </div>
       <div>
-        <a href="#">About MÉSORA</a>
-        <a href="#">Ethical Code</a>
-        <a href="#">Careers</a>
-        <a href="#">Legal</a>
-        <a href="#">Cookies Settings</a>
+        <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+        <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
       </div>
       <div>
-        <a href="#">Store Locator</a>
-        <a href="#">Sign Up for Updates</a>
-        <a href="#">Privacy Policy</a>
-        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳"></span>
+        <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+        <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 MÉSORA All rights reserved</span>
-      <span>LICENSE #2294/17936 and 5647/17936</span>
     </div>
     <div class="footer-logo">MÉSORA</div>
   </footer>
@@ -1003,6 +1100,19 @@
       setTimeout(() => {
         window.location.href = url;
       }, 500);
+    }
+
+    function startTransition(targetPage) {
+      const overlay = document.createElement("div");
+      overlay.className = "transition-overlay active";
+      overlay.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(overlay);
+      setTimeout(() => {
+        overlay.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
     }
 
     function proceedToCheckout() {
@@ -1130,6 +1240,16 @@
       }
       saveCart(cart);
     }
+
+    // Scroll event listener for footer visibility
+    window.addEventListener("scroll", () => {
+      const footer = document.getElementById("footer");
+      const footerTop = footer.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add("visible");
+      }
+    });
 
     document.addEventListener('DOMContentLoaded', updateCartDisplay);
   </script>

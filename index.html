@@ -259,6 +259,11 @@
       color: white;
       text-decoration: none;
       font-size: 16px;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-columns a:hover {
+      opacity: 0.6;
     }
 
     .footer-bottom {
@@ -902,29 +907,22 @@
   <footer id="footer">
     <div class="footer-columns">
       <div>
-        <a href="#">Contact Us</a>
-        <a href="#">My Order</a>
-        <a href="#">FAQs</a>
-        <a href="#">Email Unsubscribe</a>
-        <a href="#">Sitemap</a>
+        <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+        <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+        <a href="#" onclick="startTransition('faq.html')">FAQs</a>
       </div>
       <div>
-        <a href="#">About MÉSORA</a>
-        <a href="#">Ethical Code</a>
-        <a href="#">Careers</a>
-        <a href="#">Legal</a>
-        <a href="#">Cookies Settings</a>
+        <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+        <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
       </div>
       <div>
-        <a href="#">Store Locator</a>
-        <a href="#">Sign Up for Updates</a>
-        <a href="#">Privacy Policy</a>
+        <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+        <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
         <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 MÉSORA All rights reserved</span>
-      <span>LICENSE #2294/17936 and 5647/17936</span>
     </div>
     <div class="footer-logo">MÉSORA</div>
   </footer>
@@ -975,7 +973,7 @@
         <p>Gift wrapping is not available for select items including refills and watch straps.
            Visit your local boutique or contact the Mésora Client Relations Centre to learn more.
         </p>
-        <p>You can accompany your purchase with a personalised message on a signature Mésora card.</p>
+        <p>You can accompany your purchase with a personalized message on a signature Mésora card.</p>
       </div>
     </div>
   </div>

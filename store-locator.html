@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Store Locator - MÉSORA</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Times New Roman', serif;
+      background: #fdfdfd;
+      color: #1c1c1c;
+    }
+
+    header {
+      background: white;
+      color: black;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 28px;
+      letter-spacing: 10px;
+      color: black;
+      text-decoration: none;
+      text-align: center;
+      flex-grow: 1;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      color: #a67c00;
+    }
+
+    .main-content {
+      padding: 80px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .main-content h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 52px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #1c1c1c;
+      text-transform: uppercase;
+    }
+
+    .main-content .subheading {
+      font-family: 'Roboto', sans-serif;
+      font-size: 18px;
+      line-height: 1.8;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 60px auto;
+      color: #555;
+      font-style: italic;
+    }
+
+    .locator-container {
+      display: flex;
+      gap: 40px;
+      align-items: stretch;
+    }
+
+    .map-area {
+      flex: 3;
+      height: 600px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .map-area:hover {
+      transform: translateY(-5px);
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .location-dot-marker {
+      width: 20px;
+      height: 20px;
+      background: #a67c00;
+      border: 4px solid white;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite ease-in-out;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .location-dot-marker.active,
+    .leaflet-marker-icon:hover .location-dot-marker {
+      transform: scale(1.5);
+      background: white;
+      border-color: #a67c00;
+      box-shadow: 0 0 20px rgba(166, 124, 0, 0.5);
+      animation: none;
+    }
+
+    .info-area {
+      flex: 2;
+      background: linear-gradient(135deg, #f9f9f9, #fff);
+      padding: 40px;
+      border-radius: 15px;
+      border: none;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .info-area:hover {
+      transform: translateY(-5px);
+    }
+
+    .store-details {
+      display: none;
+    }
+
+    .store-details.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .store-details h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 32px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      color: #1c1c1c;
+      position: relative;
+    }
+
+    .store-details h2::after {
+      content: '';
+      width: 60px;
+      height: 2px;
+      background: #a67c00;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .store-details p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 17px;
+      line-height: 1.9;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .store-details p strong {
+      color: #a67c00;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(166, 124, 0, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 12px rgba(166, 124, 0, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(166, 124, 0, 0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-columns a:hover {
+      opacity: 0.6;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
+    }
+
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .transition-overlay .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 100px;
+      color: black;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease;
+    }
+
+    .transition-overlay.move-logo .logo {
+      top: 20px;
+      transform: translateY(0);
+      font-size: 28px;
+    }
+
+    @media (max-width: 992px) {
+      .locator-container {
+        flex-direction: column;
+      }
+
+      .map-area {
+        width: 100%;
+        height: 500px;
+      }
+
+      .info-area {
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .store-details h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .main-content {
+        padding: 40px 20px;
+      }
+
+      .main-content h1 {
+        font-size: 40px;
+      }
+
+      .map-area {
+        height: 400px;
+      }
+
+      .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      footer {
+        padding: 40px;
+      }
+
+      .footer-logo {
+        font-size: 80px;
+        letter-spacing: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">MÉSORA</a>
+  </header>
+  <div class="main-content">
+    <h1>Our Boutiques</h1>
+    <p class="subheading">Experience the world of MÉSORA in person. Select a location to view store details.</p>
+    <div class="locator-container">
+      <div class="map-area">
+        <div id="map"></div>
+      </div>
+      <div class="info-area">
+        <div class="store-details" data-store-id="surat">
+          <h2>MÉSORA - Surat Flagship</h2>
+          <p>VR Mall, Dumas Road<br>Magdalla, Surat, Gujarat 395007</p>
+          <p><strong>Hours:</strong> 11:00 AM - 9:30 PM</p>
+        </div>
+        <div class="store-details" data-store-id="ahmedabad">
+          <h2>MÉSORA - Ahmedabad</h2>
+          <p>Palladium Mall, Sarkhej - Gandhinagar Hwy<br>Thaltej, Ahmedabad, Gujarat 380054</p>
+          <p><strong>Hours:</strong> 11:00 AM - 10:00 PM</p>
+        </div>
+        <div class="store-details" data-store-id="mumbai">
+          <h2>MÉSORA - Mumbai</h2>
+          <p>Jio World Drive, Bandra Kurla Complex<br>Bandra East, Mumbai, Maharashtra 400051</p>
+          <p><strong>Hours:</strong> 11:00 AM - 10:00 PM</p>
+        </div>
+        <div class="store-details" data-store-id="pune">
+          <h2>MÉSORA - Pune</h2>
+          <p>Phoenix Mall of the Millennium<br>Wakad, Pune, Maharashtra 411057</p>
+          <p><strong>Hours:</strong> 11:00 AM - 9:30 PM</p>
+        </div>
+        <div class="store-details" data-store-id="hyderabad">
+          <h2>MÉSORA - Hyderabad</h2>
+          <p>Saramati Inorbit Mall, Madhapur<br>Hyderabad, Telangana 500081</p>
+          <p><strong>Hours:</strong> 11:00 AM - 9:30 PM</p>
+        </div>
+        <div class="store-details" data-store-id="bangalore">
+          <h2>MÉSORA - Bangalore</h2>
+          <p>Phoenix Mall Of Asia, Hebbal<br>Bangalore, Karnataka 560024</p>
+          <p><strong>Hours:</strong> 10:00 AM - 10:00 PM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer id="footer">
+    <div class="footer-columns">
+      <div>
+        <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+        <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+        <a href="#" onclick="startTransition('faq.html')">FAQs</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+        <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+        <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const map = L.map('map', {
+        scrollWheelZoom: false
+      });
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }).addTo(map);
+
+      const stores = {
+        surat: { lat: 21.1702, lng: 72.8311, marker: null },
+        ahmedabad: { lat: 23.0225, lng: 72.5714, marker: null },
+        mumbai: { lat: 19.0760, lng: 72.8777, marker: null },
+        pune: { lat: 18.5204, lng: 73.8567, marker: null },
+        hyderabad: { lat: 17.3850, lng: 78.4867, marker: null },
+        bangalore: { lat: 12.9716, lng: 77.5946, marker: null }
+      };
+
+      const allStoreDetails = document.querySelectorAll('.store-details');
+      const markerGroup = L.featureGroup();
+
+      function showStore(storeId) {
+        allStoreDetails.forEach(detail => detail.classList.remove('active'));
+        const activeDetail = document.querySelector(`.store-details[data-store-id="${storeId}"]`);
+        if (activeDetail) activeDetail.classList.add('active');
+        for (const key in stores) {
+          if (stores[key].marker) {
+            stores[key].marker.getElement().querySelector('.location-dot-marker').classList.remove('active');
+          }
+        }
+        if (stores[storeId] && stores[storeId].marker) {
+          stores[storeId].marker.getElement().querySelector('.location-dot-marker').classList.add('active');
+        }
+      }
+
+      for (const storeId in stores) {
+        const store = stores[storeId];
+        const latLng = [store.lat, store.lng];
+        const customIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: "<div class='location-dot-marker'></div>",
+          iconSize: [24, 24],
+          iconAnchor: [12, 12]
+        });
+        const marker = L.marker(latLng, { icon: customIcon });
+        store.marker = marker;
+        marker.on('click', function () {
+          showStore(storeId);
+        });
+        markerGroup.addLayer(marker);
+      }
+
+      markerGroup.addTo(map);
+      map.fitBounds(markerGroup.getBounds(), {
+        padding: [50, 50]
+      });
+
+      showStore('surat');
+    });
+
+    window.addEventListener('scroll', () => {
+      const footer = document.getElementById('footer');
+      const footerTop = footer.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add('visible');
+      }
+    });
+
+    function startTransition(targetPage) {
+      const overlay = document.createElement('div');
+      overlay.className = 'transition-overlay active';
+      overlay.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(overlay);
+      setTimeout(() => {
+        overlay.classList.add('move-logo');
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

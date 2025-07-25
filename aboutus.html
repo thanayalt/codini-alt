@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - MÉSORA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Cinzel:wght@400;700&family=EB+Garamond:wght@400;700&display=swap');
+    /* General Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', sans-serif; background: #f9f9f9; color: black; }
+    /* Header */
+    header { background: white; color: black; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+    .logo { font-family: 'Times New Roman', serif; font-size: 28px; letter-spacing: 10px; color: black; text-decoration: none; text-align: center; flex-grow: 1; transition: color 0.3s ease; }
+    .logo:hover { color: #a67c00; }
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #ffffff;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .hero-text {
+      padding: 50px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(5px);
+      z-index: 1;
+    }
+    .hero-text h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 64px;
+      letter-spacing: 8px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    /* Main Content */
+    .main-content {
+      padding: 100px 40px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+    }
+    .main-content p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .main-content .highlight {
+      font-family: 'Cinzel', serif;
+      font-size: 30px;
+      display: block;
+      margin: 50px 0;
+      color: #a67c00;
+      letter-spacing: 2px;
+    }
+    .main-content h2 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a1a;
+    }
+    /* Footer (Copied from index.html) */
+    footer {
+      background: black;
+      color: white;
+      padding: 40px 80px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .footer-columns div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-columns a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: opacity 0.3s ease;
+    }
+    .footer-columns a:hover {
+      opacity: 0.6;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+    .footer-logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 120px;
+      text-align: center;
+      letter-spacing: 40px;
+      font-weight: 400;
+      margin-top: 30px;
+    }
+    /* Transition Overlay (Copied from index.html for fade animation) */
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 1;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .transition-overlay .logo {
+      font-family: 'Times New Roman', serif;
+      font-size: 100px;
+      color: black;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: top 0.6s ease, font-size 0.6s ease, transform 0.6s ease;
+    }
+    .transition-overlay.move-logo .logo {
+      top: 20px;
+      transform: translateY(0);
+      font-size: 28px;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 20px; }
+      .hero { height: 60vh; }
+      .hero-text h1 { font-size: 40px; }
+      .main-content { padding: 40px 20px; }
+      .main-content p { font-size: 16 THEREpx; }
+      .main-content .highlight { font-size: 24px; }
+      .footer-columns { flex-direction: column; gap: 30px; text-align: center; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      footer { padding: 40px; }
+      .footer-logo { font-size: 80px; letter-spacing: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">MÉSORA</a>
+  </header>
+  <div class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="media/aboutus.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-text">
+      <h1>OUR STORY</h1>
+    </div>
+  </div>
+  <div class="main-content">
+    <h2>The Birth of MÉSORA</h2>
+    <p>MÉSORA was founded by four visionary second-year students from Sardar Vallabhbhai National Institute of Technology (SVNIT), Surat—Thanay, Arnav, Mukesh Teja, and Sambhav. United by a passion for innovation and inspired by Surat’s centuries-old textile heritage, they envisioned a fashion brand that redefines luxury through timeless design and modern versatility. MÉSORA is more than clothing; it’s a celebration of individuality, crafted to become part of the wearer’s personal narrative.</p>
+    
+    <span class="highlight">Inspired by Tradition, Designed for Today</span>
+    
+    <p>The spark for MÉSORA ignited in the lively halls of SVNIT, where late-night discussions over sketches and ideas laid the foundation for the brand. Thanay’s focus on sleek, minimalist aesthetics, Arnav’s bold and forward-thinking creativity, Mukesh Teja’s commitment to impeccable quality, and Sambhav’s vision for storytelling through fashion shaped MÉSORA’s identity. Rooted in Surat, a city renowned for its intricate weaves and vibrant fabrics, the brand draws from this rich legacy while embracing contemporary style.</p>
+    
+    <p>Every MÉSORA garment is crafted with precision and care, from initial designs sketched in dorm rooms to final production in Surat’s finest workshops. The founders’ engineering mindset, honed at SVNIT, brings structure to their creative process, ensuring each piece is both beautiful and functional. Their collections are designed to transition effortlessly from casual days to elegant evenings, offering wearers the freedom to express themselves in any setting.</p>
+    
+    <span class="highlight">A Commitment to Purposeful Fashion</span>
+    
+    <p>MÉSORA is dedicated to sustainability and ethical craftsmanship. The founders partner with local artisans to preserve traditional techniques while promoting fair labor practices. As students balancing academics and entrepreneurship, Thanay, Arnav, Mukesh Teja, and Sambhav channel their energy into building a brand that inspires. MÉSORA is a movement—a call to wear your story with confidence, knowing each piece is crafted with intention and rooted in a legacy of excellence.</p>
+    
+    <p>Join MÉSORA, where every thread weaves a story, and every garment is a chapter in your journey.</p>
+  </div>
+  <footer id="footer">
+    <div class="footer-columns">
+      <div>
+        <a href="#" onclick="startTransition('contact-us.html')">Contact Us</a>
+        <a href="#" onclick="startTransition('myorder.html')">My Order</a>
+        <a href="#" onclick="startTransition('faq.html')">FAQs</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('aboutus.html')">About MÉSORA</a>
+        <a href="#" onclick="startTransition('ethical-code.html')">Ethical Code</a>
+      </div>
+      <div>
+        <a href="#" onclick="startTransition('store-locator.html')">Store Locator</a>
+        <a href="#" onclick="startTransition('privacy-policy.html')">Privacy Policy</a>
+        <span>Country: India <img src="https://flagcdn.com/w20/in.png" alt="🇮🇳" style="vertical-align: middle; width: 20px; height: auto;"></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MÉSORA All rights reserved</span>
+    </div>
+    <div class="footer-logo">MÉSORA</div>
+  </footer>
+
+  <script>
+    // Scroll event listener for footer visibility
+    window.addEventListener("scroll", () => {
+      const footer = document.getElementById("footer");
+      const footerTop = footer.offsetTop;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom > footerTop + 100) {
+        footer.classList.add("visible");
+      }
+    });
+
+    // Transition function for fade animation (Copied from index.html)
+    function startTransition(targetPage) {
+      const overlay = document.createElement("div");
+      overlay.className = "transition-overlay active";
+      overlay.innerHTML = '<div class="logo">MÉSORA</div>';
+      document.body.appendChild(overlay);
+      setTimeout(() => {
+        overlay.classList.add("move-logo");
+      }, 600);
+      setTimeout(() => {
+        window.location.href = targetPage;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
