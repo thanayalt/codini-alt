@@ -374,6 +374,11 @@
           <p>VR Mall, Dumas Road<br>Magdalla, Surat, Gujarat 395007</p>
           <p><strong>Hours:</strong> 11:00 AM - 9:30 PM</p>
         </div>
+        <div class="store-details" data-store-id="vadodara">
+          <h2>MÉSORA - Vadodara</h2>
+          <p>Opposite Railway Station, Iscon Jan Mahal<br>Vadodara, Gujarat 390020</p>
+          <p><strong>Hours:</strong> 10:00 AM - 10:00 PM</p>
+        </div>
         <div class="store-details" data-store-id="ahmedabad">
           <h2>MÉSORA - Ahmedabad</h2>
           <p>Palladium Mall, Sarkhej - Gandhinagar Hwy<br>Thaltej, Ahmedabad, Gujarat 380054</p>
@@ -437,14 +442,15 @@
         maxZoom: 20
       }).addTo(map);
 
-      const stores = {
-        surat: { lat: 21.1702, lng: 72.8311, marker: null },
-        ahmedabad: { lat: 23.0225, lng: 72.5714, marker: null },
-        mumbai: { lat: 19.0760, lng: 72.8777, marker: null },
-        pune: { lat: 18.5204, lng: 73.8567, marker: null },
-        hyderabad: { lat: 17.3850, lng: 78.4867, marker: null },
-        bangalore: { lat: 12.9716, lng: 77.5946, marker: null }
-      };
+     const stores = {
+  surat: { lat: 21.1702, lng: 72.8311, marker: null },
+  ahmedabad: { lat: 23.0225, lng: 72.5714, marker: null },
+  vadodara: { lat: 22.3072, lng: 73.1812, marker: null },
+  mumbai: { lat: 19.0760, lng: 72.8777, marker: null },
+  pune: { lat: 18.5204, lng: 73.8567, marker: null },
+  hyderabad: { lat: 17.3850, lng: 78.4867, marker: null },
+  bangalore: { lat: 12.9716, lng: 77.5946, marker: null }
+};
 
       const allStoreDetails = document.querySelectorAll('.store-details');
       const markerGroup = L.featureGroup();
